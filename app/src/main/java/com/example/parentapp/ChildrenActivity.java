@@ -19,6 +19,8 @@ public class ChildrenActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         attachButtonListeners();
+        // test
+        attachButtonListeners();
     }
 
     private void attachButtonListeners() {
