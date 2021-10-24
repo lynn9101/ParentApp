@@ -1,0 +1,7 @@
+SCRUM roles for the FIRST iteration
+***********************************
+
+1. Scrum Master: Lynn Nguyen
+2. Product Owner: Fatemeh Kiannejad
+3. Repo Manager: Michael Luo
+4. Team Member: Lillian Liu
