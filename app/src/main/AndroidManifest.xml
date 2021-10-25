@@ -8,26 +8,33 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ParentApp">
+        android:theme="@style/Theme.ParentApp" >
+
         <activity
             android:name=".TimerActivity"
             android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".ChildrenEditActivity"
             android:parentActivityName=".ChildrenActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".ChildrenActivity"
             android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".CoinFlipActivity"
             android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
