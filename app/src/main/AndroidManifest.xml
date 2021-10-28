@@ -14,7 +14,7 @@
             android:name=".TimerActivity"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
-            android:exported="true" />
+            android:exported="true"/>
         <activity
             android:name=".ChildrenEditActivity"
             android:parentActivityName=".ChildrenActivity"
