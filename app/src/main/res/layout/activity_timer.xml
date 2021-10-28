@@ -54,6 +54,24 @@
         app:srcCompat="@drawable/start" />
 
     <ImageButton
+        android:id="@+id/imgBtnResetWhenStop"
+        android:layout_width="86dp"
+        android:layout_height="86dp"
+        android:adjustViewBounds="true"
+        android:background="@null"
+        android:scaleType="centerInside"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imgBtnPause"
+        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintStart_toEndOf="@+id/imgBtnReset"
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        app:layout_constraintVertical_bias="0.955"
+        app:srcCompat="@drawable/reset"
+        tools:layout_editor_absoluteX="164dp"
+        tools:layout_editor_absoluteY="629dp" />
+
+    <ImageButton
         android:id="@+id/imgBtnReset"
         android:layout_width="86dp"
         android:layout_height="86dp"
@@ -195,5 +213,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view"
         app:srcCompat="@drawable/calm_down" />
+
+    <ImageView
+        android:id="@+id/imgTimeIsUp"
+        android:layout_width="150dp"
+        android:layout_height="270dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/imgBtnResetWhenStop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        app:layout_constraintVertical_bias="0.547"
+        app:srcCompat="@drawable/time_is_up" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
