@@ -3,7 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/imsl/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_main.xml" value="0.1796875" />
+        <entry key="..\:/Users/imsl/AndroidStudioProjects/ParentApp/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.38333333333333336" />
+        <entry key="..\:/Users/imsl/AndroidStudioProjects/ParentApp/app/src/main/res/drawable/ic_add_white_48.xml" value="0.38333333333333336" />
+        <entry key="..\:/Users/imsl/AndroidStudioProjects/ParentApp/app/src/main/res/drawable/round.xml" value="0.38333333333333336" />
+        <entry key="..\:/Users/imsl/AndroidStudioProjects/ParentApp/app/src/main/res/drawable/round_button.xml" value="0.38333333333333336" />
+        <entry key="..\:/Users/imsl/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_main.xml" value="0.3671875" />
+        <entry key="..\:/Users/imsl/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_timer.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/mike/Desktop/SFU Related/Fall/CMPT 276/ParentApp/app/src/main/res/layout/activity_children.xml" value="0.4041666666666667" />
         <entry key="..\:/Users/mike/Desktop/SFU Related/Fall/CMPT 276/ParentApp/app/src/main/res/layout/activity_children_edit.xml" value="0.4041666666666667" />
         <entry key="..\:/Users/mike/Desktop/SFU Related/Fall/CMPT 276/ParentApp/app/src/main/res/layout/activity_coin_flip.xml" value="0.39010416666666664" />
@@ -16,7 +21,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
