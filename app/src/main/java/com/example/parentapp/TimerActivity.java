@@ -14,6 +14,11 @@ import android.widget.TextView;
 
 import java.util.Locale;
 
+/**
+ * Timeout timer can count down time in 1 sec interval
+ * and display reset, pause, resume buttons according
+ * to different cases.
+ */
 public class TimerActivity extends AppCompatActivity {
     private TextView txtTimeCountDown;
     private ImageButton btnStart;
