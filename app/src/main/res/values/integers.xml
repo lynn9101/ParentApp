@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="oneMinuteInSeconds">60</integer>
+    <integer name="oneMinuteInMilliSeconds">1000</integer>
     <integer name="twoMinuteInSeconds">120</integer>
     <integer name="threeMinuteInSeconds">180</integer>
     <integer name="fiveMinuteInSeconds">300</integer>

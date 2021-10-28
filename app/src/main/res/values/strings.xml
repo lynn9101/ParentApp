@@ -5,4 +5,9 @@
     <string name="children_edit_title">Children Edit</string>
     <string name="coin_flip_title">Coin flip</string>
     <string name="timer_title">Timer</string>
+    <string name="btn_1min">1 min</string>
+    <string name="btn_2min">2 min</string>
+    <string name="btn_3min">3 min</string>
+    <string name="btn_5min">5 min</string>
+    <string name="btn_10min">10 min</string>
 </resources>
