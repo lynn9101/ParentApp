@@ -1,5 +1,6 @@
 package com.example.parentapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -18,6 +19,9 @@ import java.util.Locale;
  * Timeout timer can count down time in 1 sec interval
  * and display reset, pause, resume buttons according
  * to different cases.
+ *
+ * "Keep the timer running while closing app" adapted from:
+ *  https://www.youtube.com/watch?v=lvibl8YJfGo&list=PLrnPJCHvNZuB8wxqXCwKw2_NkyEmFwcSd&index=3
  */
 public class TimerActivity extends AppCompatActivity {
     private TextView txtTimeCountDown;
@@ -71,14 +75,7 @@ public class TimerActivity extends AppCompatActivity {
             public void onClick(View view) {
                 isRunning = true;
                 startTimer();
-                calmDown.setVisibility(View.VISIBLE);
-                btnStart.setVisibility(View.INVISIBLE);
-                btnReset.setVisibility(View.VISIBLE);
-                btn1Min.setVisibility(View.INVISIBLE);
-                btn2Min.setVisibility(View.INVISIBLE);
-                btn3Min.setVisibility(View.INVISIBLE);
-                btn5Min.setVisibility(View.INVISIBLE);
-                btn10Min.setVisibility(View.INVISIBLE);
+                updateButtons();
             }
         });
 
@@ -87,10 +84,7 @@ public class TimerActivity extends AppCompatActivity {
             public void onClick(View view) {
                 isRunning = true;
                 startTimer();
-                btnResume.setVisibility(View.INVISIBLE);
-                btnPause.setVisibility(View.VISIBLE);
-                btnReset.setVisibility(View.VISIBLE);
-                btnStart.setVisibility(View.INVISIBLE);
+                updateButtons();
             }
         });
 
@@ -99,10 +93,7 @@ public class TimerActivity extends AppCompatActivity {
             public void onClick(View view) {
                 isRunning = false;
                 pauseTimer();
-                btnPause.setVisibility(View.INVISIBLE);
-                btnResume.setVisibility(View.VISIBLE);
-                btnReset.setVisibility(View.VISIBLE);
-                btnStart.setVisibility(View.INVISIBLE);
+                updateButtons();
             }
         });
 
@@ -118,8 +109,7 @@ public class TimerActivity extends AppCompatActivity {
         btnResetWhenStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                btnResetWhenStop.setVisibility(View.INVISIBLE);
-                timeIsUp.setVisibility(View.INVISIBLE);
+                isRunning = false;
                 resetTimer();
             }
         });
@@ -133,29 +123,32 @@ public class TimerActivity extends AppCompatActivity {
             public void onTick(long l) {
                 timeLeftMills = l;
                 refreshCountDownText();
-                isTimerEnd();
+                if (timeLeftMills < 1000) {
+                    isRunning = false;
+                }
             }
 
             @Override
             public void onFinish() {
-                isRunning = false;
-                btnStart.setVisibility(View.VISIBLE);
-                btnReset.setVisibility(View.INVISIBLE);
+                if (timeLeftMills < 1000) {
+                    isRunning = false;
+                    updateButtons();
+                }
             }
         }.start();
-        isRunning = true;
-        btnPause.setVisibility(View.VISIBLE);
-        btnReset.setVisibility(View.INVISIBLE);
     }
 
 
     private void resetTimer() {
         timeLeftMills = DEFAULT_DISPLAY_MILLIS;
         refreshCountDownText();
+
         calmDown.setVisibility(View.INVISIBLE);
+        timeIsUp.setVisibility(View.INVISIBLE);
         btnStart.setVisibility(View.VISIBLE);
         btnPause.setVisibility(View.INVISIBLE);
         btnReset.setVisibility(View.INVISIBLE);
+        btnResetWhenStop.setVisibility(View.INVISIBLE);
         btnResume.setVisibility(View.INVISIBLE);
         btn1Min.setVisibility(View.VISIBLE);
         btn2Min.setVisibility(View.VISIBLE);
@@ -176,16 +169,56 @@ public class TimerActivity extends AppCompatActivity {
         txtTimeCountDown.setText(displayTimeLeft);
     }
 
-    public void isTimerEnd(){
-        if (timeLeftMills < 1000) {
+    private void updateButtons(){
+        if (isRunning){  // case when pressing "START" or "RESUME"
+            calmDown.setVisibility(View.VISIBLE);
+            btnReset.setVisibility(View.VISIBLE);
+            btnPause.setVisibility(View.VISIBLE);
+            btnResume.setVisibility(View.INVISIBLE);
+            btnStart.setVisibility(View.INVISIBLE);
+            btn1Min.setVisibility(View.INVISIBLE);
+            btn2Min.setVisibility(View.INVISIBLE);
+            btn3Min.setVisibility(View.INVISIBLE);
+            btn5Min.setVisibility(View.INVISIBLE);
+            btn10Min.setVisibility(View.INVISIBLE);
+        } else {
+            btnPause.setVisibility(View.INVISIBLE);
             btnResetWhenStop.setVisibility(View.VISIBLE);
+            btnReset.setVisibility(View.INVISIBLE);
+            btnStart.setVisibility(View.VISIBLE);
             timeIsUp.setVisibility(View.VISIBLE);
             calmDown.setVisibility(View.INVISIBLE);
-            btnStart.setVisibility(View.INVISIBLE);
-            btnPause.setVisibility(View.INVISIBLE);
-            btnReset.setVisibility(View.INVISIBLE);
-            btnResume.setVisibility(View.INVISIBLE);
+            if (timeLeftMills < 1000) { // case when the timer runs out of time
+                btnResetWhenStop.setVisibility(View.VISIBLE);
+                timeIsUp.setVisibility(View.VISIBLE);
+                calmDown.setVisibility(View.INVISIBLE);
+                btnStart.setVisibility(View.INVISIBLE);
+                btnPause.setVisibility(View.INVISIBLE);
+                btnReset.setVisibility(View.INVISIBLE);
+                btnResume.setVisibility(View.INVISIBLE);
+            } else {
+                if (timeLeftMills < DEFAULT_DISPLAY_MILLIS) {// case when pressing "PAUSE"
+                    btnPause.setVisibility(View.INVISIBLE);
+                    timeIsUp.setVisibility(View.INVISIBLE);
+                    calmDown.setVisibility(View.VISIBLE);
+                    btnReset.setVisibility(View.VISIBLE);
+                    btnResetWhenStop.setVisibility(View.INVISIBLE);
+                    btnStart.setVisibility(View.INVISIBLE);
+                }
+                btnResume.setVisibility(View.VISIBLE);
+            }
         }
     }
+    /*
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putLong("timeLeft", timeLeftMills);
+        outState.putBoolean("timerRunning",isRunning);
+    }
 
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+    } */
 }
