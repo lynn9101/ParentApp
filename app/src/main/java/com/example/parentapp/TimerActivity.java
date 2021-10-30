@@ -1,8 +1,6 @@
 package com.example.parentapp;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,7 +11,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import com.example.parentapp.models.Helpers;
 import java.util.Locale;
 
 /**
@@ -48,9 +46,7 @@ public class TimerActivity extends AppCompatActivity {
     private long endTime;
     private final String TIME_LEFT = "timeLeft";
     private final String IS_TIMER_RUNNING = "timerRunning";
-    private final String PREF_TAG = "prefs";
     private final String END_TIME = "endTime";
-    public static final String PAUSED = "PAUSED";
     public static Intent makeIntent(Context context) {
         return new Intent(context,TimerActivity.class);
     }
@@ -187,7 +183,7 @@ public class TimerActivity extends AppCompatActivity {
             btnReset.setVisibility(View.INVISIBLE);
             btnStart.setVisibility(View.VISIBLE);
             calmDown.setVisibility(View.INVISIBLE);
-            if (timeLeftMills < 1000) { // case when the timer runs out of time
+            if (timeLeftMills < COUNTDOWN_INTERVAL) { // case when the timer runs out of time
                 btnResetWhenStop.setVisibility(View.VISIBLE);
                 timeIsUp.setVisibility(View.VISIBLE);
                 calmDown.setVisibility(View.INVISIBLE);
@@ -226,8 +222,7 @@ public class TimerActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        SharedPreferences prefs = getSharedPreferences(PREF_TAG, MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
+        SharedPreferences.Editor editor = Helpers.getSharedPrefEditor(getApplicationContext());
         editor.putLong(TIME_LEFT,timeLeftMills);
         editor.putBoolean(IS_TIMER_RUNNING, isRunning);
         editor.putLong(END_TIME,endTime);
@@ -237,7 +232,7 @@ public class TimerActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        SharedPreferences prefs = getSharedPreferences(PREF_TAG,MODE_PRIVATE);
+        SharedPreferences prefs = Helpers.getSharedPreference(getApplicationContext());
         timeLeftMills = prefs.getLong(TIME_LEFT,timeInMills);
         isRunning = prefs.getBoolean(IS_TIMER_RUNNING,false);
         updateButtons();
