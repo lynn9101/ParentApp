@@ -39,6 +39,7 @@ public class TimerActivity extends AppCompatActivity {
     private Button btn10Min;
     private ImageView calmDown;
     private ImageView timeIsUp;
+    private boolean isPaused;
     private long timeInMills;
     private final int COUNTDOWN_INTERVAL = 1000;
     private final int SIXTY = 60;
@@ -50,7 +51,7 @@ public class TimerActivity extends AppCompatActivity {
     private final String IS_TIMER_RUNNING = "timerRunning";
     private final String PREF_TAG = "prefs";
     private final String END_TIME = "endTime";
-
+    public static final String PAUSED = "PAUSED";
     public static Intent makeIntent(Context context) {
         return new Intent(context,TimerActivity.class);
     }
@@ -75,9 +76,10 @@ public class TimerActivity extends AppCompatActivity {
         btn3Min = findViewById(R.id.btn3min);
         btn5Min = findViewById(R.id.btn5min);
         btn10Min = findViewById(R.id.btn10min);
-
+        isPaused = false;
         calmDown = findViewById(R.id.imgCalmDown); // Resource:https://www.clipartmax.com/middle/m2i8K9m2b1G6K9m2_calm-clip-art/
         timeIsUp = findViewById(R.id.imgTimeIsUp); // https://www.clipartmax.com/middle/m2i8N4b1m2N4d3Z5_when-the-district-operates-under-a-90-minute-delay-alarm-clock-clip/
+
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,6 +102,7 @@ public class TimerActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 isRunning = false;
+                isPaused = true;
                 pauseTimer();
                 updateButtons();
             }
@@ -110,7 +113,8 @@ public class TimerActivity extends AppCompatActivity {
             public void onClick(View view) {
                 isRunning = false;
                 resetTimer();
-                pauseTimer();
+                //pauseTimer();
+
             }
         });
 
@@ -122,8 +126,6 @@ public class TimerActivity extends AppCompatActivity {
                 resetTimer();
             }
         });
-
-        //refreshCountDownText();
     }
 
     private void startTimer() {
@@ -146,6 +148,9 @@ public class TimerActivity extends AppCompatActivity {
 
     private void resetTimer() {
         timeLeftMills = timeInMills;
+        if (!isPaused) {
+            countDownTimer.cancel();
+        }
         refreshCountDownText();
         calmDown.setVisibility(View.INVISIBLE);
         timeIsUp.setVisibility(View.INVISIBLE);
@@ -211,6 +216,11 @@ public class TimerActivity extends AppCompatActivity {
                     btnResetWhenStop.setVisibility(View.INVISIBLE);
                     btnStart.setVisibility(View.INVISIBLE);
                     btnResume.setVisibility(View.VISIBLE);
+                    btn1Min.setVisibility(View.INVISIBLE);
+                    btn2Min.setVisibility(View.INVISIBLE);
+                    btn3Min.setVisibility(View.INVISIBLE);
+                    btn5Min.setVisibility(View.INVISIBLE);
+                    btn10Min.setVisibility(View.INVISIBLE);
                 } else {
                     btnResume.setVisibility(View.INVISIBLE);
                 }
@@ -219,11 +229,13 @@ public class TimerActivity extends AppCompatActivity {
         }
     }
 
+
     @Override
     protected void onStop() {
         super.onStop();
         SharedPreferences prefs = getSharedPreferences(PREF_TAG, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(PAUSED, isPaused);
         editor.putLong(TIME_LEFT,timeLeftMills);
         editor.putBoolean(IS_TIMER_RUNNING, isRunning);
         editor.putLong(END_TIME,endTime);
@@ -236,6 +248,7 @@ public class TimerActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences(PREF_TAG,MODE_PRIVATE);
         timeLeftMills = prefs.getLong(TIME_LEFT,timeInMills);
         isRunning = prefs.getBoolean(IS_TIMER_RUNNING,false);
+        isPaused = prefs.getBoolean(PAUSED, false);
         updateButtons();
         if (isRunning) {
             endTime = prefs.getLong(END_TIME,0);
