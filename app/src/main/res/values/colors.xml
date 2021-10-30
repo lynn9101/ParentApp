@@ -9,4 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="btn_color">#B4C6C2</color>
     <color name="app_title_color">#355C74</color>
+    <color name="main_shadow_color">#40000000</color>
+    <color name="main_buttons_color">#6155EE</color>
 </resources>

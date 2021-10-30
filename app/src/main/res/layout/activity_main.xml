@@ -48,28 +48,36 @@
         android:background="@drawable/main_menu_rec2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/menuRect1"
-        app:layout_constraintVertical_bias="0.442" />
+        app:layout_constraintVertical_bias="0.463" />
 
     <Button
         android:id="@+id/childrenBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Children"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.274"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="30dp"
+        android:backgroundTint="@color/main_buttons_color"
+        android:text="Manage your children"
+        android:textAlignment="textStart"
+        app:icon="@drawable/main_child_icon"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toTopOf="@+id/menuRec2" />
 
     <Button
         android:id="@+id/coinFlipBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Coin flip"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/main_buttons_color"
+        android:text="Flip the coin"
+        android:textAlignment="textStart"
+        app:icon="@drawable/main_coin_icon"
         app:layout_constraintEnd_toEndOf="@+id/childrenBtn"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/childrenBtn"
@@ -77,15 +85,47 @@
 
     <Button
         android:id="@+id/timerBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Timer"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/main_buttons_color"
+        android:text="Timeout Timer"
+        android:textAlignment="textStart"
+        app:icon="@drawable/main_clock_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/coinFlipBtn"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/coinFlipBtn"
         app:layout_constraintTop_toBottomOf="@+id/coinFlipBtn"
         app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/selectOption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:fontFamily="@font/oswald"
+        android:shadowColor="@color/main_shadow_color"
+        android:shadowDx="0"
+        android:shadowDy="4"
+        android:shadowRadius="4"
+        android:text="@string/main_select_option"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/menuRec2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/menuRect1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="56dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

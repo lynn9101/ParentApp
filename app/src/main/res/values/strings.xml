@@ -11,4 +11,5 @@
     <string name="btn_5min">5 min</string>
     <string name="btn_10min">10 min</string>
     <string name="shared_pref_key">ParentAppSharedPref</string>
+    <string name="main_select_option">Select your option:</string>
 </resources>
