@@ -21,7 +21,7 @@ public class NotificationReceiver extends BroadcastReceiver {
     public final static String NOTIFICATION_ID = "timerEnd";
     public final static String CHANNEL_ID = "channelID";
     public final static String SEND_CONTENT = "Calm down time is over!";
-    public final static String SEND_TITLE = "Time is up!";
+    public final static String SEND_TITLE = "Time is up! ";
     long[] pattern = {0, 100, 1000, 200, 2000};
     int passID;
     @Override
