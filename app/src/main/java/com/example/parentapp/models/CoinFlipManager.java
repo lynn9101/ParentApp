@@ -22,6 +22,10 @@ public class CoinFlipManager {
         return this.coinFlipHistory;
     }
 
+    public void setCoinFlipHistory(ArrayList<CoinFlip> coinFlipHistory) {
+        this.coinFlipHistory = coinFlipHistory;
+    }
+
     public CoinFlip getCoinFlip(int coinFlipInstanceId) {
         if (coinFlipInstanceId >= this.coinFlipHistory.size()) {
             throw new IllegalArgumentException("Coin flip instance ID: " + coinFlipInstanceId + " exceeds coin flip count.");

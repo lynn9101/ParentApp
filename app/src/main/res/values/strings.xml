@@ -4,6 +4,7 @@
     <string name="children_title">Manage Children List</string>
     <string name="children_edit_title">Children Edit</string>
     <string name="coin_flip_title">Coin flip</string>
+    <string name="coin_flip_history_title">Coin flip history</string>
     <string name="timer_title">Timer</string>
     <string name="btn_1min">1 min</string>
     <string name="btn_2min">2 min</string>
@@ -12,4 +13,5 @@
     <string name="btn_10min">10 min</string>
     <string name="shared_pref_key">ParentAppSharedPref</string>
     <string name="main_select_option">Select your option:</string>
+    <string name="shared_pref_coin_flip_history_key">ParentAppCoinFlipHistory</string>
 </resources>
