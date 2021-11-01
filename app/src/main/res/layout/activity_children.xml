@@ -52,4 +52,15 @@
         app:layout_constraintStart_toStartOf="@+id/addIcon"
         app:layout_constraintTop_toBottomOf="@+id/addIcon" />
 
+    <ListView
+        android:id="@+id/listAllChildren"
+        android:layout_width="364dp"
+        android:layout_height="387dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.489"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.115" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

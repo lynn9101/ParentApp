@@ -34,9 +34,8 @@ public class ChildrenManager {
         return this.children.get(childId);
     }
 
-    public Child addChild(Child child) {
+    public void addChild(Child child) {
         this.children.add(child);
-        return child;
     }
 
     public Child updateChild(int index, Child child) {
