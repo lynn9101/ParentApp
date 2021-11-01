@@ -1,11 +1,20 @@
 package com.example.parentapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.SystemClock;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -22,8 +31,11 @@ import java.util.Locale;
  * https://www.youtube.com/watch?v=MDuGwI6P-X8&list=PLrnPJCHvNZuB8wxqXCwKw2_NkyEmFwcSd&index=1
  * "Keep the timer running while closing app" adapted from (with some modifications):
  *  https://www.youtube.com/watch?v=lvibl8YJfGo&list=PLrnPJCHvNZuB8wxqXCwKw2_NkyEmFwcSd&index=3
+ *  "Send notification when timer done":
+ *  https://www.tutorialspoint.com/how-to-create-android-notification-with-broadcastreceiver
  */
 public class TimerActivity extends AppCompatActivity {
+    public static final String NOTIFICATION_CONTENT = "Time is up!";
     private TextView txtTimeCountDown;
     private ImageButton btnStart;
     private ImageButton btnReset;
@@ -47,6 +59,10 @@ public class TimerActivity extends AppCompatActivity {
     private final String TIME_LEFT = "timeLeft";
     private final String IS_TIMER_RUNNING = "timerRunning";
     private final String END_TIME = "endTime";
+    public static final String SEND_NOTIFICATION_ID = "sendNotification";
+    private final static String DEFAULT_NOTIFICATION_CHANNEL_ID = "default" ;
+    public final static String SEND_TITLE = "Time is up!";
+    private AlarmManager alarmManager;
     public static Intent makeIntent(Context context) {
         return new Intent(context,TimerActivity.class);
     }
@@ -73,12 +89,14 @@ public class TimerActivity extends AppCompatActivity {
         btn10Min = findViewById(R.id.btn10min);
         calmDown = findViewById(R.id.imgCalmDown); // Resource:https://www.clipartmax.com/middle/m2i8K9m2b1G6K9m2_calm-clip-art/
         timeIsUp = findViewById(R.id.imgTimeIsUp); // https://www.clipartmax.com/middle/m2i8N4b1m2N4d3Z5_when-the-district-operates-under-a-90-minute-delay-alarm-clock-clip/
+        alarmManager = (AlarmManager) getSystemService(Context. ALARM_SERVICE);
 
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 isRunning = true;
                 startTimer();
+                scheduleNotification(getNotification()) ;
                 updateButtons();
             }
         });
@@ -88,6 +106,7 @@ public class TimerActivity extends AppCompatActivity {
             public void onClick(View view) {
                 isRunning = true;
                 startTimer();
+                scheduleNotification(getNotification()) ;
                 updateButtons();
             }
         });
@@ -155,6 +174,9 @@ public class TimerActivity extends AppCompatActivity {
     private void pauseTimer() {
         countDownTimer.cancel();
         isRunning = false;
+        Intent notificationIntent = new Intent( this, NotificationReceiver. class) ;
+        PendingIntent pendingIntent = PendingIntent. getBroadcast ( this, 0 , notificationIntent , PendingIntent. FLAG_UPDATE_CURRENT);
+        alarmManager.cancel(pendingIntent);
         updateButtons();
         refreshCountDownText();
     }
@@ -218,10 +240,36 @@ public class TimerActivity extends AppCompatActivity {
         }
     }
 
+    private void scheduleNotification (Notification notification) {
+        Intent notificationIntent = new Intent( this, NotificationReceiver. class) ;
+        notificationIntent.putExtra(NotificationReceiver. CHANNEL_ID , 1) ;
+        notificationIntent.putExtra(NotificationReceiver. NOTIFICATION_ID , notification) ;
+        PendingIntent pendingIntent = PendingIntent. getBroadcast ( this, 0 , notificationIntent , PendingIntent. FLAG_UPDATE_CURRENT);
+        long futureInMillis = System.currentTimeMillis() + timeLeftMills;
+        alarmManager.set(AlarmManager.RTC_WAKEUP, futureInMillis , pendingIntent);
+    }
+    private Notification getNotification () {
+        Intent notificationIntent = new Intent( this, TimerActivity. class) ;
+        PendingIntent pendingIntent = PendingIntent. getActivity ( this, 0 , notificationIntent , PendingIntent. FLAG_UPDATE_CURRENT);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder( this, DEFAULT_NOTIFICATION_CHANNEL_ID);
+        builder.setContentTitle(SEND_TITLE);
+        builder.setContentIntent(pendingIntent);
+        builder.setContentText(NOTIFICATION_CONTENT);
+        builder.setSmallIcon(R.drawable. ic_launcher_foreground);
+        builder.setAutoCancel(true);
+        builder.setFullScreenIntent(pendingIntent,true);
+        Uri soundUri = Uri.parse("android.resource://" + TimerActivity.this.getPackageName() + "/" + R.raw.notification_music);
+        builder.setSound(soundUri);
+        builder.setChannelId(SEND_NOTIFICATION_ID);
+        return builder.build() ;
+    }
 
     @Override
     protected void onStop() {
         super.onStop();
+        if (isRunning) {
+            countDownTimer.cancel();
+        }
         SharedPreferences.Editor editor = Helpers.getSharedPrefEditor(getApplicationContext());
         editor.putLong(TIME_LEFT,timeLeftMills);
         editor.putBoolean(IS_TIMER_RUNNING, isRunning);
