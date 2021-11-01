@@ -31,8 +31,6 @@ public class ChildrenActivity extends AppCompatActivity {
 
         attachButtonListeners();
         displayEmptyList();
-        //populateChildrenList();
-        //registerClickListener();
     }
 
     private void attachButtonListeners() {
@@ -57,29 +55,5 @@ public class ChildrenActivity extends AppCompatActivity {
             addIcon.setVisibility(View.INVISIBLE);
             addInstruction.setVisibility(View.INVISIBLE);
         }
-    }
-
-    private void populateChildrenList() {
-        // Create a list of children
-        String[] strChildrenList = {"bryan", "lynn"};
-
-        // Build an adapter
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.children_list_view, strChildrenList);
-
-        // Configure the list view of children
-        ListView list = findViewById(R.id.listAllChildren);
-        list.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-    }
-
-    private void registerClickListener() {
-        ListView list = findViewById(R.id.listAllChildren);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id) {
-                Intent intent = new Intent(ChildrenActivity.this, ChildrenEditActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 }

@@ -1,13 +1,27 @@
 package com.example.parentapp.models;
 
 public class Child {
-    private final String CHILD_NAME;
+    private String lastName;
+    private String firstName;
 
-    public Child(String name) {
-        CHILD_NAME = name;
+    public Child(String lastName, String firstName) {
+        this.lastName = lastName;
+        this.firstName = firstName;
     }
 
-    public String getName() {
-        return CHILD_NAME;
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 }
