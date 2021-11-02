@@ -97,7 +97,7 @@ public class ChildrenEditActivity extends AppCompatActivity {
 
         if (title.equals("New")) {
             message = "New child is added.";
-            childrenManager.addChild(new Child(firstName, lastName));
+            childrenManager.addChild(new Child(lastName, firstName));
         } else {
             message = "Child's information has been edited.";
             Child childEdited = new Child(lastName, firstName);
