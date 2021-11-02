@@ -1,10 +1,12 @@
 package com.example.parentapp;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -12,6 +14,7 @@ import android.widget.Toast;
 import com.example.parentapp.models.Child;
 import com.example.parentapp.models.ChildrenManager;
 import com.example.parentapp.models.Helpers;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class ChildrenEditActivity extends AppCompatActivity {
     private ChildrenManager childrenManager = ChildrenManager.getInstance();
@@ -40,13 +43,13 @@ public class ChildrenEditActivity extends AppCompatActivity {
         editIndex = intent.getIntExtra("editIndex", 0);
 
         childFirstName = findViewById(R.id.fillFirstName);
-        
+        childLastName = findViewById(R.id.fillLastName);
+
         // Set up UI elements
         setUpAppBar();
         setUpSaveButton();
-        //setUpDeleteButton();
+        setUpDeleteButton();
         fillNameFields();
-
         setUpSaveButton();
     }
 
@@ -90,17 +93,57 @@ public class ChildrenEditActivity extends AppCompatActivity {
     private void saveValidName() {
         String firstName = childFirstName.getText().toString();
         String lastName = childLastName.getText().toString();
+        String message;
 
-        childrenManager.addChild(new Child(firstName, lastName));
-        String addMessage = "New child is added.";
-        Toast.makeText(ChildrenEditActivity.this, addMessage, Toast.LENGTH_SHORT)
+        if (title.equals("New")) {
+            message = "New child is added.";
+            childrenManager.addChild(new Child(firstName, lastName));
+        } else {
+            message = "Child's information has been edited.";
+            Child childEdited = new Child(lastName, firstName);
+            childrenManager.updateChild(editIndex, childEdited);
+        }
+
+        Toast.makeText(ChildrenEditActivity.this, message, Toast.LENGTH_SHORT)
                 .show();
         updateChildrenListSharedPref();
         finish();
     }
 
-    private void fillNameFields() {
+    private void setUpDeleteButton() {
+        FloatingActionButton deleteButton = findViewById(R.id.childDeleteButton);
 
+        if(title.equals("Edit")) {
+            deleteButton.setVisibility(View.VISIBLE);
+
+            deleteButton.setOnClickListener(view -> {
+                AlertDialog.Builder builder = new AlertDialog.Builder(ChildrenEditActivity.this);
+                builder.setMessage("Delete this child? It cannot be restored!")
+                        .setPositiveButton("Confirm", (dialogInterface, i) -> {
+                            childrenManager.removeChild(editIndex);
+                            updateChildrenListSharedPref();
+                            finish();
+                        })
+                        .setNegativeButton("Back", null);
+
+                AlertDialog warning = builder.create();
+                warning.show();
+            });
+        } else {
+            deleteButton.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void fillNameFields() {
+        if (title.equals("Edit")) {
+            Child childInstance = childrenManager.getChild(editIndex);
+
+            childFirstName = findViewById(R.id.fillFirstName);
+            childFirstName.setText(childInstance.getFirstName());
+
+            childLastName = findViewById(R.id.fillLastName);
+            childLastName.setText(childInstance.getLastName());
+        }
     }
 
     private void updateChildrenListSharedPref() {
@@ -108,5 +151,4 @@ public class ChildrenEditActivity extends AppCompatActivity {
         String childrenListKey = context.getResources().getString(R.string.shared_pref_children_list_key);
         Helpers.saveObjectToSharedPreference(context, childrenListKey, childrenManager.getChildren());
     }
-
 }
