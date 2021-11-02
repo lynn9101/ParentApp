@@ -22,6 +22,10 @@ public class ChildrenManager {
         return this.children;
     }
 
+    public void setChildren(ArrayList<Child> children) {
+        this.children = children;
+    }
+
     public Child getChild(int childId) {
         if (childId >= this.children.size()) {
             throw new IllegalArgumentException("Child ID: " + childId + " exceeds children count.");
