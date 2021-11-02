@@ -19,7 +19,6 @@ import com.example.parentapp.models.ChildrenManager;
 import com.example.parentapp.models.Helpers;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,12 +40,27 @@ public class ChildrenActivity extends AppCompatActivity {
         registerClickListener();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        setContentView(R.layout.activity_children);
+
+        getSupportActionBar().setTitle(R.string.children_title);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        attachButtonListeners();
+        displayEmptyList();
+        populateChildrenList();
+        registerClickListener();
+    }
+
     private void attachButtonListeners() {
         FloatingActionButton fab = findViewById(R.id.addButton);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ChildrenActivity.this, ChildrenEditActivity.class);
+                Intent intent = ChildrenEditActivity.makeLaunchIntent(ChildrenActivity.this, "New");
                 startActivity(intent);
             }
         });
@@ -112,7 +126,8 @@ public class ChildrenActivity extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id) {
-                Intent intent = new Intent(ChildrenActivity.this, ChildrenEditActivity.class);
+                Intent intent = ChildrenEditActivity.makeLaunchIntent(ChildrenActivity.this, "Edit");
+                intent.putExtra("editIndex", position);
                 startActivity(intent);
             }
         });
