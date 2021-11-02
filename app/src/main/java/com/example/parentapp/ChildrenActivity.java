@@ -75,7 +75,6 @@ public class ChildrenActivity extends AppCompatActivity {
         }
 
         this.childrenList = childrenManager.getChildren();
-        childrenList.add(new Child("dang", "bryan"));
         ListView childrenListView = findViewById(R.id.listAllChildren);
         ArrayAdapter<Child> adapter = new ChildrenListAdapter();
 
