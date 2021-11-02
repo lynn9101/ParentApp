@@ -40,7 +40,7 @@ public class ChildrenEditActivity extends AppCompatActivity {
         // Get intent for adding vs. editing Child
         Intent intent = getIntent();
         title = intent.getStringExtra(EXTRA_MESSAGE);
-        editIndex = intent.getIntExtra("editIndex", 0);
+        editIndex = intent.getIntExtra("editIndex", -1);
 
         childFirstName = findViewById(R.id.fillFirstName);
         childLastName = findViewById(R.id.fillLastName);
@@ -97,7 +97,7 @@ public class ChildrenEditActivity extends AppCompatActivity {
 
         if (title.equals("New")) {
             message = "New child is added.";
-            childrenManager.addChild(new Child(firstName, lastName));
+            childrenManager.addChild(new Child(lastName, firstName));
         } else {
             message = "Child's information has been edited.";
             Child childEdited = new Child(lastName, firstName);

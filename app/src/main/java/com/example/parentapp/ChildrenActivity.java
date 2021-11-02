@@ -109,8 +109,6 @@ public class ChildrenActivity extends AppCompatActivity {
 
             Child childInstance = childrenList.get(position);
 
-            ImageView childIcon = itemView.findViewById(R.id.childIcon);
-
             TextView childFirstName = itemView.findViewById(R.id.firstName);
             childFirstName.setText(childInstance.getFirstName());
 
