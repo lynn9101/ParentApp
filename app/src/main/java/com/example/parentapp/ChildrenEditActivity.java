@@ -40,7 +40,7 @@ public class ChildrenEditActivity extends AppCompatActivity {
         // Get intent for adding vs. editing Child
         Intent intent = getIntent();
         title = intent.getStringExtra(EXTRA_MESSAGE);
-        editIndex = intent.getIntExtra("editIndex", 0);
+        editIndex = intent.getIntExtra("editIndex", -1);
 
         childFirstName = findViewById(R.id.fillFirstName);
         childLastName = findViewById(R.id.fillLastName);

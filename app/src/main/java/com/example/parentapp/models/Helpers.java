@@ -2,6 +2,9 @@ package com.example.parentapp.models;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 
 import com.example.parentapp.R;
 import com.google.gson.Gson;
@@ -71,5 +74,14 @@ public class Helpers {
         }
 
         return gson.fromJson(deserializeObject, type);
+    }
+
+    public static MediaPlayer getMediaPlayer(Context ctx, int resourceID) {
+        return MediaPlayer.create(ctx, resourceID);
+    }
+    
+    public static void vibratePhone(Context ctx, int intervalInMillis) {
+        Vibrator vibrator = (Vibrator) ctx.getSystemService(Context.VIBRATOR_SERVICE);
+        vibrator.vibrate(VibrationEffect.createOneShot(intervalInMillis, VibrationEffect.DEFAULT_AMPLITUDE));
     }
 }
