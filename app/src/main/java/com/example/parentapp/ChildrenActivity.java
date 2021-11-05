@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +35,11 @@ public class ChildrenActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle(R.string.children_title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        //String strColor = getResources().getString(R.color.app_title_color);
+        ColorDrawable colorDrawable
+                = new ColorDrawable(Color.parseColor("#355C74"));
+        getSupportActionBar().setBackgroundDrawable(colorDrawable);
 
         attachButtonListeners();
         displayEmptyList();

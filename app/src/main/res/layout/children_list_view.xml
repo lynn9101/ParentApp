@@ -7,12 +7,12 @@
 
     <View
         android:id="@+id/view3"
-        android:layout_width="376dp"
-        android:layout_height="77dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="378dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="4dp"
         android:background="@drawable/list_view_rectangle"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.485"
+        app:layout_constraintHorizontal_bias="0.484"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,7 +23,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:adjustViewBounds="true"
         android:src="@drawable/boy_child_icon"
         app:layout_constraintStart_toStartOf="@+id/view3"
@@ -34,7 +34,7 @@
         android:layout_width="133dp"
         android:layout_height="30dp"
         android:layout_marginStart="84dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="20dp"
         android:text=""
         android:textSize="20sp"
         android:textStyle="bold"
