@@ -18,8 +18,8 @@
 
     <TextView
         android:id="@+id/textResult"
-        android:layout_width="224dp"
-        android:layout_height="42dp"
+        android:layout_width="219dp"
+        android:layout_height="75dp"
         android:text=""
         android:textAlignment="center"
         android:textSize="18sp"
