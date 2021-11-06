@@ -20,18 +20,20 @@
 
     <TextView
         android:id="@+id/txtTimer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="302dp"
+        android:layout_height="111dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:text="00:00"
+        android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="60sp"
         app:layout_constraintBottom_toBottomOf="@+id/view"
         app:layout_constraintEnd_toEndOf="@+id/btn3min"
-        app:layout_constraintHorizontal_bias="0.476"
+        app:layout_constraintHorizontal_bias="0.21"
         app:layout_constraintStart_toStartOf="@+id/btn1min"
-        app:layout_constraintTop_toTopOf="@+id/view" />
+        app:layout_constraintTop_toTopOf="@+id/view"
+        app:layout_constraintVertical_bias="0.205" />
 
     <ImageButton
         android:id="@+id/imgBtnStart"
@@ -226,5 +228,32 @@
         app:layout_constraintTop_toBottomOf="@+id/view"
         app:layout_constraintVertical_bias="0.547"
         app:srcCompat="@drawable/time_is_up" />
+
+    <EditText
+        android:id="@+id/editTextSetMinutes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Customize Minutes"
+        android:inputType="number"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="@+id/txtTimer"
+        app:layout_constraintHorizontal_bias="0.539"
+        app:layout_constraintStart_toStartOf="@+id/txtTimer"
+        app:layout_constraintTop_toBottomOf="@+id/txtTimer" />
+
+    <Button
+        android:id="@+id/btnConfirmMinutes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="@color/confirm_button_color"
+        android:text="Confirm"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toEndOf="@+id/editTextSetMinutes"
+        app:layout_constraintTop_toBottomOf="@+id/editTextSetMinutes" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

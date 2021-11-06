@@ -13,13 +13,17 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.SystemClock;
+import android.text.Editable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.parentapp.models.Helpers;
 import java.util.Locale;
 
@@ -33,6 +37,8 @@ import java.util.Locale;
  *  https://www.youtube.com/watch?v=lvibl8YJfGo&list=PLrnPJCHvNZuB8wxqXCwKw2_NkyEmFwcSd&index=3
  *  "Send notification when timer done":
  *  https://www.tutorialspoint.com/how-to-create-android-notification-with-broadcastreceiver
+ *  "Customize minutes" adapted from:
+ *  https://www.youtube.com/watch?v=7dQJAkjNEjM
  */
 public class TimerActivity extends AppCompatActivity {
     public static final String NOTIFICATION_CONTENT = "Time is up!";
@@ -49,9 +55,17 @@ public class TimerActivity extends AppCompatActivity {
     private Button btn10Min;
     private ImageView calmDown;
     private ImageView timeIsUp;
+    private EditText customMinutes;
+    private Button confirmMinutes;
     private long timeInMills;
     private final int COUNTDOWN_INTERVAL = 1000;
+    private final int HOURS_TO_SECONDS = 3600;
     private final int SIXTY = 60;
+    private final int MINS_TO_MILLS = 60000;
+    private final int TWO_MINS_TO_MILLS = 120000;
+    private final int THREE_MINS_TO_MILLS = 180000;
+    private final int FIVE_MINS_TO_MILLS = 300000;
+    private final int TEN_MINS_TO_MILLS = 600000;
     private boolean isRunning = false;
     private CountDownTimer countDownTimer;
     private long timeLeftMills;
@@ -59,6 +73,7 @@ public class TimerActivity extends AppCompatActivity {
     private final String TIME_LEFT = "timeLeft";
     private final String IS_TIMER_RUNNING = "timerRunning";
     private final String END_TIME = "endTime";
+    private final String CUSTOM_TIME = "customTimer";
     public static final String SEND_NOTIFICATION_ID = "sendNotification";
     private final static String DEFAULT_NOTIFICATION_CHANNEL_ID = "default" ;
     public final static String SEND_TITLE = "Time is up!";
@@ -73,7 +88,7 @@ public class TimerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_timer);
         getSupportActionBar().setTitle(R.string.timer_title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        timeInMills = 10000;
+        timeInMills = MINS_TO_MILLS;
         timeLeftMills = timeInMills;
         txtTimeCountDown = findViewById(R.id.txtTimer);
         btnStart = findViewById(R.id.imgBtnStart);
@@ -90,6 +105,8 @@ public class TimerActivity extends AppCompatActivity {
         calmDown = findViewById(R.id.imgCalmDown); // Resource:https://www.clipartmax.com/middle/m2i8K9m2b1G6K9m2_calm-clip-art/
         timeIsUp = findViewById(R.id.imgTimeIsUp); // https://www.clipartmax.com/middle/m2i8N4b1m2N4d3Z5_when-the-district-operates-under-a-90-minute-delay-alarm-clock-clip/
         alarmManager = (AlarmManager) getSystemService(Context. ALARM_SERVICE);
+        customMinutes = findViewById(R.id.editTextSetMinutes);
+        confirmMinutes = findViewById(R.id.btnConfirmMinutes);
 
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,6 +115,51 @@ public class TimerActivity extends AppCompatActivity {
                 startTimer();
                 scheduleNotification(getNotification()) ;
                 updateButtons();
+            }
+        });
+
+        btn1Min.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                long millisInput = MINS_TO_MILLS;
+                setTime(millisInput);
+                customMinutes.setText("");
+            }
+        });
+
+        btn2Min.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                long millisInput = TWO_MINS_TO_MILLS;
+                setTime(millisInput);
+                customMinutes.setText("");
+            }
+        });
+
+        btn3Min.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                long millisInput = THREE_MINS_TO_MILLS;
+                setTime(millisInput);
+                customMinutes.setText("");
+            }
+        });
+
+        btn5Min.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                long millisInput = FIVE_MINS_TO_MILLS;
+                setTime(millisInput);
+                customMinutes.setText("");
+            }
+        });
+
+        btn10Min.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                long millisInput = TEN_MINS_TO_MILLS;
+                setTime(millisInput);
+                customMinutes.setText("");
             }
         });
 
@@ -132,8 +194,30 @@ public class TimerActivity extends AppCompatActivity {
                 resetTimer();
             }
         });
+
+        confirmMinutes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String input = customMinutes.getText().toString();
+                if (input.length() == 0) {
+                    Toast.makeText(TimerActivity.this, "The field cannot be EMPTY!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                long millisInput = Long.parseLong(input) * MINS_TO_MILLS;
+                if (millisInput == 0) {
+                    Toast.makeText(TimerActivity.this, "Please enter a positive number", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                setTime(millisInput);
+                customMinutes.setText("");
+            }
+        });
     }
 
+    private void setTime(long milliseconds) {
+        timeInMills = milliseconds;
+        resetTimer();
+    }
     private void startTimer() {
         endTime = System.currentTimeMillis() + timeLeftMills;
         countDownTimer = new CountDownTimer(timeLeftMills,COUNTDOWN_INTERVAL) {
@@ -169,6 +253,8 @@ public class TimerActivity extends AppCompatActivity {
         btn3Min.setVisibility(View.VISIBLE);
         btn5Min.setVisibility(View.VISIBLE);
         btn10Min.setVisibility(View.VISIBLE);
+        customMinutes.setVisibility(View.VISIBLE);
+        confirmMinutes.setVisibility(View.VISIBLE);
     }
 
     private void pauseTimer() {
@@ -182,9 +268,15 @@ public class TimerActivity extends AppCompatActivity {
     }
 
     private void refreshCountDownText() {
-        int minutes = (int) timeLeftMills / COUNTDOWN_INTERVAL / SIXTY ;
-        int seconds = (int)  timeLeftMills / COUNTDOWN_INTERVAL % SIXTY;
-        String displayTimeLeft = String.format(Locale.getDefault(),"%02d:%02d", minutes, seconds);
+        int hours = (int) (timeLeftMills / COUNTDOWN_INTERVAL) / HOURS_TO_SECONDS;
+        int minutes = (int) ((timeLeftMills / COUNTDOWN_INTERVAL) % HOURS_TO_SECONDS) / SIXTY;
+        int seconds = (int)  (timeLeftMills / COUNTDOWN_INTERVAL) % SIXTY;
+        String displayTimeLeft;
+        if (hours > 0) {
+            displayTimeLeft = String.format(Locale.getDefault(),"%d:%02d:%02d", hours, minutes, seconds);
+        } else {
+            displayTimeLeft = String.format(Locale.getDefault(),"%02d:%02d", minutes, seconds);
+        }
         txtTimeCountDown.setText(displayTimeLeft);
     }
 
@@ -200,6 +292,8 @@ public class TimerActivity extends AppCompatActivity {
             btn3Min.setVisibility(View.INVISIBLE);
             btn5Min.setVisibility(View.INVISIBLE);
             btn10Min.setVisibility(View.INVISIBLE);
+            customMinutes.setVisibility(View.INVISIBLE);
+            confirmMinutes.setVisibility(View.INVISIBLE);
         } else {  // timer is not running -> does not start/ PAUSE/ end
             btnPause.setVisibility(View.INVISIBLE);
             btnReset.setVisibility(View.INVISIBLE);
@@ -218,6 +312,8 @@ public class TimerActivity extends AppCompatActivity {
                 btn3Min.setVisibility(View.INVISIBLE);
                 btn5Min.setVisibility(View.INVISIBLE);
                 btn10Min.setVisibility(View.INVISIBLE);
+                customMinutes.setVisibility(View.INVISIBLE);
+                confirmMinutes.setVisibility(View.INVISIBLE);
             } else { // still have remaining time but is not running
                 if (timeLeftMills < timeInMills) { // case when pressing "PAUSE"
                     btnPause.setVisibility(View.INVISIBLE);
@@ -232,6 +328,8 @@ public class TimerActivity extends AppCompatActivity {
                     btn3Min.setVisibility(View.INVISIBLE);
                     btn5Min.setVisibility(View.INVISIBLE);
                     btn10Min.setVisibility(View.INVISIBLE);
+                    customMinutes.setVisibility(View.INVISIBLE);
+                    confirmMinutes.setVisibility(View.INVISIBLE);
                 } else {
                     btnResume.setVisibility(View.INVISIBLE);
                 }
@@ -274,6 +372,7 @@ public class TimerActivity extends AppCompatActivity {
         editor.putLong(TIME_LEFT,timeLeftMills);
         editor.putBoolean(IS_TIMER_RUNNING, isRunning);
         editor.putLong(END_TIME,endTime);
+        editor.putLong(CUSTOM_TIME,timeInMills);
         editor.apply();
     }
 
@@ -281,6 +380,7 @@ public class TimerActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         SharedPreferences prefs = Helpers.getSharedPreference(getApplicationContext());
+        timeInMills = prefs.getLong(CUSTOM_TIME, MINS_TO_MILLS);
         timeLeftMills = prefs.getLong(TIME_LEFT,timeInMills);
         isRunning = prefs.getBoolean(IS_TIMER_RUNNING,false);
         updateButtons();
