@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Parent App</string>
     <string name="main_title">Main</string>
-    <string name="children_title">Manage Children List</string>
+    <string name="children_title">Configure Your Children</string>
     <string name="children_edit_title">Children Edit</string>
     <string name="coin_flip_title">Coin flip</string>
     <string name="coin_flip_history_title">Coin flip history</string>

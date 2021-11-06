@@ -12,9 +12,9 @@
         android:layout_height="121dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="36dp"
+        android:src="@drawable/newborn_child"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/boy_child_icon" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/childFName"
@@ -81,6 +81,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:clickable="true"
+        android:backgroundTint="#C84F4F"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/child_delete_button" />
@@ -91,6 +92,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="SAVE"
+        android:backgroundTint="@color/listview_add_fab"
         app:layout_constraintEnd_toEndOf="@+id/fillLastName"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
