@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.view.animation.RotateAnimation;
 import android.widget.ArrayAdapter;
@@ -26,11 +27,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import pl.droidsonroids.gif.GifImageView;
+
 public class CoinFlipActivity extends AppCompatActivity {
     private ChildrenManager childrenManager;
     private List<Child> childrenList = new ArrayList<>();
     private List<String> childrenFullNames = new ArrayList<>();
     private CoinFlipManager coinFlipManager;
+    GifImageView coinFlipAnimated;
     private Random rng;
 
     @Override
@@ -44,6 +48,9 @@ public class CoinFlipActivity extends AppCompatActivity {
         this.childrenManager = ChildrenManager.getInstance();
         this.coinFlipManager = CoinFlipManager.getInstance();
         this.rng = new Random();
+
+        coinFlipAnimated = findViewById(R.id.coinAnimation);
+        coinFlipAnimated.setVisibility(View.INVISIBLE);
 
         populateChildrenList();
         displayDropDownList();
@@ -106,6 +113,24 @@ public class CoinFlipActivity extends AppCompatActivity {
                 CoinFlip flip = new CoinFlip(new Child("a", "b"), result, false);
                 coinFlipManager.addCoinFlip(flip);
                 updateCoinFlipHistorySharedPref();
+            }
+        });
+
+        Button coinFlipActivate = findViewById(R.id.coinFlipActivate);
+
+        coinFlipActivate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                coinFlipAnimated.setVisibility(View.VISIBLE);
+
+                new CountDownTimer(10000, 1000){
+                    public void onTick(long millisUntilFinished){
+
+                    }
+                    public  void onFinish(){
+                        coinFlipAnimated.setVisibility(View.INVISIBLE);
+                    }
+                }.start();
             }
         });
 
