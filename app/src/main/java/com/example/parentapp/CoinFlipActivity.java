@@ -123,11 +123,9 @@ public class CoinFlipActivity extends AppCompatActivity {
             public void onClick(View view) {
                 coinFlipAnimated.setVisibility(View.VISIBLE);
 
-                new CountDownTimer(10000, 1000){
-                    public void onTick(long millisUntilFinished){
-
-                    }
-                    public  void onFinish(){
+                new CountDownTimer(5000, 1000) {
+                    public void onTick(long millisUntilFinished) {}
+                    public  void onFinish() {
                         coinFlipAnimated.setVisibility(View.INVISIBLE);
                     }
                 }.start();
