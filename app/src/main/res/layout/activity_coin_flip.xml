@@ -125,4 +125,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/childrenListPicked" />
 
+    <ImageView
+        android:id="@+id/resultHead"
+        android:layout_width="333dp"
+        android:layout_height="267dp"
+        app:layout_constraintBottom_toTopOf="@+id/coinFlipActivate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addHead"
+        app:srcCompat="@drawable/coin_head" />
+
+    <ImageView
+        android:id="@+id/resultTail"
+        android:layout_width="334dp"
+        android:layout_height="256dp"
+        app:layout_constraintBottom_toTopOf="@+id/coinFlipActivate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.571"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addHead"
+        app:layout_constraintVertical_bias="0.285"
+        app:srcCompat="@drawable/coin_tail" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

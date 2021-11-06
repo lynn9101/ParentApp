@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -35,6 +36,8 @@ public class CoinFlipActivity extends AppCompatActivity {
     private List<String> childrenFullNames = new ArrayList<>();
     private CoinFlipManager coinFlipManager;
     GifImageView coinFlipAnimated;
+    ImageView resultHead;
+    ImageView resultTail;
     private Random rng;
 
     @Override
@@ -51,6 +54,13 @@ public class CoinFlipActivity extends AppCompatActivity {
 
         coinFlipAnimated = findViewById(R.id.coinAnimation);
         coinFlipAnimated.setVisibility(View.INVISIBLE);
+
+        resultHead = findViewById(R.id.resultHead);
+        resultHead.setVisibility(View.INVISIBLE);
+
+        resultTail = findViewById(R.id.resultTail);
+        resultTail.setVisibility(View.INVISIBLE);
+
 
         populateChildrenList();
         displayDropDownList();
@@ -122,11 +132,20 @@ public class CoinFlipActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 coinFlipAnimated.setVisibility(View.VISIBLE);
+                resultHead.setVisibility(View.INVISIBLE);
+                resultTail.setVisibility(View.INVISIBLE);
+                boolean flipResult = rng.nextInt() % 2 == 0; //True is for head , False is for tail
 
                 new CountDownTimer(5000, 1000) {
                     public void onTick(long millisUntilFinished) {}
                     public  void onFinish() {
                         coinFlipAnimated.setVisibility(View.INVISIBLE);
+
+                        if (flipResult) {
+                            resultHead.setVisibility(View.VISIBLE);
+                        } else {
+                            resultTail.setVisibility(View.VISIBLE);
+                        }
                     }
                 }.start();
             }
