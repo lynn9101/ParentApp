@@ -1,5 +1,6 @@
 package com.example.parentapp;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
@@ -86,8 +87,9 @@ public class CoinFlipActivity extends AppCompatActivity {
 
         this.childrenList = childrenManager.getChildren();
         for (int i = 0; i < childrenList.size(); i++) {
-            Child childInInstance = childrenList.get(i);
-            String fullName = childInInstance.getFirstName() + " " + childInInstance.getLastName();
+            Child childInstance = childrenList.get(i);
+
+            String fullName = childInstance.getFirstName() + " " + childInstance.getLastName();
             childrenFullNames.add(fullName);
         }
     }
@@ -152,30 +154,12 @@ public class CoinFlipActivity extends AppCompatActivity {
                 new CountDownTimer(5000, 1000) {
                     public void onTick(long millisUntilFinished) {}
                     public  void onFinish() {
-                        coinFlipAnimated.setVisibility(View.INVISIBLE);
-
-                        Child pickedChild = childrenList.get(pickedChildIndex);
-                        CoinFlip flip = new CoinFlip(new Child(pickedChild.getLastName(), pickedChild.getFirstName()), result, childPickedHead);
-
-                        if (result) {
-                            resultHead.setVisibility(View.VISIBLE);
-                        } else {
-                            resultTail.setVisibility(View.VISIBLE);
-                        }
-
-                        String resultMessage = flip.getPickerStatus();
-
-                        FragmentManager manager = getSupportFragmentManager();
-                        FlipCoinMessageFragment dialog = new FlipCoinMessageFragment(result, resultMessage);
-                        dialog.show(manager, "MessageDialog");
-                        Log.i("TAG","Just Showed the dialog.");
-
-
-                        coinFlipManager.addCoinFlip(flip);
-                        updateCoinFlipHistorySharedPref();
+                        displayDialog();
                     }
                 }.start();
             }
+
+
         });
 
         Button clearBtn = findViewById(R.id.clearCoinFlipHistory);
@@ -188,6 +172,33 @@ public class CoinFlipActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void displayDialog() {
+        coinFlipAnimated.setVisibility(View.INVISIBLE);
+        String resultedSide;
+
+        Child pickedChild = childrenList.get(pickedChildIndex);
+        CoinFlip flip = new CoinFlip(new Child(pickedChild.getLastName(), pickedChild.getFirstName()), result, childPickedHead);
+
+        if (result) {
+            resultHead.setVisibility(View.VISIBLE);
+            resultedSide = "Head";
+        } else {
+            resultTail.setVisibility(View.VISIBLE);
+            resultedSide = "Tail";
+        }
+
+        String resultMessage = "Result: " + resultedSide + " !\n" + flip.getPickerStatus();
+
+        FragmentManager manager = getSupportFragmentManager();
+        FlipCoinMessageFragment dialog = new FlipCoinMessageFragment(result, resultMessage);
+        dialog.show(manager, "MessageDialog");
+        Log.i("TAG","Just Showed the dialog.");
+
+
+        coinFlipManager.addCoinFlip(flip);
+        updateCoinFlipHistorySharedPref();
     }
 
     private void updateCoinFlipHistorySharedPref() {
