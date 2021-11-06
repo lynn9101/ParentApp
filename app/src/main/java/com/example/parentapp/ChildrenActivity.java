@@ -36,11 +36,6 @@ public class ChildrenActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(R.string.children_title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        //String strColor = "#" + Integer.toHexString(this.getResources().getColor(R.color.app_title_color));
-        //ColorDrawable colorDrawable
-               // = new ColorDrawable(getResources().getColor(R.color.app_title_color));
-        //getSupportActionBar().setBackgroundDrawable();
-
         attachButtonListeners();
         displayEmptyList();
         populateChildrenList();
