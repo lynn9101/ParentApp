@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * The coinflip model that represents a coin flip instance
+ * The coinFlip model that represents a coin flip instance
  *
  * model records the child that was given the pick, as well as whether the child picked head/tail and won/lost
  */
@@ -16,11 +16,12 @@ public class CoinFlip {
     private boolean pickerWon;
     private boolean pickedHead;
 
-    public CoinFlip(Child picker, boolean pickerWon, boolean pickedHead) {
+    public CoinFlip(Child picker, boolean flipResult, boolean pickedHead) {
         this.formattedCoinFlipTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMM dd @ h:mm a"));
         this.picker = picker;
-        this.pickerWon = pickerWon;
         this.pickedHead = pickedHead;
+
+        pickerWon = flipResult == pickedHead;
     }
 
     public String getFormattedCoinFlipTime() {
