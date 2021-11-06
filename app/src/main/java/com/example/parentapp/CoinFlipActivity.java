@@ -7,8 +7,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.RotateAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -37,7 +39,24 @@ public class CoinFlipActivity extends AppCompatActivity {
         this.coinFlipManager = CoinFlipManager.getInstance();
         this.rng = new Random();
 
+        flipCoinAnimation();
         attachButtonListeners();
+    }
+
+    private void flipCoinAnimation() {
+        ImageView coinHead = findViewById(R.id.coinHead);
+
+        coinHead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RotateAnimation rotateAnimation = new RotateAnimation(0, 360, RotateAnimation.RELATIVE_TO_SELF,
+                        .5f, RotateAnimation.RELATIVE_TO_SELF, .5f);
+
+                rotateAnimation.setDuration(1000);
+                coinHead.startAnimation(rotateAnimation);
+            }
+        });
+
     }
 
     private void attachButtonListeners() {
