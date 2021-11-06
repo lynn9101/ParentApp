@@ -49,7 +49,7 @@ public class CoinFlipActivity extends AppCompatActivity {
         coinHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RotateAnimation rotateAnimation = new RotateAnimation(0, 360, RotateAnimation.RELATIVE_TO_SELF,
+                RotateAnimation rotateAnimation = new RotateAnimation(0, -360, RotateAnimation.RELATIVE_TO_SELF,
                         .5f, RotateAnimation.RELATIVE_TO_SELF, .5f);
 
                 rotateAnimation.setDuration(1000);
