@@ -13,4 +13,6 @@
     <color name="main_buttons_color">#6155EE</color>
     <color name="background_color">#DDE8EC</color>
     <color name="confirm_button_color">#5C8297</color>
+    <color name="listview_add_fab">#66BA7E</color>
+    <color name="listview_child_name">#605959</color>
 </resources>

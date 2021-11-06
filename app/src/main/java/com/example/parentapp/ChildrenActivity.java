@@ -109,11 +109,9 @@ public class ChildrenActivity extends AppCompatActivity {
 
             Child childInstance = childrenList.get(position);
 
-            TextView childFirstName = itemView.findViewById(R.id.firstName);
-            childFirstName.setText(childInstance.getFirstName());
-
-            TextView childLastName = itemView.findViewById(R.id.lastName);
-            childLastName.setText(childInstance.getLastName());
+            String fullName = childInstance.getFirstName() + " " + childInstance.getLastName();
+            TextView childFullName = itemView.findViewById(R.id.fullName);
+            childFullName.setText(fullName);
 
             return itemView;
         }
