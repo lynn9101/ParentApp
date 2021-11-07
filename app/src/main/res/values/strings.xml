@@ -15,4 +15,5 @@
     <string name="main_select_option">Select your option:</string>
     <string name="shared_pref_coin_flip_history_key">ParentAppCoinFlipHistory</string>
     <string name="shared_pref_children_list_key">ChildrenListKey</string>
+    <string name="shared_pref_suggested_child_key">LastChildPickedHistory</string>
 </resources>

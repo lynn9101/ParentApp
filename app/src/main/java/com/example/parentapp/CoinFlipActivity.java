@@ -1,24 +1,19 @@
 package com.example.parentapp;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.RotateAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,6 +42,8 @@ public class CoinFlipActivity extends AppCompatActivity {
     Boolean result;
     Boolean childPickedHead;
     int pickedChildIndex;
+    int lastChildIndex;
+    int suggestedChildIndex;
     private Random rng;
 
     @Override
@@ -70,10 +67,40 @@ public class CoinFlipActivity extends AppCompatActivity {
         resultTail = findViewById(R.id.resultTail);
         resultTail.setVisibility(View.INVISIBLE);
 
-
         populateChildrenList();
+        lastChildIndex = getSharedPrefLastChildIndex(this);
+        if (childrenList.size() != 0) {
+            if (lastChildIndex == -1 || lastChildIndex == childrenList.size() - 1){
+                suggestedChildIndex = 0;
+            } else if (lastChildIndex < childrenList.size() - 1) {
+                suggestedChildIndex = lastChildIndex + 1;
+            }
+        } else {
+            suggestedChildIndex = -1;
+        }
+
+
+        displaySuggestedChild();
         displayDropDownList();
         attachButtonListeners();
+    }
+
+    private int getSharedPrefLastChildIndex(Context context) {
+        String sharedPrefKey = context.getResources().getString(R.string.shared_pref_key);
+        String lastPickedChildKey = context.getResources().getString(R.string.shared_pref_suggested_child_key);
+        SharedPreferences prefs = context.getSharedPreferences(sharedPrefKey, MODE_PRIVATE);
+        return prefs.getInt(lastPickedChildKey, -1);
+    }
+
+    private void displaySuggestedChild() {
+        TextView suggestedChildText = findViewById(R.id.suggestedChild);
+        if (suggestedChildIndex != -1) {
+            Child childInstance = childrenList.get(suggestedChildIndex);
+            String fullName = childInstance.getFirstName() + " " + childInstance.getLastName();
+            suggestedChildText.setText("You next suggested child is: " + fullName);
+        } else {
+            suggestedChildText.setText("No children in the list for suggestion!");
+        }
     }
 
     private void populateChildrenList() {
@@ -88,7 +115,6 @@ public class CoinFlipActivity extends AppCompatActivity {
         this.childrenList = childrenManager.getChildren();
         for (int i = 0; i < childrenList.size(); i++) {
             Child childInstance = childrenList.get(i);
-
             String fullName = childInstance.getFirstName() + " " + childInstance.getLastName();
             childrenFullNames.add(fullName);
         }
@@ -99,6 +125,7 @@ public class CoinFlipActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(CoinFlipActivity.this,
                 R.layout.support_simple_spinner_dropdown_item, childrenFullNames);
         spinner.setAdapter(adapter);
+        spinner.setSelection(suggestedChildIndex);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -147,19 +174,25 @@ public class CoinFlipActivity extends AppCompatActivity {
         coinFlipActivate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                coinFlipAnimated.setVisibility(View.VISIBLE);
+
                 resultHead.setVisibility(View.INVISIBLE);
                 resultTail.setVisibility(View.INVISIBLE);
 
-                new CountDownTimer(5000, 1000) {
-                    public void onTick(long millisUntilFinished) {}
-                    public  void onFinish() {
-                        displayDialog();
-                    }
-                }.start();
+                if (childPickedHead == null) {
+                    Toast.makeText(getApplicationContext(), "Please select Head or Tail!", Toast.LENGTH_SHORT)
+                            .show();
+                } else {
+                    coinFlipAnimated.setVisibility(View.VISIBLE);
+                    new CountDownTimer(5000, 1000) {
+                        public void onTick(long millisUntilFinished) {
+                        }
+
+                        public void onFinish() {
+                            displayDialog();
+                        }
+                    }.start();
+                }
             }
-
-
         });
 
         Button clearBtn = findViewById(R.id.clearCoinFlipHistory);
@@ -171,15 +204,20 @@ public class CoinFlipActivity extends AppCompatActivity {
                 updateCoinFlipHistorySharedPref();
             }
         });
-
     }
 
     private void displayDialog() {
         coinFlipAnimated.setVisibility(View.INVISIBLE);
         String resultedSide;
+        CoinFlip flip;
 
-        Child pickedChild = childrenList.get(pickedChildIndex);
-        CoinFlip flip = new CoinFlip(new Child(pickedChild.getLastName(), pickedChild.getFirstName()), result, childPickedHead);
+        if (suggestedChildIndex != -1) {
+            Child pickedChild = childrenList.get(pickedChildIndex);
+            flip = new CoinFlip(new Child(pickedChild.getLastName(), pickedChild.getFirstName()), result, childPickedHead);
+        } else {
+            flip = new CoinFlip(new Child("Children:","No"), result, true);
+            pickedChildIndex = -1;
+        }
 
         if (result) {
             resultHead.setVisibility(View.VISIBLE);
@@ -190,14 +228,13 @@ public class CoinFlipActivity extends AppCompatActivity {
         }
 
         String resultMessage = "Result: " + resultedSide + " !\n" + flip.getPickerStatus();
-
         FragmentManager manager = getSupportFragmentManager();
         FlipCoinMessageFragment dialog = new FlipCoinMessageFragment(result, resultMessage);
         dialog.show(manager, "MessageDialog");
         Log.i("TAG","Just Showed the dialog.");
 
-
         coinFlipManager.addCoinFlip(flip);
+        updateSuggestedChildSharedPref(pickedChildIndex, this);
         updateCoinFlipHistorySharedPref();
     }
 
@@ -205,5 +242,15 @@ public class CoinFlipActivity extends AppCompatActivity {
         Context ctx = getApplicationContext();
         String historyKey = ctx.getResources().getString(R.string.shared_pref_coin_flip_history_key);
         Helpers.saveObjectToSharedPreference(ctx, historyKey, coinFlipManager.getCoinFlipHistory());
+    }
+
+    private void updateSuggestedChildSharedPref(int savedIndex, Context context) {
+        String sharedPrefKey = context.getResources().getString(R.string.shared_pref_key);
+        SharedPreferences prefs = context.getSharedPreferences(sharedPrefKey, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        String lastPickedChildKey = context.getResources().getString(R.string.shared_pref_suggested_child_key);
+        editor.putInt(lastPickedChildKey, savedIndex);
+        editor.apply();
     }
 }

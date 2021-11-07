@@ -31,6 +31,7 @@ public class FlipCoinMessageFragment extends AppCompatDialogFragment {
         DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                startActivity(new Intent(((Dialog)dialog).getContext(),CoinFlipHistoryActivity.class));
             }
         };
 
