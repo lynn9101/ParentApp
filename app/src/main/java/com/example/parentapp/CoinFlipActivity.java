@@ -277,7 +277,6 @@ public class CoinFlipActivity extends AppCompatActivity {
             coinFlipSound.release();
             coinFlipSound = null;
         }
-
         super.onStop();
     }
 
@@ -288,7 +287,6 @@ public class CoinFlipActivity extends AppCompatActivity {
             coinFlipSound.release();
             coinFlipSound = null;
         }
-
         super.onBackPressed();
     }
 }
