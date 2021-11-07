@@ -15,14 +15,14 @@ public class CoinFlip {
     private Child picker;
     private boolean pickerWon;
     private boolean pickedHead;
-    private boolean flipResult;
+    private boolean flippedHead;
 
-    public CoinFlip(Child picker, boolean flipResult, boolean pickedHead) {
+    public CoinFlip(Child picker, boolean flippedHead, boolean pickedHead) {
         this.formattedCoinFlipTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMM dd @ h:mm a"));
         this.picker = picker;
         this.pickedHead = pickedHead;
-        this.flipResult = flipResult;
-        pickerWon = flipResult == pickedHead;
+        this.flippedHead = flippedHead;
+        pickerWon = flippedHead == pickedHead;
     }
 
     public String getFormattedCoinFlipTime() {
@@ -56,7 +56,7 @@ public class CoinFlip {
     public String getPickerStatus() {
         String pickerStatus = "";
         if (picker.getFirstName().equals("No")) {
-            pickerStatus = "No children to pick! Get " + (this.flipResult ? "head" : "tail");
+            pickerStatus = "No children to pick! Get " + (this.flippedHead ? "head" : "tail");
         } else {
             pickerStatus = picker.getFirstName() + " " + picker.getLastName() + " picked " + (this.pickedHead ? "head" : "tail") + " and " + (this.pickerWon ? "won" : "lost");
         }

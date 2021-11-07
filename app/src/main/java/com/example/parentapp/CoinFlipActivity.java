@@ -43,7 +43,6 @@ public class CoinFlipActivity extends AppCompatActivity {
     Boolean result;
     Boolean childPickedHead;
     int pickedChildIndex;
-    int lastChildIndex;
     int suggestedChildIndex;
     private Random rng;
 
@@ -76,34 +75,29 @@ public class CoinFlipActivity extends AppCompatActivity {
     }
 
     private void setSuggestedChildIndex() {
-        lastChildIndex = getSharedPrefLastChildIndex(this);
+        int lastChildIndex = getSharedPrefLastChildIndex(this);
 
-        if (childrenList.size() != 0) {
-            if (lastChildIndex == NO_CHILDREN_INT || lastChildIndex == childrenList.size() - 1){
-                suggestedChildIndex = 0;
-            } else if (lastChildIndex < childrenList.size() - 1) {
+        if (childrenList.size() > 0) {
+            if (lastChildIndex != NO_CHILDREN_INT && lastChildIndex < childrenList.size() - 1) {
                 suggestedChildIndex = lastChildIndex + 1;
+            } else {
+                suggestedChildIndex = 0;
             }
-
         } else {
             suggestedChildIndex = NO_CHILDREN_INT;
         }
     }
 
     private int getSharedPrefLastChildIndex(Context context) {
-        String sharedPrefKey = context.getResources().getString(R.string.shared_pref_key);
         String lastPickedChildKey = context.getResources().getString(R.string.shared_pref_suggested_child_key);
-        SharedPreferences prefs = context.getSharedPreferences(sharedPrefKey, MODE_PRIVATE);
-        return prefs.getInt(lastPickedChildKey, NO_CHILDREN_INT);
+        return Helpers.getSharedPreference(context).getInt(lastPickedChildKey, NO_CHILDREN_INT);
     }
 
     private void displaySuggestedChild() {
         TextView suggestedChildText = findViewById(R.id.suggestedChild);
 
         if (suggestedChildIndex != NO_CHILDREN_INT) {
-            Child childInstance = childrenList.get(suggestedChildIndex);
-            String fullName = childInstance.getFirstName() + " " + childInstance.getLastName();
-            suggestedChildText.setText("You next suggested child is: " + fullName);
+            suggestedChildText.setText("You next suggested child is: " + childrenFullNames.get(suggestedChildIndex));
 
         } else {
             suggestedChildText.setText("No children in the list for suggestion!");
@@ -159,7 +153,6 @@ public class CoinFlipActivity extends AppCompatActivity {
         addHeadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                result = rng.nextInt() % 2 == 0;
                 childPickedHead = true;
             }
         });
@@ -168,7 +161,6 @@ public class CoinFlipActivity extends AppCompatActivity {
         addTailBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                result = rng.nextInt() % 2 == 0;
                 childPickedHead = false;
             }
         });
@@ -185,7 +177,8 @@ public class CoinFlipActivity extends AppCompatActivity {
                             .show();
                 } else {
                     coinFlipAnimated.setVisibility(View.VISIBLE);
-                    new CountDownTimer(5000, 1000) {
+                    result = rng.nextInt() % 2 == 0;
+                    new CountDownTimer(2000, 1000) {
                         public void onTick(long millisUntilFinished) {}
                         public void onFinish() {
                             displayDialog();
@@ -212,7 +205,7 @@ public class CoinFlipActivity extends AppCompatActivity {
 
         if (suggestedChildIndex != NO_CHILDREN_INT) {
             Child pickedChild = childrenList.get(pickedChildIndex);
-            flip = new CoinFlip(new Child(pickedChild.getLastName(), pickedChild.getFirstName()), result, childPickedHead);
+            flip = new CoinFlip(pickedChild, result, childPickedHead);
         } else {
             flip = new CoinFlip(new Child("Children:","No"), result, true);
             pickedChildIndex = NO_CHILDREN_INT;
@@ -244,10 +237,7 @@ public class CoinFlipActivity extends AppCompatActivity {
     }
 
     private void updateSuggestedChildSharedPref(int savedIndex, Context context) {
-        String sharedPrefKey = context.getResources().getString(R.string.shared_pref_key);
-        SharedPreferences prefs = context.getSharedPreferences(sharedPrefKey, MODE_PRIVATE);
-
-        SharedPreferences.Editor editor = prefs.edit();
+        SharedPreferences.Editor editor = Helpers.getSharedPrefEditor(context);
         String lastPickedChildKey = context.getResources().getString(R.string.shared_pref_suggested_child_key);
         editor.putInt(lastPickedChildKey, savedIndex);
         editor.apply();
