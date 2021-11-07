@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         timerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = TimerActivity.makeIntent(MainActivity.this);
+                Intent intent = new Intent(MainActivity.this, TimerActivity.class);
                 startActivity(intent);
             }
         });

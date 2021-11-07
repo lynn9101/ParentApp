@@ -25,9 +25,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="208dp"
         android:text="Add head"
-        app:layout_constraintEnd_toEndOf="@+id/gifImageView"
-        app:layout_constraintHorizontal_bias="0.181"
-        app:layout_constraintStart_toStartOf="@+id/gifImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
@@ -51,27 +50,5 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addTail" />
-
-    <pl.droidsonroids.gif.GifImageView
-        android:id="@+id/gifImageView"
-        android:layout_width="195dp"
-        android:layout_height="185dp"
-        android:src="@drawable/coin_flip"
-        app:layout_constraintBottom_toTopOf="@+id/addHead"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btnFlip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="FLIP"
-        app:layout_constraintBottom_toBottomOf="@+id/addHead"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.533"
-        app:layout_constraintStart_toEndOf="@+id/addHead"
-        app:layout_constraintTop_toBottomOf="@+id/gifImageView"
-        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
