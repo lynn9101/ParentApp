@@ -60,6 +60,7 @@ public class CoinFlip {
         } else {
             pickerStatus = picker.getFirstName() + " " + picker.getLastName() + " picked " + (this.pickedHead ? "head" : "tail") + " and " + (this.pickerWon ? "won" : "lost");
         }
+
         return pickerStatus;
     }
 }

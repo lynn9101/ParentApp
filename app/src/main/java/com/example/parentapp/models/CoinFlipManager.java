@@ -63,5 +63,4 @@ public class CoinFlipManager {
     public void resetCoinFlipHistory() {
         this.coinFlipHistory = new ArrayList<>();
     }
-
 }

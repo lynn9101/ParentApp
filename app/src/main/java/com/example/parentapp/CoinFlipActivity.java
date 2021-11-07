@@ -32,6 +32,7 @@ import java.util.Random;
 import pl.droidsonroids.gif.GifImageView;
 
 public class CoinFlipActivity extends AppCompatActivity {
+    private final int NO_CHILDREN_INT = -1;
     private ChildrenManager childrenManager;
     private List<Child> childrenList = new ArrayList<>();
     private List<String> childrenFullNames = new ArrayList<>();
@@ -68,36 +69,42 @@ public class CoinFlipActivity extends AppCompatActivity {
         resultTail.setVisibility(View.INVISIBLE);
 
         populateChildrenList();
+        setSuggestedChildIndex();
+        displaySuggestedChild();
+        displayDropDownList();
+        attachButtonListeners();
+    }
+
+    private void setSuggestedChildIndex() {
         lastChildIndex = getSharedPrefLastChildIndex(this);
+
         if (childrenList.size() != 0) {
-            if (lastChildIndex == -1 || lastChildIndex == childrenList.size() - 1){
+            if (lastChildIndex == NO_CHILDREN_INT || lastChildIndex == childrenList.size() - 1){
                 suggestedChildIndex = 0;
             } else if (lastChildIndex < childrenList.size() - 1) {
                 suggestedChildIndex = lastChildIndex + 1;
             }
+
         } else {
-            suggestedChildIndex = -1;
+            suggestedChildIndex = NO_CHILDREN_INT;
         }
-
-
-        displaySuggestedChild();
-        displayDropDownList();
-        attachButtonListeners();
     }
 
     private int getSharedPrefLastChildIndex(Context context) {
         String sharedPrefKey = context.getResources().getString(R.string.shared_pref_key);
         String lastPickedChildKey = context.getResources().getString(R.string.shared_pref_suggested_child_key);
         SharedPreferences prefs = context.getSharedPreferences(sharedPrefKey, MODE_PRIVATE);
-        return prefs.getInt(lastPickedChildKey, -1);
+        return prefs.getInt(lastPickedChildKey, NO_CHILDREN_INT);
     }
 
     private void displaySuggestedChild() {
         TextView suggestedChildText = findViewById(R.id.suggestedChild);
-        if (suggestedChildIndex != -1) {
+
+        if (suggestedChildIndex != NO_CHILDREN_INT) {
             Child childInstance = childrenList.get(suggestedChildIndex);
             String fullName = childInstance.getFirstName() + " " + childInstance.getLastName();
             suggestedChildText.setText("You next suggested child is: " + fullName);
+
         } else {
             suggestedChildText.setText("No children in the list for suggestion!");
         }
@@ -138,7 +145,6 @@ public class CoinFlipActivity extends AppCompatActivity {
         });
     }
 
-
     private void attachButtonListeners() {
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -150,7 +156,6 @@ public class CoinFlipActivity extends AppCompatActivity {
         });
 
         Button addHeadBtn = findViewById(R.id.addHead);
-
         addHeadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -160,7 +165,6 @@ public class CoinFlipActivity extends AppCompatActivity {
         });
 
         Button addTailBtn = findViewById(R.id.addTail);
-
         addTailBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -170,11 +174,9 @@ public class CoinFlipActivity extends AppCompatActivity {
         });
 
         Button coinFlipActivate = findViewById(R.id.coinFlipActivate);
-
         coinFlipActivate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 resultHead.setVisibility(View.INVISIBLE);
                 resultTail.setVisibility(View.INVISIBLE);
 
@@ -184,9 +186,7 @@ public class CoinFlipActivity extends AppCompatActivity {
                 } else {
                     coinFlipAnimated.setVisibility(View.VISIBLE);
                     new CountDownTimer(5000, 1000) {
-                        public void onTick(long millisUntilFinished) {
-                        }
-
+                        public void onTick(long millisUntilFinished) {}
                         public void onFinish() {
                             displayDialog();
                         }
@@ -196,7 +196,6 @@ public class CoinFlipActivity extends AppCompatActivity {
         });
 
         Button clearBtn = findViewById(R.id.clearCoinFlipHistory);
-
         clearBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -211,12 +210,12 @@ public class CoinFlipActivity extends AppCompatActivity {
         String resultedSide;
         CoinFlip flip;
 
-        if (suggestedChildIndex != -1) {
+        if (suggestedChildIndex != NO_CHILDREN_INT) {
             Child pickedChild = childrenList.get(pickedChildIndex);
             flip = new CoinFlip(new Child(pickedChild.getLastName(), pickedChild.getFirstName()), result, childPickedHead);
         } else {
             flip = new CoinFlip(new Child("Children:","No"), result, true);
-            pickedChildIndex = -1;
+            pickedChildIndex = NO_CHILDREN_INT;
         }
 
         if (result) {
@@ -231,7 +230,7 @@ public class CoinFlipActivity extends AppCompatActivity {
         FragmentManager manager = getSupportFragmentManager();
         FlipCoinMessageFragment dialog = new FlipCoinMessageFragment(result, resultMessage);
         dialog.show(manager, "MessageDialog");
-        Log.i("TAG","Just Showed the dialog.");
+        Log.i("TAG","Showed the dialog.");
 
         coinFlipManager.addCoinFlip(flip);
         updateSuggestedChildSharedPref(pickedChildIndex, this);
@@ -247,8 +246,8 @@ public class CoinFlipActivity extends AppCompatActivity {
     private void updateSuggestedChildSharedPref(int savedIndex, Context context) {
         String sharedPrefKey = context.getResources().getString(R.string.shared_pref_key);
         SharedPreferences prefs = context.getSharedPreferences(sharedPrefKey, MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
 
+        SharedPreferences.Editor editor = prefs.edit();
         String lastPickedChildKey = context.getResources().getString(R.string.shared_pref_suggested_child_key);
         editor.putInt(lastPickedChildKey, savedIndex);
         editor.apply();
