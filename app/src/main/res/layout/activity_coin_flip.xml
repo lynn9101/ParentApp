@@ -82,41 +82,18 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Spinner
-        android:id="@+id/childrenListPicked"
-        android:layout_width="216dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="28dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="SpeakableTextPresentCheck" />
-
-    <TextView
-        android:id="@+id/childPicked"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="52dp"
-        android:fontFamily="@font/oswald"
-        android:text="Pick One Child:"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/pickStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="44dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/oswald"
         android:text="The child wants:"
         android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/childPicked" />
+        app:layout_constraintTop_toBottomOf="@+id/suggestedChild" />
 
     <ImageView
         android:id="@+id/resultHead"
@@ -142,15 +119,16 @@
 
     <TextView
         android:id="@+id/suggestedChild"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="17sp"
-        android:text="Your next suggested child is: "
+        android:layout_width="414dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="44dp"
         android:fontFamily="@font/oswald"
+        android:text="Your current suggested child is: "
+        android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="15sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

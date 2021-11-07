@@ -45,7 +45,6 @@ public class CoinFlipActivity extends AppCompatActivity {
     private ImageView resultTail;
     private Boolean result;
     private Boolean childPickedHead;
-    int pickedChildIndex;
     int suggestedChildIndex;
     private Random rng;
 
@@ -76,7 +75,6 @@ public class CoinFlipActivity extends AppCompatActivity {
         populateChildrenList();
         setSuggestedChildIndex();
         displaySuggestedChildAndOptions();
-        displayDropDownList();
         attachButtonListeners();
     }
 
@@ -103,17 +101,16 @@ public class CoinFlipActivity extends AppCompatActivity {
         TextView suggestedChildText = findViewById(R.id.suggestedChild);
 
         if (suggestedChildIndex != NO_CHILDREN_INT) {
-            suggestedChildText.setText("You next suggested child is: " + childrenFullNames.get(suggestedChildIndex));
+            suggestedChildText.setText("You current suggested child is: " + childrenFullNames.get(suggestedChildIndex));
 
         } else {
             suggestedChildText.setText("No children in the list for suggestion!");
         }
 
         TextView pickStatus = findViewById(R.id.pickStatus);
-        if (childrenList.size() > 0) {
-            pickStatus.setVisibility(View.VISIBLE);
-        } else {
-            pickStatus.setVisibility(View.VISIBLE);
+        pickStatus.setVisibility(View.VISIBLE);
+        if (childrenList.size() == 0) {
+            pickStatus.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -132,24 +129,6 @@ public class CoinFlipActivity extends AppCompatActivity {
             String fullName = childInstance.getFirstName() + " " + childInstance.getLastName();
             childrenFullNames.add(fullName);
         }
-    }
-
-    private void displayDropDownList() {
-        Spinner spinner = findViewById(R.id.childrenListPicked);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(CoinFlipActivity.this,
-                R.layout.support_simple_spinner_dropdown_item, childrenFullNames);
-        spinner.setAdapter(adapter);
-        spinner.setSelection(suggestedChildIndex);
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                pickedChildIndex = position;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {}
-        });
     }
 
     private void attachButtonListeners() {
@@ -231,11 +210,11 @@ public class CoinFlipActivity extends AppCompatActivity {
         CoinFlip flip;
 
         if (suggestedChildIndex != NO_CHILDREN_INT) {
-            Child pickedChild = childrenList.get(pickedChildIndex);
+            Child pickedChild = childrenList.get(suggestedChildIndex);
             flip = new CoinFlip(pickedChild, result, childPickedHead);
         } else {
             flip = new CoinFlip(new Child("Children:","No"), result, true);
-            pickedChildIndex = NO_CHILDREN_INT;
+            suggestedChildIndex = NO_CHILDREN_INT;
         }
 
         if (result) {
@@ -253,7 +232,7 @@ public class CoinFlipActivity extends AppCompatActivity {
         Log.i("TAG","Showed the dialog.");
 
         coinFlipManager.addCoinFlip(flip);
-        updateSuggestedChildSharedPref(pickedChildIndex, this);
+        updateSuggestedChildSharedPref(suggestedChildIndex, this);
         updateCoinFlipHistorySharedPref();
     }
 
