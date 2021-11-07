@@ -176,8 +176,10 @@ public class CoinFlipActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Please select Head or Tail!", Toast.LENGTH_SHORT)
                             .show();
                 } else {
+                    Helpers.getMediaPlayer(CoinFlipActivity.this, R.raw.coin_flip_sound).start();
                     coinFlipAnimated.setVisibility(View.VISIBLE);
                     result = rng.nextInt() % 2 == 0;
+
                     new CountDownTimer(2000, 1000) {
                         public void onTick(long millisUntilFinished) {}
                         public void onFinish() {
