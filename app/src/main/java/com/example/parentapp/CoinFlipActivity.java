@@ -21,10 +21,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.Random;
 
+import pl.droidsonroids.gif.GifImageView;
+
 public class CoinFlipActivity extends AppCompatActivity {
 
     private CoinFlipManager coinFlipManager;
     private Random rng;
+    private Button btnFlip;
+    private GifImageView flipCoin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +40,17 @@ public class CoinFlipActivity extends AppCompatActivity {
 
         this.coinFlipManager = CoinFlipManager.getInstance();
         this.rng = new Random();
-
+        btnFlip = findViewById(R.id.btnFlip);
+        flipCoin = findViewById(R.id.gifImageView);
+        flipCoin.setVisibility(View.INVISIBLE);
         attachButtonListeners();
+
+        btnFlip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                flipCoin.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     private void attachButtonListeners() {
