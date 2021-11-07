@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -53,10 +54,13 @@ public class CoinFlipActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle(R.string.coin_flip_title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources()
+                .getColor(R.color.app_title_color)));
 
         this.childrenManager = ChildrenManager.getInstance();
         this.coinFlipManager = CoinFlipManager.getInstance();
         this.rng = new Random();
+
 
         coinFlipAnimated = findViewById(R.id.coinAnimation);
         coinFlipAnimated.setVisibility(View.INVISIBLE);
@@ -69,7 +73,7 @@ public class CoinFlipActivity extends AppCompatActivity {
 
         populateChildrenList();
         setSuggestedChildIndex();
-        displaySuggestedChild();
+        displaySuggestedChildAndOptions();
         displayDropDownList();
         attachButtonListeners();
     }
@@ -93,7 +97,7 @@ public class CoinFlipActivity extends AppCompatActivity {
         return Helpers.getSharedPreference(context).getInt(lastPickedChildKey, NO_CHILDREN_INT);
     }
 
-    private void displaySuggestedChild() {
+    private void displaySuggestedChildAndOptions() {
         TextView suggestedChildText = findViewById(R.id.suggestedChild);
 
         if (suggestedChildIndex != NO_CHILDREN_INT) {
@@ -101,6 +105,12 @@ public class CoinFlipActivity extends AppCompatActivity {
 
         } else {
             suggestedChildText.setText("No children in the list for suggestion!");
+        }
+
+        TextView pickStatus = findViewById(R.id.pickStatus);
+        pickStatus.setVisibility(View.VISIBLE);
+        if (childrenList.size() == 0) {
+            pickStatus.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -151,6 +161,10 @@ public class CoinFlipActivity extends AppCompatActivity {
 
         Button addHeadBtn = findViewById(R.id.addHead);
         Button addTailBtn = findViewById(R.id.addTail);
+        if (childrenList.size() == 0) {
+            addHeadBtn.setVisibility(View.INVISIBLE);
+            addTailBtn.setVisibility(View.INVISIBLE);
+        }
         addHeadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -173,16 +187,16 @@ public class CoinFlipActivity extends AppCompatActivity {
         coinFlipActivate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                result = rng.nextInt() % 2 == 0;
                 resultHead.setVisibility(View.INVISIBLE);
                 resultTail.setVisibility(View.INVISIBLE);
 
-                if (childPickedHead == null) {
+                if (childrenList.size() != 0 && childPickedHead == null) {
                     Toast.makeText(getApplicationContext(), "Please select Head or Tail!", Toast.LENGTH_SHORT)
                             .show();
                 } else {
                     Helpers.getMediaPlayer(CoinFlipActivity.this, R.raw.coin_flip_sound).start();
                     coinFlipAnimated.setVisibility(View.VISIBLE);
-                    result = rng.nextInt() % 2 == 0;
 
                     new CountDownTimer(2000, 1000) {
                         public void onTick(long millisUntilFinished) {}

@@ -30,10 +30,10 @@
 
     <TextView
         android:id="@+id/fullName"
-        android:layout_width="133dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="96dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="257dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="12dp"
         android:fontFamily="@font/oswald"
         android:text=""
         android:textColor="@color/listview_child_name"

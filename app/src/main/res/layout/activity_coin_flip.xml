@@ -32,20 +32,20 @@
 
     <Button
         android:id="@+id/addHead"
-        android:layout_width="76dp"
-        android:layout_height="48dp"
+        android:layout_width="89dp"
+        android:layout_height="47dp"
         android:backgroundTint="#45A364"
         android:text="HEAD"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintHorizontal_bias="0.596"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/pickStatus" />
 
     <Button
         android:id="@+id/addTail"
-        android:layout_width="76dp"
-        android:layout_height="48dp"
+        android:layout_width="84dp"
+        android:layout_height="47dp"
         android:backgroundTint="#45A364"
         android:text="TAIL"
         android:textColor="@color/white"
