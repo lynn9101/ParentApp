@@ -9,24 +9,24 @@
         android:id="@+id/coinResult"
         android:layout_width="91dp"
         android:layout_height="96dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintBottom_toTopOf="@+id/textResult"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.933"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/head_icon" />
 
     <TextView
         android:id="@+id/textResult"
         android:layout_width="219dp"
         android:layout_height="75dp"
+        android:layout_marginTop="112dp"
         android:text=""
         android:textAlignment="center"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.545" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
