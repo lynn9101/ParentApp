@@ -46,13 +46,13 @@
         android:id="@+id/addTail"
         android:layout_width="76dp"
         android:layout_height="48dp"
-        android:backgroundTint="#F27C7C"
+        android:backgroundTint="#45A364"
         android:text="TAIL"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.838"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/pickStatus" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/addHead"
+        app:layout_constraintTop_toTopOf="@+id/addHead" />
 
     <Button
         android:id="@+id/clearCoinFlipHistory"
@@ -117,19 +117,6 @@
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/childPicked" />
-
-    <TextView
-        android:id="@+id/orText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/oswald"
-        android:text="or"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.64"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/addHead" />
 
     <ImageView
         android:id="@+id/resultHead"

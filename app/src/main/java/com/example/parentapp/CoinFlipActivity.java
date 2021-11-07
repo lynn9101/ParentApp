@@ -150,17 +150,21 @@ public class CoinFlipActivity extends AppCompatActivity {
         });
 
         Button addHeadBtn = findViewById(R.id.addHead);
+        Button addTailBtn = findViewById(R.id.addTail);
         addHeadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                addTailBtn.setBackgroundColor(0x45A364);
+                addHeadBtn.setBackgroundColor(0xFF17602F);
                 childPickedHead = true;
             }
         });
 
-        Button addTailBtn = findViewById(R.id.addTail);
         addTailBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                addHeadBtn.setBackgroundColor(0x45A364);
+                addTailBtn.setBackgroundColor(0xFF17602F);
                 childPickedHead = false;
             }
         });
