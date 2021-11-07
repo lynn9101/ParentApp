@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -38,11 +39,12 @@ public class CoinFlipActivity extends AppCompatActivity {
     private List<Child> childrenList = new ArrayList<>();
     private List<String> childrenFullNames = new ArrayList<>();
     private CoinFlipManager coinFlipManager;
-    GifImageView coinFlipAnimated;
-    ImageView resultHead;
-    ImageView resultTail;
-    Boolean result;
-    Boolean childPickedHead;
+    private GifImageView coinFlipAnimated;
+    private MediaPlayer coinFlipSound;
+    private ImageView resultHead;
+    private ImageView resultTail;
+    private Boolean result;
+    private Boolean childPickedHead;
     int pickedChildIndex;
     int suggestedChildIndex;
     private Random rng;
@@ -61,7 +63,7 @@ public class CoinFlipActivity extends AppCompatActivity {
         this.coinFlipManager = CoinFlipManager.getInstance();
         this.rng = new Random();
 
-
+        coinFlipSound = Helpers.getMediaPlayer(CoinFlipActivity.this, R.raw.coin_flip_sound);
         coinFlipAnimated = findViewById(R.id.coinAnimation);
         coinFlipAnimated.setVisibility(View.INVISIBLE);
 
@@ -108,9 +110,10 @@ public class CoinFlipActivity extends AppCompatActivity {
         }
 
         TextView pickStatus = findViewById(R.id.pickStatus);
-        pickStatus.setVisibility(View.VISIBLE);
-        if (childrenList.size() == 0) {
-            pickStatus.setVisibility(View.INVISIBLE);
+        if (childrenList.size() > 0) {
+            pickStatus.setVisibility(View.VISIBLE);
+        } else {
+            pickStatus.setVisibility(View.VISIBLE);
         }
     }
 
@@ -195,13 +198,15 @@ public class CoinFlipActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Please select Head or Tail!", Toast.LENGTH_SHORT)
                             .show();
                 } else {
-                    Helpers.getMediaPlayer(CoinFlipActivity.this, R.raw.coin_flip_sound).start();
+                    coinFlipSound.start();
                     coinFlipAnimated.setVisibility(View.VISIBLE);
 
                     new CountDownTimer(2000, 1000) {
                         public void onTick(long millisUntilFinished) {}
                         public void onFinish() {
-                            displayDialog();
+                            if (coinFlipAnimated != null && coinFlipSound != null) {
+                                displayDialog();
+                            }
                         }
                     }.start();
                 }
@@ -219,7 +224,9 @@ public class CoinFlipActivity extends AppCompatActivity {
     }
 
     private void displayDialog() {
-        coinFlipAnimated.setVisibility(View.INVISIBLE);
+        if (coinFlipAnimated != null) {
+            coinFlipAnimated.setVisibility(View.INVISIBLE);
+        }
         String resultedSide;
         CoinFlip flip;
 
@@ -261,5 +268,27 @@ public class CoinFlipActivity extends AppCompatActivity {
         String lastPickedChildKey = context.getResources().getString(R.string.shared_pref_suggested_child_key);
         editor.putInt(lastPickedChildKey, savedIndex);
         editor.apply();
+    }
+
+    @Override
+    protected void onStop() {
+        if (coinFlipSound != null) {
+            coinFlipSound.stop();
+            coinFlipSound.release();
+            coinFlipSound = null;
+        }
+
+        super.onStop();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (coinFlipSound != null) {
+            coinFlipSound.stop();
+            coinFlipSound.release();
+            coinFlipSound = null;
+        }
+
+        super.onBackPressed();
     }
 }
