@@ -30,6 +30,10 @@ import java.util.Random;
 
 import pl.droidsonroids.gif.GifImageView;
 
+/**
+ * The CoinFlipActivity class is an android activity that handles child suggestion, coin flip generation, addition and coin flip history clearance
+ */
+
 public class CoinFlipActivity extends AppCompatActivity {
     private static final int NO_CHILDREN_INT = -1;
     private ChildrenManager childrenManager;

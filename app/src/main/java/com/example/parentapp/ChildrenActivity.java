@@ -23,6 +23,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The ChildrenActivity class is an android activity and  handles the listing of child objects
+ */
 public class ChildrenActivity extends AppCompatActivity {
     private ChildrenManager childrenManager = ChildrenManager.getInstance();
     private List<Child> childrenList = new ArrayList<>();

@@ -7,6 +7,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+/**
+ * The MainActivity class is an android activity that acts as a landing page.
+ * Upon landing, users can then navigate to ChildrenActivity, CoinFlipActivity and TimerActivity
+ */
+
 public class MainActivity extends AppCompatActivity {
 
     @Override

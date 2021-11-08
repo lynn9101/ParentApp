@@ -2,6 +2,12 @@ package com.example.parentapp.models;
 
 import java.util.ArrayList;
 
+/**
+ * The CoinFlipManager class is a singleton used throughout the app
+ * This class manages the retrieval, addition, modification & deletion of CoinFlip instances
+ * It also keeps a history of past coin flip instances
+ */
+
 public class CoinFlipManager {
     private static CoinFlipManager coinFlipManager;
     private ArrayList<CoinFlip> coinFlipHistory;

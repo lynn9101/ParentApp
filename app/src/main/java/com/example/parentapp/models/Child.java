@@ -1,5 +1,10 @@
 package com.example.parentapp.models;
 
+/**
+ * The Child class represents a child object
+ * Children be enrolled into a queue that determines who get to flip a coin
+ * Currently only the name of the child is stored
+ */
 public class Child {
     private String lastName;
     private String firstName;

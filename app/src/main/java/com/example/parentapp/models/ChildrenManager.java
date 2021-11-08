@@ -2,6 +2,10 @@ package com.example.parentapp.models;
 
 import java.util.ArrayList;
 
+/**
+ * The ChildrenManager class is a singleton used throughout the app
+ * The class manages the retrieval, addition, modification & deletion of child object
+ */
 public class ChildrenManager {
     private static ChildrenManager childrenManager;
     private ArrayList<Child> children;
