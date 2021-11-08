@@ -13,6 +13,9 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.List;
 
+/**
+ * The Helpers class is a non instantiable class that contains a list of common functions used through out the app
+ */
 public class Helpers {
 
     public static final Gson gson = new Gson();

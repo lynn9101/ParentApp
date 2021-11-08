@@ -11,6 +11,11 @@ import android.widget.Button;
 
 import java.util.Timer;
 
+/**
+ * The MainActivity class is an android activity that acts as a landing page.
+ * Upon landing, users can then navigate to ChildrenActivity, CoinFlipActivity and TimerActivity
+ */
+
 public class MainActivity extends AppCompatActivity {
 
     @Override

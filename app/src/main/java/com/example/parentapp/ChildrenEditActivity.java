@@ -17,6 +17,10 @@ import com.example.parentapp.models.ChildrenManager;
 import com.example.parentapp.models.Helpers;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+/**
+ * The ChildrenEditActivity class is an android activity and handles the addition, modification and deletion of child objects
+ */
+
 public class ChildrenEditActivity extends AppCompatActivity {
     private ChildrenManager childrenManager = ChildrenManager.getInstance();
     private static final String EXTRA_MESSAGE = "Passing Edit State";

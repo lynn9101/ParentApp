@@ -14,6 +14,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
+/**
+ * The FlipCoinMessageFragment class is an dialog fragment that showcases the result of a coin flip
+ */
 public class FlipCoinMessageFragment extends AppCompatDialogFragment {
     private boolean sideResult;
     private String messageResult;

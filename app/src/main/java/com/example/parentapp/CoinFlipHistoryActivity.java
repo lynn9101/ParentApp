@@ -20,6 +20,10 @@ import com.example.parentapp.models.Helpers;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The CoinFlipHistoryActivity class is an android activity that handles the listing of past coin flip results
+ */
+
 public class CoinFlipHistoryActivity extends AppCompatActivity {
 
     private List<CoinFlip> history = new ArrayList<>();
