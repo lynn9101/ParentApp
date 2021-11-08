@@ -27,6 +27,10 @@ public class ChildrenActivity extends AppCompatActivity {
     private ChildrenManager childrenManager = ChildrenManager.getInstance();
     private List<Child> childrenList = new ArrayList<>();
 
+    public static Intent makeIntent(Context context) {
+        return new Intent(context, ChildrenActivity.class);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

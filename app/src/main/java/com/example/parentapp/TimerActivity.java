@@ -80,6 +80,7 @@ public class TimerActivity extends AppCompatActivity {
     private final static String DEFAULT_NOTIFICATION_CHANNEL_ID = "default" ;
     public final static String SEND_TITLE = "Time is up!";
     private AlarmManager alarmManager;
+
     public static Intent makeIntent(Context context) {
         return new Intent(context,TimerActivity.class);
     }
