@@ -62,7 +62,9 @@ public class CoinFlipActivity extends AppCompatActivity {
         this.coinFlipManager = CoinFlipManager.getInstance();
         this.rng = new Random();
 
-        coinFlipSound = Helpers.getMediaPlayer(CoinFlipActivity.this, R.raw.coin_flip_sound);
+        if (coinFlipSound == null) {
+            coinFlipSound = Helpers.getMediaPlayer(CoinFlipActivity.this, R.raw.coin_flip_sound);
+        }
         coinFlipAnimated = findViewById(R.id.coinAnimation);
         coinFlipAnimated.setVisibility(View.INVISIBLE);
 
@@ -177,7 +179,11 @@ public class CoinFlipActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Please select Head or Tail!", Toast.LENGTH_SHORT)
                             .show();
                 } else {
+                    if (coinFlipSound == null) {
+                        coinFlipSound = Helpers.getMediaPlayer(CoinFlipActivity.this, R.raw.coin_flip_sound);
+                    }
                     coinFlipSound.start();
+
                     coinFlipAnimated.setVisibility(View.VISIBLE);
 
                     new CountDownTimer(2000, 1000) {
@@ -213,7 +219,7 @@ public class CoinFlipActivity extends AppCompatActivity {
             Child pickedChild = childrenList.get(suggestedChildIndex);
             flip = new CoinFlip(pickedChild, result, childPickedHead);
         } else {
-            flip = new CoinFlip(new Child("Children:","No"), result, true);
+            flip = new CoinFlip(result);
             suggestedChildIndex = NO_CHILDREN_INT;
         }
 
