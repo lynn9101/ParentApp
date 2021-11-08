@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         childrenBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, ChildrenActivity.class);
+                Intent intent = ChildrenActivity.makeIntent(MainActivity.this);
                 startActivity(intent);
             }
         });
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         coinFlipBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, CoinFlipActivity.class);
+                Intent intent = CoinFlipActivity.makeIntent(MainActivity.this);
                 startActivity(intent);
             }
         });
