@@ -9,6 +9,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 
+import java.util.Timer;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         timerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, TimerActivity.class);
+                Intent intent = TimerActivity.makeIntent(MainActivity.this);
                 startActivity(intent);
             }
         });
