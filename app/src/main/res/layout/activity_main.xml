@@ -27,7 +27,7 @@
 
     <View
         android:id="@+id/menuRect1"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="212dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
@@ -42,16 +42,14 @@
     <View
         android:id="@+id/menuRec2"
         android:layout_width="match_parent"
-        android:layout_height="190dp"
+        android:layout_height="250dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:background="@drawable/main_menu_rec2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/menuRect1"
-        app:layout_constraintVertical_bias="0.463" />
+        app:layout_constraintTop_toBottomOf="@+id/selectOption" />
 
     <Button
         android:id="@+id/childrenBtn"
@@ -59,11 +57,11 @@
         android:layout_height="60dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:backgroundTint="@color/main_buttons_color"
         android:text="Manage your children"
-        android:textColor="@color/white"
         android:textAlignment="textStart"
+        android:textColor="@color/white"
         app:icon="@drawable/main_child_icon"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toTopOf="@+id/menuRec2" />
@@ -77,8 +75,8 @@
         android:layout_marginTop="16dp"
         android:backgroundTint="@color/main_buttons_color"
         android:text="Flip the coin"
-        android:textColor="@color/white"
         android:textAlignment="textStart"
+        android:textColor="@color/white"
         app:icon="@drawable/main_coin_icon"
         app:layout_constraintEnd_toEndOf="@+id/childrenBtn"
         app:layout_constraintHorizontal_bias="0.0"
@@ -94,8 +92,8 @@
         android:layout_marginTop="16dp"
         android:backgroundTint="@color/main_buttons_color"
         android:text="Timeout Timer"
-        android:textColor="@color/white"
         android:textAlignment="textStart"
+        android:textColor="@color/white"
         app:icon="@drawable/main_clock_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/coinFlipBtn"
@@ -110,6 +108,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:layout_marginTop="4dp"
         android:fontFamily="@font/oswald"
         android:shadowColor="@color/main_shadow_color"
         android:shadowDx="0"
@@ -119,8 +118,8 @@
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/menuRec2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/menuRect1" />
 

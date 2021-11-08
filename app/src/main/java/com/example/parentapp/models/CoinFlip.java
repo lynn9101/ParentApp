@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * The coinflip model that represents a coin flip instance
+ * The coinFlip model that represents a coin flip instance
  *
  * model records the child that was given the pick, as well as whether the child picked head/tail and won/lost
  */
@@ -15,12 +15,20 @@ public class CoinFlip {
     private Child picker;
     private boolean pickerWon;
     private boolean pickedHead;
+    private boolean flippedHead;
 
-    public CoinFlip(Child picker, boolean pickerWon, boolean pickedHead) {
+    public CoinFlip(Child picker, boolean flippedHead, boolean pickedHead) {
         this.formattedCoinFlipTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMM dd @ h:mm a"));
         this.picker = picker;
-        this.pickerWon = pickerWon;
         this.pickedHead = pickedHead;
+        this.flippedHead = flippedHead;
+        pickerWon = flippedHead == pickedHead;
+    }
+
+    public CoinFlip(boolean flippedHead) {
+        this.formattedCoinFlipTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMM dd @ h:mm a"));
+        this.flippedHead = flippedHead;
+        this.pickerWon = true;
     }
 
     public String getFormattedCoinFlipTime() {
@@ -52,6 +60,13 @@ public class CoinFlip {
     }
 
     public String getPickerStatus() {
-        return picker.getFirstName() + " " + picker.getLastName() + " picked " + (this.pickedHead ? "head" : "tail") + " and " + (this.pickerWon ? "won" : "lost");
+        String pickerStatus = "";
+        if (picker == null) {
+            pickerStatus = "No children available! Coin flip resulted in " + (this.flippedHead ? "head." : "tail.");
+        } else {
+            pickerStatus = picker.getFirstName() + " " + picker.getLastName() + " picked " + (this.pickedHead ? "head" : "tail") + " and " + (this.pickerWon ? "won" : "lost");
+        }
+
+        return pickerStatus;
     }
 }

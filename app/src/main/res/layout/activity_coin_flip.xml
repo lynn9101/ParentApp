@@ -7,13 +7,24 @@
     android:background="@color/background_color"
     tools:context=".CoinFlipActivity">
 
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/coinAnimation"
+        android:layout_width="274dp"
+        android:layout_height="249dp"
+        android:src="@drawable/coin_flip_animation"
+        app:layout_constraintBottom_toTopOf="@+id/coinFlipActivate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addHead" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
+        android:backgroundTint="#37AC58"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
-        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:maxImageSize="38dp"
@@ -21,34 +32,105 @@
 
     <Button
         android:id="@+id/addHead"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="208dp"
-        android:text="Add head"
+        android:layout_width="89dp"
+        android:layout_height="47dp"
+        android:backgroundTint="#45A364"
+        android:text="HEAD"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.596"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/pickStatus" />
 
     <Button
         android:id="@+id/addTail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="76dp"
-        android:text="Add tail"
+        android:layout_width="84dp"
+        android:layout_height="47dp"
+        android:backgroundTint="#45A364"
+        android:text="TAIL"
+        android:textColor="@color/white"
+        android:layout_marginLeft="15dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.488"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addHead" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/addHead"
+        app:layout_constraintTop_toTopOf="@+id/addHead" />
 
     <Button
         android:id="@+id/clearCoinFlipHistory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="104dp"
+        android:layout_marginBottom="56dp"
         android:text="Clear history"
+        android:textColor="@color/white"
+        android:backgroundTint="#37AC58"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addTail" />
+        app:layout_constraintTop_toBottomOf="@+id/coinFlipActivate"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/coinFlipActivate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="124dp"
+        android:text="Flip Coin"
+        android:textColor="@color/white"
+        android:backgroundTint="#E2D76D"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/pickStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/oswald"
+        android:text="The child wants:"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/suggestedChild" />
+
+    <ImageView
+        android:id="@+id/resultHead"
+        android:layout_width="333dp"
+        android:layout_height="267dp"
+        app:layout_constraintBottom_toTopOf="@+id/coinFlipActivate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addHead"
+        app:srcCompat="@drawable/coin_head" />
+
+    <ImageView
+        android:id="@+id/resultTail"
+        android:layout_width="334dp"
+        android:layout_height="256dp"
+        app:layout_constraintBottom_toTopOf="@+id/coinFlipActivate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.571"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addHead"
+        app:layout_constraintVertical_bias="0.285"
+        app:srcCompat="@drawable/coin_tail" />
+
+    <TextView
+        android:id="@+id/suggestedChild"
+        android:layout_width="414dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="44dp"
+        android:fontFamily="@font/oswald"
+        android:text="Your current suggested child is: "
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

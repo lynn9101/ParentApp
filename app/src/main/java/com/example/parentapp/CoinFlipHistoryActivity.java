@@ -3,8 +3,8 @@ package com.example.parentapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +31,8 @@ public class CoinFlipHistoryActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle(R.string.coin_flip_history_title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources()
+                .getColor(R.color.app_title_color)));
 
         populateCoinFlipHistoryList();
     }
@@ -66,7 +68,7 @@ public class CoinFlipHistoryActivity extends AppCompatActivity {
 
             CoinFlip coinFlipInstance = history.get(position);
 
-            ImageView statusIcon = (ImageView)itemView.findViewById(R.id.statusIcon);
+            ImageView statusIcon = itemView.findViewById(R.id.statusIcon);
             int iconID;
             if (coinFlipInstance.didPickerWin()) {
                 iconID = R.drawable.ic_check_circle_48;
@@ -75,14 +77,13 @@ public class CoinFlipHistoryActivity extends AppCompatActivity {
             }
             statusIcon.setImageResource(iconID);
 
-            TextView pickerStatus = (TextView) itemView.findViewById(R.id.pickerStatus);
+            TextView pickerStatus = itemView.findViewById(R.id.pickerStatus);
             pickerStatus.setText(coinFlipInstance.getPickerStatus());
 
-            TextView coinFlipDate = (TextView) itemView.findViewById(R.id.coinFlipDate);
+            TextView coinFlipDate = itemView.findViewById(R.id.coinFlipDate);
             coinFlipDate.setText(coinFlipInstance.getFormattedCoinFlipTime());
 
             return itemView;
         }
     }
-
 }
