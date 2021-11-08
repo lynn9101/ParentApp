@@ -258,9 +258,11 @@ public class CoinFlipActivity extends AppCompatActivity {
         dialog.show(manager, "MessageDialog");
         Log.i("TAG", "Showed the dialog.");
 
-        addHeadBtn.setVisibility(View.VISIBLE);
-        addTailBtn.setVisibility(View.VISIBLE);
-        pickStatus.setVisibility(View.VISIBLE);
+        if (childrenList.size() != 0) {
+            addHeadBtn.setVisibility(View.VISIBLE);
+            addTailBtn.setVisibility(View.VISIBLE);
+            pickStatus.setVisibility(View.VISIBLE);
+        }
         coinFlipActivate.setVisibility(View.VISIBLE);
         coinFlipAnimated.setVisibility(View.INVISIBLE);
     }
@@ -308,6 +310,7 @@ public class CoinFlipActivity extends AppCompatActivity {
         }
         coinFlipAnimated = findViewById(R.id.coinAnimation);
         coinFlipAnimated.setVisibility(View.INVISIBLE);
+        coinFlipActivate.setVisibility(View.VISIBLE);
 
         resultHead = findViewById(R.id.resultHead);
         resultHead.setVisibility(View.INVISIBLE);
@@ -315,12 +318,8 @@ public class CoinFlipActivity extends AppCompatActivity {
         resultTail = findViewById(R.id.resultTail);
         resultTail.setVisibility(View.INVISIBLE);
 
-        addHeadBtn.setVisibility(View.VISIBLE);
-        addTailBtn.setVisibility(View.VISIBLE);
-        coinFlipActivate.setVisibility(View.VISIBLE);
-        coinFlipAnimated.setVisibility(View.INVISIBLE);
-
         setSuggestedChildIndex();
         displaySuggestedChildAndOptions();
+        attachButtonListeners();
     }
 }
