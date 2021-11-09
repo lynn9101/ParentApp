@@ -262,6 +262,8 @@ public class CoinFlipActivity extends AppCompatActivity {
             addHeadBtn.setVisibility(View.VISIBLE);
             addTailBtn.setVisibility(View.VISIBLE);
             pickStatus.setVisibility(View.VISIBLE);
+            addHeadBtn.setBackgroundColor(0x45A364);
+            addTailBtn.setBackgroundColor(0x45A364);
         }
         coinFlipActivate.setVisibility(View.VISIBLE);
         coinFlipAnimated.setVisibility(View.INVISIBLE);
