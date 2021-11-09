@@ -9,8 +9,8 @@
 
     <View
         android:id="@+id/view"
-        android:layout_width="410dp"
-        android:layout_height="286dp"
+        android:layout_width="413dp"
+        android:layout_height="207dp"
         android:background="#C5DBE3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,20 +20,20 @@
 
     <TextView
         android:id="@+id/txtTimer"
-        android:layout_width="302dp"
-        android:layout_height="111dp"
+        android:layout_width="291dp"
+        android:layout_height="84dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:text="00:00"
         android:textAlignment="center"
         android:textColor="@android:color/black"
-        android:textSize="60sp"
+        android:textSize="50sp"
         app:layout_constraintBottom_toBottomOf="@+id/view"
         app:layout_constraintEnd_toEndOf="@+id/btn3min"
-        app:layout_constraintHorizontal_bias="0.21"
+        app:layout_constraintHorizontal_bias="0.2"
         app:layout_constraintStart_toStartOf="@+id/btn1min"
         app:layout_constraintTop_toTopOf="@+id/view"
-        app:layout_constraintVertical_bias="0.205" />
+        app:layout_constraintVertical_bias="0.091" />
 
     <ImageButton
         android:id="@+id/imgBtnStart"
@@ -125,50 +125,19 @@
         app:srcCompat="@drawable/resume" />
 
     <Button
-        android:id="@+id/btn3min"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/view"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="40dp"
-        android:backgroundTint="@color/btn_color"
-        android:text="@string/btn_3min"
-        android:textColor="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
-
-    <Button
         android:id="@+id/btn1min"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/view"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:backgroundTint="@color/btn_color"
         android:text="@string/btn_1min"
         android:textColor="#000000"
         app:layout_constraintEnd_toStartOf="@+id/btn2min"
-        app:layout_constraintHorizontal_bias="0.256"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
-
-    <Button
-        android:id="@+id/btn2min"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/view"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="28dp"
-        android:backgroundTint="@color/btn_color"
-        android:text="@string/btn_2min"
-        android:textColor="#000000"
-        app:layout_constraintEnd_toStartOf="@+id/btn3min"
+        app:layout_constraintHorizontal_bias="0.704"
+        app:layout_constraintStart_toStartOf="@+id/view"
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
     <Button
@@ -178,13 +147,46 @@
         android:layout_below="@+id/view"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="56dp"
+        android:layout_marginTop="20dp"
         android:backgroundTint="@color/btn_color"
         android:text="@string/btn_10min"
         android:textColor="#000000"
-        app:layout_constraintEnd_toEndOf="@+id/btn3min"
+        app:layout_constraintEnd_toStartOf="@+id/btn3min"
+        app:layout_constraintHorizontal_bias="0.531"
+        app:layout_constraintStart_toEndOf="@+id/btn2min"
         app:layout_constraintTop_toBottomOf="@+id/btn3min" />
+
+    <Button
+        android:id="@+id/btn3min"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/btn_color"
+        android:text="@string/btn_3min"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="@+id/view"
+        app:layout_constraintHorizontal_bias="0.307"
+        app:layout_constraintStart_toEndOf="@+id/btn2min"
+        app:layout_constraintTop_toBottomOf="@+id/view" />
+
+    <Button
+        android:id="@+id/btn2min"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/btn_color"
+        android:text="@string/btn_2min"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="@+id/view"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="@+id/view"
+        app:layout_constraintTop_toBottomOf="@+id/view" />
 
     <Button
         android:id="@+id/btn5min"
@@ -194,46 +196,46 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="36dp"
-        android:layout_marginEnd="28dp"
         android:backgroundTint="@color/btn_color"
         android:text="@string/btn_5min"
         android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="@+id/btn10min"
-        app:layout_constraintEnd_toStartOf="@+id/btn10min"
-        app:layout_constraintHorizontal_bias="0.879"
-        app:layout_constraintStart_toStartOf="@+id/btn1min"
+        app:layout_constraintEnd_toStartOf="@+id/btn2min"
+        app:layout_constraintHorizontal_bias="0.462"
+        app:layout_constraintStart_toEndOf="@+id/btn1min"
         app:layout_constraintTop_toBottomOf="@+id/btn1min"
         app:layout_constraintVertical_bias="1.0" />
 
     <ImageView
         android:id="@+id/imgCalmDown"
-        android:layout_width="101dp"
-        android:layout_height="216dp"
+        android:layout_width="92dp"
+        android:layout_height="211dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/imgBtnStart"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view"
-        app:srcCompat="@drawable/calm_down" />
-
-    <ImageView
-        android:id="@+id/imgTimeIsUp"
-        android:layout_width="150dp"
-        android:layout_height="270dp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/imgBtnResetWhenStop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view"
-        app:layout_constraintVertical_bias="0.547"
+        app:layout_constraintVertical_bias="0.619"
+        app:srcCompat="@drawable/calm_down" />
+
+    <ImageView
+        android:id="@+id/imgTimeIsUp"
+        android:layout_width="135dp"
+        android:layout_height="245dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/imgBtnResetWhenStop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        app:layout_constraintVertical_bias="0.84"
         app:srcCompat="@drawable/time_is_up" />
 
     <EditText
         android:id="@+id/editTextSetMinutes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_width="145dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="4dp"
         android:ems="10"
         android:hint="Customize Minutes"
         android:inputType="number"
@@ -241,7 +243,7 @@
         android:textSize="16sp"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="@+id/txtTimer"
-        app:layout_constraintHorizontal_bias="0.539"
+        app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="@+id/txtTimer"
         app:layout_constraintTop_toBottomOf="@+id/txtTimer" />
 
@@ -249,12 +251,14 @@
         android:id="@+id/btnConfirmMinutes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="4dp"
         android:layout_marginRight="24dp"
         android:backgroundTint="@color/confirm_button_color"
         android:text="Confirm"
         android:textColor="@color/black"
+        android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/editTextSetMinutes"
         app:layout_constraintTop_toBottomOf="@+id/editTextSetMinutes" />
 
