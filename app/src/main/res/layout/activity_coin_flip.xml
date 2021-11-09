@@ -120,7 +120,7 @@
 
     <TextView
         android:id="@+id/suggestedChild"
-        android:layout_width="316dp"
+        android:layout_width="313dp"
         android:layout_height="40dp"
         android:layout_marginTop="28dp"
         android:fontFamily="@font/oswald"
