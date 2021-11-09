@@ -9,7 +9,7 @@ Resources
 
 3. TimerActivity:
     Timer Running image: https://www.clipartmax.com/middle/m2i8K9m2b1G6K9m2_calm-clip-art/
-    Timer Expires image: https://www.clipartmax.com/middle/    m2i8N4b1m2N4d3Z5_when-the-district-operates-under-a-90-minute-delay-alarm-clock-clip/
+    Timer Expires image: https://tinyurl.com/timeIsUpImage
     
     In order for the ringtone to sound when the timer finishes, user must finish setting up the emulator in Settings. 
-    Simply go into Settings in the emulator, there will be a suggestion titled: "Finish setting up your device".    Simply click "FINISH SETUP" button and skip all the steps if desired. q
+    Simply go into Settings in the emulator, there will be a suggestion titled: "Finish setting up your device".    Simply click "FINISH SETUP" button and skip all the steps if desired.
