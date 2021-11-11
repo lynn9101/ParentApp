@@ -43,10 +43,19 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Button timerBtn = findViewById(R.id.timerBtn);
+        //TODO uncomment this
+//        timerBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = TimerActivity.makeIntent(MainActivity.this);
+//                startActivity(intent);
+//            }
+//        });
+        //TODO comment this
         timerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = TimerActivity.makeIntent(MainActivity.this);
+            public void onClick(View v) {
+                Intent intent = HelpScreenActivity.makeIntent(MainActivity.this);
                 startActivity(intent);
             }
         });
