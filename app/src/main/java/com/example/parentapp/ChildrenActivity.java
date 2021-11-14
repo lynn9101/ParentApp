@@ -123,6 +123,11 @@ public class ChildrenActivity extends AppCompatActivity {
             TextView childFullName = itemView.findViewById(R.id.fullName);
             childFullName.setText(fullName);
 
+            if (childInstance.hasPortrait()) {
+                ImageView childIcon = itemView.findViewById(R.id.childIcon);
+                childIcon.setImageBitmap(childInstance.getPortrait());
+            }
+
             return itemView;
         }
     }
