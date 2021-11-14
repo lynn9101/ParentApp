@@ -4,127 +4,231 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/main_background"
+    android:background="@drawable/main_dashboard"
     tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/appTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="56dp"
-        android:fontFamily="@font/reenie_beanie"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="52dp"
+        android:fontFamily="@font/oswald"
         android:text="@string/app_name"
-        android:textAlignment="center"
-        android:textColor="@color/app_title_color"
-        android:textSize="64sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.385"
+        android:textColor="@color/white"
+        android:textSize="35sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <View
-        android:id="@+id/menuRect1"
-        android:layout_width="match_parent"
-        android:layout_height="212dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/main_menu_rec1"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <ImageView
+        android:id="@+id/appIcon"
+        android:layout_width="88dp"
+        android:layout_height="81dp"
+        android:layout_marginEnd="44dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.787" />
+        app:layout_constraintTop_toTopOf="@+id/appTitle"
+        app:srcCompat="@drawable/main_family_icon" />
 
-    <View
-        android:id="@+id/menuRec2"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/main_menu_rec2"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/selectOption"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <Button
-        android:id="@+id/childrenBtn"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="24dp"
-        android:backgroundTint="@color/main_buttons_color"
-        android:text="Manage your children"
-        android:textAlignment="textStart"
-        android:textColor="@color/white"
-        app:icon="@drawable/main_child_icon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/menuRec2" />
-
-    <Button
-        android:id="@+id/coinFlipBtn"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="@color/main_buttons_color"
-        android:text="Flip the coin"
-        android:textAlignment="textStart"
-        android:textColor="@color/white"
-        app:icon="@drawable/main_coin_icon"
-        app:layout_constraintEnd_toEndOf="@+id/childrenBtn"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/childrenBtn"
-        app:layout_constraintTop_toBottomOf="@+id/childrenBtn" />
-
-    <Button
-        android:id="@+id/timerBtn"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="@color/main_buttons_color"
-        android:text="Timeout Timer"
-        android:textAlignment="textStart"
-        android:textColor="@color/white"
-        app:icon="@drawable/main_clock_icon"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/coinFlipBtn"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/coinFlipBtn"
-        app:layout_constraintTop_toBottomOf="@+id/coinFlipBtn"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/selectOption"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="4dp"
-        android:fontFamily="@font/oswald"
-        android:shadowColor="@color/main_shadow_color"
-        android:shadowDx="0"
-        android:shadowDy="4"
-        android:shadowRadius="4"
-        android:text="@string/main_select_option"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/menuRect1" />
+        app:layout_constraintTop_toBottomOf="@+id/appTitle">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/childrenActivityButton"
+            android:layout_width="136dp"
+            android:layout_height="125dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/main_rounded_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TextView
+                    android:id="@+id/childrenTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/children_title"
+                    android:textAlignment="center"
+                    android:fontFamily="@font/oswald"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <ImageView
+                    android:id="@+id/childrenIcon"
+                    android:layout_width="104dp"
+                    android:layout_height="85dp"
+                    app:layout_constraintBottom_toTopOf="@+id/childrenTitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/main_children_icon" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/taskActivityButton"
+            android:layout_width="136dp"
+            android:layout_height="125dp"
+            android:layout_marginStart="20dp"
+            app:layout_constraintBottom_toBottomOf="@+id/childrenActivityButton"
+            app:layout_constraintStart_toEndOf="@+id/childrenActivityButton"
+            app:layout_constraintTop_toTopOf="@+id/childrenActivityButton">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/main_rounded_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TextView
+                    android:id="@+id/taskTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/whose_turn_title"
+                    android:textAlignment="center"
+                    android:fontFamily="@font/oswald"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <ImageView
+                    android:id="@+id/taskIcon"
+                    android:layout_width="104dp"
+                    android:layout_height="85dp"
+                    app:layout_constraintBottom_toTopOf="@+id/taskTitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/main_task_icon" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/coinFlipActivityButton"
+            android:layout_width="136dp"
+            android:layout_height="125dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="@+id/childrenActivityButton"
+            app:layout_constraintStart_toStartOf="@+id/childrenActivityButton"
+            app:layout_constraintTop_toBottomOf="@+id/childrenActivityButton">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/main_rounded_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TextView
+                    android:id="@+id/coinTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/coin_flip_title"
+                    android:textAlignment="center"
+                    android:fontFamily="@font/oswald"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <ImageView
+                    android:id="@+id/coinIcon"
+                    android:layout_width="104dp"
+                    android:layout_height="85dp"
+                    app:layout_constraintBottom_toTopOf="@+id/coinTitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/main_coin_icon" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/timerActivityButton"
+            android:layout_width="136dp"
+            android:layout_height="125dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="@+id/taskActivityButton"
+            app:layout_constraintStart_toStartOf="@+id/taskActivityButton"
+            app:layout_constraintTop_toBottomOf="@+id/taskActivityButton">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/main_rounded_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TextView
+                    android:id="@+id/timerTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/timer_title"
+                    android:textAlignment="center"
+                    android:fontFamily="@font/oswald"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <ImageView
+                    android:id="@+id/timerIcon"
+                    android:layout_width="104dp"
+                    android:layout_height="85dp"
+                    app:layout_constraintBottom_toTopOf="@+id/timerTitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/main_timer_icon" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/helpActivityButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="44dp"
+        android:clickable="true"
+        android:backgroundTint="@color/main_help_button_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintVertical_bias="0.745"
+        app:srcCompat="@drawable/main_help_icon" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

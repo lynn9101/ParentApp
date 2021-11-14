@@ -1,11 +1,13 @@
 <resources>
     <string name="app_name">Parent App</string>
     <string name="main_title">Main</string>
-    <string name="children_title">Configure Your Children</string>
+    <string name="children_title">Configure Children</string>
     <string name="children_edit_title">Children Edit</string>
-    <string name="coin_flip_title">Coin flip</string>
+    <string name="whose_turn_title">Whose Turn History</string>
+    <string name="whose_turn_edit_title">Task Edit</string>
+    <string name="coin_flip_title">Coin Flip</string>
     <string name="coin_flip_history_title">Coin flip history</string>
-    <string name="timer_title">Timer</string>
+    <string name="timer_title">Timeout Timer</string>
     <string name="btn_1min">1 min</string>
     <string name="btn_2min">2 min</string>
     <string name="btn_3min">3 min</string>
