@@ -1,11 +1,12 @@
 package com.example.parentapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageView;
 
 /**
  * The MainActivity class is an android activity that acts as a landing page.
@@ -24,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void attachButtonListeners() {
-        Button childrenBtn = findViewById(R.id.childrenBtn);
+        CardView childrenBtn = findViewById(R.id.childrenActivityButton);
         childrenBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -33,7 +34,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button coinFlipBtn = findViewById(R.id.coinFlipBtn);
+        CardView taskBtn = findViewById(R.id.taskActivityButton);
+        taskBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = WhoseTurnActivity.makeIntent(MainActivity.this);
+                startActivity(intent);
+            }
+        });
+
+
+        CardView coinFlipBtn = findViewById(R.id.coinFlipActivityButton);
         coinFlipBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -42,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button timerBtn = findViewById(R.id.timerBtn);
+        CardView timerBtn = findViewById(R.id.timerActivityButton);
         timerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,5 +61,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
     }
 }
