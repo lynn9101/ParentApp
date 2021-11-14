@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 /**
  * The MainActivity class is an android activity that acts as a landing page.
  * Upon landing, users can then navigate to ChildrenActivity, CoinFlipActivity and TimerActivity
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button helpActivityBtn = findViewById(R.id.helpActivityButton);
+        FloatingActionButton helpActivityBtn = findViewById(R.id.helpActivityButton);
         helpActivityBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
