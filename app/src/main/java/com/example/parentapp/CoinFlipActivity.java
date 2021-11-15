@@ -6,14 +6,21 @@ import androidx.fragment.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +29,7 @@ import com.example.parentapp.models.ChildrenManager;
 import com.example.parentapp.models.CoinFlip;
 import com.example.parentapp.models.CoinFlipManager;
 import com.example.parentapp.models.Helpers;
+import com.example.parentapp.spinner.SpinnerChildrenAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -52,11 +60,13 @@ public class CoinFlipActivity extends AppCompatActivity {
     private Boolean childPickedHead;
     int suggestedChildIndex;
     private Random rng;
+    private Spinner spinnerChildren;
+    private ArrayList<Child> spinnerChildrenContent;
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, CoinFlipActivity.class);
     }
-
+    private SpinnerChildrenAdapter spinnerAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,10 +80,11 @@ public class CoinFlipActivity extends AppCompatActivity {
         this.childrenManager = ChildrenManager.getInstance();
         this.coinFlipManager = CoinFlipManager.getInstance();
         this.rng = new Random();
-
         if (coinFlipSound == null) {
             coinFlipSound = Helpers.getMediaPlayer(CoinFlipActivity.this, R.raw.coin_flip_sound);
         }
+        spinnerChildren = findViewById(R.id.spinnerChildrenList);
+
         coinFlipAnimated = findViewById(R.id.coinAnimation);
         coinFlipAnimated.setVisibility(View.INVISIBLE);
 
@@ -84,11 +95,30 @@ public class CoinFlipActivity extends AppCompatActivity {
         resultTail.setVisibility(View.INVISIBLE);
 
         populateChildrenList();
-        setSuggestedChildIndex();
-        displaySuggestedChildAndOptions();
+        Bitmap icon = ((BitmapDrawable)getResources().getDrawable(R.drawable.child_image_listview)).getBitmap();
+        Child nobody = new Child("Child","Anonymous", icon);
+        spinnerChildrenContent.add(nobody);
+        spinnerAdapter = new SpinnerChildrenAdapter(CoinFlipActivity.this,spinnerChildrenContent);
+        spinnerChildren.setAdapter(spinnerAdapter);
+        spinnerChildren.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                Child clickedItem = (Child) adapterView.getItemAtPosition(position);
+                String clickedChildName = clickedItem.getFirstName() + " " + clickedItem.getLastName();
+                Toast.makeText(CoinFlipActivity.this,clickedChildName + " selected", Toast.LENGTH_SHORT).show();
+                pickStatus = findViewById(R.id.pickStatus);
+                pickStatus.setText(clickedChildName + " wants: ");
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) { }
+        });
+
+
+        //setSuggestedChildIndex();
+        //displaySuggestedChildAndOptions();
         attachButtonListeners();
     }
-
+/*
     private void setSuggestedChildIndex() {
         int lastChildIndex = getSharedPrefLastChildIndex(this);
 
@@ -124,7 +154,7 @@ public class CoinFlipActivity extends AppCompatActivity {
             pickStatus.setVisibility(View.INVISIBLE);
         }
     }
-
+*/
     private void populateChildrenList() {
         Context context = getApplicationContext();
         SharedPreferences sharedPreferences = Helpers.getSharedPreference(context);
@@ -135,6 +165,7 @@ public class CoinFlipActivity extends AppCompatActivity {
         }
 
         this.childrenList = childrenManager.getChildren();
+        this.spinnerChildrenContent = childrenManager.getChildren();
         for (int i = 0; i < childrenList.size(); i++) {
             Child childInstance = childrenList.get(i);
             String fullName = childInstance.getFirstName() + " " + childInstance.getLastName();
@@ -282,6 +313,28 @@ public class CoinFlipActivity extends AppCompatActivity {
         editor.apply();
     }
 
+    public static Bitmap drawableToBitmap (Drawable drawable) {
+        Bitmap bitmap = null;
+
+        if (drawable instanceof BitmapDrawable) {
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+            if(bitmapDrawable.getBitmap() != null) {
+                return bitmapDrawable.getBitmap();
+            }
+        }
+
+        if(drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
+            bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
+        } else {
+            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        }
+
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+        return bitmap;
+    }
+
     @Override
     protected void onStop() {
         if (coinFlipSound != null) {
@@ -320,8 +373,8 @@ public class CoinFlipActivity extends AppCompatActivity {
         resultTail = findViewById(R.id.resultTail);
         resultTail.setVisibility(View.INVISIBLE);
 
-        setSuggestedChildIndex();
-        displaySuggestedChildAndOptions();
+        //setSuggestedChildIndex();
+        //displaySuggestedChildAndOptions();
         attachButtonListeners();
     }
 }

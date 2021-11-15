@@ -34,25 +34,27 @@
         android:id="@+id/addHead"
         android:layout_width="70sp"
         android:layout_height="40sp"
+        android:layout_marginTop="56dp"
         android:backgroundTint="#45A364"
         android:text="HEAD"
         android:textColor="@color/white"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.624"
+        app:layout_constraintHorizontal_bias="0.568"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/pickStatus" />
+        app:layout_constraintTop_toBottomOf="@+id/spinnerChildrenList" />
 
     <Button
         android:id="@+id/addTail"
         android:layout_width="70dp"
         android:layout_height="40dp"
         android:layout_marginLeft="15dp"
+        android:layout_marginTop="4dp"
         android:backgroundTint="#45A364"
         android:text="TAIL"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.233"
         app:layout_constraintStart_toEndOf="@+id/addHead"
         app:layout_constraintTop_toTopOf="@+id/addHead" />
 
@@ -88,7 +90,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="44dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="44dp"
         android:fontFamily="@font/oswald"
         android:text="The child wants:"
         android:textColor="@color/black"
@@ -118,17 +120,31 @@
         app:layout_constraintVertical_bias="0.2"
         app:srcCompat="@drawable/coin_tail" />
 
+    <Spinner
+        android:id="@+id/spinnerChildrenList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:spinnerMode="dropdown"
+        app:layout_constraintBottom_toBottomOf="@+id/suggestedChild"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.183"
+        app:layout_constraintStart_toEndOf="@+id/suggestedChild"
+        app:layout_constraintTop_toTopOf="@+id/suggestedChild"
+        app:layout_constraintVertical_bias="0.0" />
+
     <TextView
         android:id="@+id/suggestedChild"
-        android:layout_width="313dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:fontFamily="@font/oswald"
-        android:text="Your current suggested child is: "
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="14sp"
+        android:text="Please choose your child: "
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.168"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

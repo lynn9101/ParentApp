@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
@@ -101,7 +103,6 @@ public class ChildrenEditActivity extends AppCompatActivity {
         String firstName = childFirstName.getText().toString();
         String lastName = childLastName.getText().toString();
         String message;
-
         if (title.equals("New")) {
             message = "New child is added.";
             childrenManager.addChild(new Child(lastName, firstName));
