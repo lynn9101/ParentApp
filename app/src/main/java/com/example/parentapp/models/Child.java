@@ -12,6 +12,7 @@ import java.io.ByteArrayOutputStream;
  * Currently only the name of the child is stored
  */
 public class Child {
+
     private String lastName;
     private String firstName;
     private String portraitBitMap;
