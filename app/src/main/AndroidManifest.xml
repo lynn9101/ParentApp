@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.parentapp">
     <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
+    <uses-permission android:name="android.permission.CAMERA" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,42 +11,58 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ParentApp">
         <activity
+            android:name=".WhoseTurnActivity"
+            android:exported="true"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".CoinFlipHistoryActivity"
             android:exported="true"
             android:parentActivityName=".CoinFlipActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".TimerActivity"
-            android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait"
+            android:exported="true"
             android:launchMode="singleTop"
-            android:exported="true"/>
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ChildrenEditActivity"
+            android:exported="true"
             android:parentActivityName=".ChildrenActivity"
-            android:screenOrientation="portrait"
-            android:exported="true" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ChildrenActivity"
+            android:exported="true"
             android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait"
-            android:exported="true" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".CoinFlipActivity"
+            android:exported="true"
             android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait"
-            android:exported="true" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait"
-            android:exported="true">
-
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+
         <receiver
             android:name=".NotificationReceiver" />
     </application>
