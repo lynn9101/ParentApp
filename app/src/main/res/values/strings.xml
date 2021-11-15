@@ -18,4 +18,9 @@
     <string name="shared_pref_coin_flip_history_key">ParentAppCoinFlipHistory</string>
     <string name="shared_pref_children_list_key">ChildrenListKey</string>
     <string name="shared_pref_suggested_child_key">LastChildPickedHistory</string>
+    <string name="image_source_dialog_title">Select image from: </string>
+    <string-array name="imageSourceOptions">
+        <item>Camera</item>
+        <item>Gallery</item>
+    </string-array>
 </resources>
