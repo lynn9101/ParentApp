@@ -14,7 +14,9 @@
         android:theme="@style/Theme.ParentApp">
         <activity
             android:name=".TaskEditActivity"
-            android:exported="false" />
+            android:exported="true"
+            android:parentActivityName=".WhoseTurnActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".WhoseTurnActivity"
             android:exported="true"

@@ -24,6 +24,9 @@
     <string name="add_new_task_title">Task Name</string>
     <string name="task_save_button">SAVE</string>
     <string name="task_delete_button">DELETE</string>
+    <string name="pop_up_task_field">Task:</string>
+    <string name="pop_up_child_field">Child\'s turn:</string>
+    <string name="confirm_child_turn">Child finished their turn</string>
     <string-array name="imageSourceOptions">
         <item>Camera</item>
         <item>Gallery</item>
