@@ -3,9 +3,11 @@ package com.example.parentapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -41,6 +43,16 @@ public class CoinFlipHistoryActivity extends AppCompatActivity {
         populateCoinFlipHistoryList();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+
+        return(super.onOptionsItemSelected(item));
+    }
     private void populateCoinFlipHistoryList() {
         Context ctx = getApplicationContext();
         CoinFlipManager coinManager = CoinFlipManager.getInstance();
@@ -92,5 +104,9 @@ public class CoinFlipHistoryActivity extends AppCompatActivity {
             return itemView;
         }
     }
-
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this,CoinFlipActivity.class));
+        super.onBackPressed();
+    }
 }

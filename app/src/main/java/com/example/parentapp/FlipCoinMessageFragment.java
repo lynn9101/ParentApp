@@ -33,6 +33,7 @@ public class FlipCoinMessageFragment extends AppCompatDialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 startActivity(new Intent(((Dialog)dialog).getContext(),CoinFlipHistoryActivity.class));
+                getActivity().finish();
             }
         };
 
