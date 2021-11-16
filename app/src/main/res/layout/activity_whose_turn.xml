@@ -34,4 +34,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/addTaskIcon"
+        android:layout_width="71dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="10dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="@+id/noTaskText"
+        app:layout_constraintStart_toStartOf="@+id/noTaskText"
+        app:layout_constraintTop_toBottomOf="@+id/noTaskText"
+        app:srcCompat="@drawable/add_task_icon" />
+
+    <TextView
+        android:id="@+id/addTaskInstruction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/add_task_instruction"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:fontFamily="@font/oswald"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="@+id/addTaskIcon"
+        app:layout_constraintStart_toStartOf="@+id/addTaskIcon"
+        app:layout_constraintTop_toBottomOf="@+id/addTaskIcon" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
