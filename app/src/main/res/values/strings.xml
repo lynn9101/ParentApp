@@ -17,9 +17,13 @@
     <string name="shared_pref_coin_flip_history_key">ParentAppCoinFlipHistory</string>
     <string name="shared_pref_children_list_key">ChildrenListKey</string>
     <string name="shared_pref_suggested_child_key">LastChildPickedHistory</string>
+    <string name="shared_pref_tasks_list_key">TasksListKey</string>
     <string name="image_source_dialog_title">Select image from: </string>
     <string name="no_task_message">You have no task yet!</string>
     <string name="add_task_instruction">Click + button to enter new task!</string>
+    <string name="add_new_task_title">Task Name</string>
+    <string name="task_save_button">SAVE</string>
+    <string name="task_delete_button">DELETE</string>
     <string-array name="imageSourceOptions">
         <item>Camera</item>
         <item>Gallery</item>

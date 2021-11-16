@@ -17,7 +17,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:maxImageSize="48dp"
-        app:srcCompat="@drawable/ic_add_white_48" />
+        app:srcCompat="@drawable/ic_add_white_48"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
         android:id="@+id/noChildText"
@@ -61,8 +62,11 @@
 
     <ListView
         android:id="@+id/listAllChildren"
-        android:layout_width="353dp"
-        android:layout_height="584dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="50dp"
         android:divider="@null"
         android:dividerHeight="10dp"
         app:layout_constraintBottom_toBottomOf="parent"

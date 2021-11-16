@@ -17,8 +17,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.948"
         app:maxImageSize="48dp"
-        app:srcCompat="@drawable/ic_add_white_48"
-        tools:ignore="SpeakableTextPresentCheck" />
+        app:srcCompat="@drawable/ic_add_white_48" />
 
     <TextView
         android:id="@+id/noTaskText"
@@ -58,5 +57,21 @@
         app:layout_constraintEnd_toEndOf="@+id/addTaskIcon"
         app:layout_constraintStart_toStartOf="@+id/addTaskIcon"
         app:layout_constraintTop_toBottomOf="@+id/addTaskIcon" />
+
+    <ListView
+        android:id="@+id/tasksListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="50dp"
+        android:divider="@null"
+        android:dividerHeight="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.073" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
