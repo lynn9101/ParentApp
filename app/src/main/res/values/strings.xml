@@ -1,11 +1,13 @@
 <resources>
     <string name="app_name">Parent App</string>
     <string name="main_title">Main</string>
-    <string name="children_title">Configure Your Children</string>
+    <string name="children_title">Configure Children</string>
     <string name="children_edit_title">Children Edit</string>
-    <string name="coin_flip_title">Coin flip</string>
+    <string name="whose_turn_title">Whose Turn History</string>
+    <string name="whose_turn_edit_title">Task Edit</string>
+    <string name="coin_flip_title">Coin Flip</string>
     <string name="coin_flip_history_title">Coin flip history</string>
-    <string name="timer_title">Timer</string>
+    <string name="timer_title">Timeout Timer</string>
     <string name="btn_1min">1 min</string>
     <string name="btn_2min">2 min</string>
     <string name="btn_3min">3 min</string>
@@ -18,10 +20,15 @@
     <string name="shared_pref_suggested_child_key">LastChildPickedHistory</string>
     <string name="help_screen_title">Help</string>
     <string name="very_long_text"> Durant, S.; Mitchell, N.; Ipavec, A. &amp; Groom, R. (2015). "Acinonyx jubatus". IUCN Red List of Threatened Species. 2015: e.T219A50649567.
- "Cheetah (Acinonyx jubatus)". Environmental Conservation Online System (ECOS). US Fish and Wildlife Service. Retrieved 24 April 2020.
- Krausman, P. R. &amp; Morales, S. M. (2005). "Acinonyx jubatus" (PDF). Mammalian Species. 771: 1–6. doi:10.1644/1545-1410(2005)771[0001:aj]2.0.co;2. Archived from the original (PDF) on 4 March 2016.
- Platts, J. T. (1884). "چيتا चीता ćītā". A Dictionary of Urdu, Classical Hindi, and English. London: W. H. Allen &amp; Co. p. 470.</string>
+        "Cheetah (Acinonyx jubatus)". Environmental Conservation Online System (ECOS). US Fish and Wildlife Service. Retrieved 24 April 2020.
+        Krausman, P. R. &amp; Morales, S. M. (2005). "Acinonyx jubatus" (PDF). Mammalian Species. 771: 1–6. doi:10.1644/1545-1410(2005)771[0001:aj]2.0.co;2. Archived from the original (PDF) on 4 March 2016.
+        Platts, J. T. (1884). "چيتا चीता ćītā". A Dictionary of Urdu, Classical Hindi, and English. London: W. H. Allen &amp; Co. p. 470.</string>
     <string name="listOfMembers">1- Jing Luo - jla787\n 2- Ngan Nguyen - nnn2\n 3- Fatemeh Kiannejad - fkiannej\n 4- Wenqing Liu - wla161\n</string>
     <string name="membersName">Members</string>
     <string name="copyrightName">Copyright</string>
+    <string name="image_source_dialog_title">Select image from: </string>
+    <string-array name="imageSourceOptions">
+        <item>Camera</item>
+        <item>Gallery</item>
+    </string-array>
 </resources>
