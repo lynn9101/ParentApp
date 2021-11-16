@@ -34,14 +34,14 @@
         android:id="@+id/addHead"
         android:layout_width="70sp"
         android:layout_height="40sp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="28dp"
         android:backgroundTint="#45A364"
         android:text="HEAD"
         android:textColor="@color/white"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.568"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.171"
+        app:layout_constraintStart_toEndOf="@+id/pickStatus"
         app:layout_constraintTop_toBottomOf="@+id/spinnerChildrenList" />
 
     <Button
@@ -49,12 +49,11 @@
         android:layout_width="70dp"
         android:layout_height="40dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="4dp"
         android:backgroundTint="#45A364"
         android:text="TAIL"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.233"
+        app:layout_constraintHorizontal_bias="0.089"
         app:layout_constraintStart_toEndOf="@+id/addHead"
         app:layout_constraintTop_toTopOf="@+id/addHead" />
 
@@ -90,13 +89,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="44dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="28dp"
         android:fontFamily="@font/oswald"
         android:text="The child wants:"
         android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/suggestedChild" />
+        app:layout_constraintTop_toBottomOf="@+id/spinnerChildrenList" />
 
     <ImageView
         android:id="@+id/resultHead"
@@ -124,20 +123,18 @@
         android:id="@+id/spinnerChildrenList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
         android:gravity="center"
-        android:spinnerMode="dropdown"
-        app:layout_constraintBottom_toBottomOf="@+id/suggestedChild"
+        android:spinnerMode="dialog"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.183"
-        app:layout_constraintStart_toEndOf="@+id/suggestedChild"
-        app:layout_constraintTop_toTopOf="@+id/suggestedChild"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/suggestedChild" />
 
     <TextView
         android:id="@+id/suggestedChild"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/oswald"
         android:text="Please choose your child: "
         android:textColor="#000000"

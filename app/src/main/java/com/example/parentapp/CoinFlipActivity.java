@@ -31,7 +31,10 @@ import com.example.parentapp.models.CoinFlipManager;
 import com.example.parentapp.models.Helpers;
 import com.example.parentapp.spinner.SpinnerChildrenAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -61,12 +64,15 @@ public class CoinFlipActivity extends AppCompatActivity {
     int suggestedChildIndex;
     private Random rng;
     private Spinner spinnerChildren;
-    private ArrayList<Child> spinnerChildrenContent;
+    int lastSelectedChild;
+    String childrenListKey = "ChildrenListKey";
+    private TextView chooseHint;
+    private SpinnerChildrenAdapter spinnerAdapter;
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, CoinFlipActivity.class);
     }
-    private SpinnerChildrenAdapter spinnerAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +86,7 @@ public class CoinFlipActivity extends AppCompatActivity {
         this.childrenManager = ChildrenManager.getInstance();
         this.coinFlipManager = CoinFlipManager.getInstance();
         this.rng = new Random();
+
         if (coinFlipSound == null) {
             coinFlipSound = Helpers.getMediaPlayer(CoinFlipActivity.this, R.raw.coin_flip_sound);
         }
@@ -95,42 +102,43 @@ public class CoinFlipActivity extends AppCompatActivity {
         resultTail.setVisibility(View.INVISIBLE);
 
         populateChildrenList();
-        Bitmap icon = ((BitmapDrawable)getResources().getDrawable(R.drawable.child_image_listview)).getBitmap();
-        Child nobody = new Child("Child","Anonymous", icon);
-        spinnerChildrenContent.add(nobody);
-        spinnerAdapter = new SpinnerChildrenAdapter(CoinFlipActivity.this,spinnerChildrenContent);
+
+        spinnerAdapter = new SpinnerChildrenAdapter(CoinFlipActivity.this,childrenList);
         spinnerChildren.setAdapter(spinnerAdapter);
         spinnerChildren.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                lastSelectedChild = position;
                 Child clickedItem = (Child) adapterView.getItemAtPosition(position);
                 String clickedChildName = clickedItem.getFirstName() + " " + clickedItem.getLastName();
-                Toast.makeText(CoinFlipActivity.this,clickedChildName + " selected", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CoinFlipActivity.this,clickedChildName + " is selected", Toast.LENGTH_SHORT).show();
                 pickStatus = findViewById(R.id.pickStatus);
                 pickStatus.setText(clickedChildName + " wants: ");
             }
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) { }
+            public void onNothingSelected(AdapterView<?> adapterView) {}
         });
 
-
-        //setSuggestedChildIndex();
-        //displaySuggestedChildAndOptions();
         attachButtonListeners();
     }
-/*
-    private void setSuggestedChildIndex() {
-        int lastChildIndex = getSharedPrefLastChildIndex(this);
 
-        if (childrenList.size() > 0) {
-            if (lastChildIndex != NO_CHILDREN_INT && lastChildIndex < childrenList.size() - 1) {
-                suggestedChildIndex = lastChildIndex + 1;
-            } else {
-                suggestedChildIndex = 0;
-            }
-        } else {
-            suggestedChildIndex = NO_CHILDREN_INT;
-        }
+    public void setArrayPrefs(ArrayList<Child> array, Context mContext) {
+        SharedPreferences prefs = Helpers.getSharedPreference(mContext);
+        SharedPreferences.Editor editor = Helpers.getSharedPrefEditor(getApplicationContext());
+        Gson gson = new Gson();
+        String json = gson.toJson(array);
+        //childrenListKey= mContext.getResources().getString(R.string.shared_pref_children_list_key);
+        editor.putString(childrenListKey, json);
+        editor.commit();
+    }
+
+    public ArrayList<Child> getArrayPrefs(Context mContext) {
+        SharedPreferences prefs = Helpers.getSharedPreference(mContext);
+        Gson gson = new Gson();
+        String json = prefs.getString(childrenListKey, "");
+        Type type = new TypeToken<ArrayList<Child>>(){}.getType();
+        ArrayList<Child> allChildren = gson.fromJson(json, type);
+        return allChildren;
     }
 
     public static int getSharedPrefLastChildIndex(Context context) {
@@ -138,23 +146,6 @@ public class CoinFlipActivity extends AppCompatActivity {
         return Helpers.getSharedPreference(context).getInt(lastPickedChildKey, NO_CHILDREN_INT);
     }
 
-    private void displaySuggestedChildAndOptions() {
-        TextView suggestedChildText = findViewById(R.id.suggestedChild);
-
-        if (suggestedChildIndex != NO_CHILDREN_INT) {
-            suggestedChildText.setText("You current suggested child is: " + childrenFullNames.get(suggestedChildIndex));
-
-        } else {
-            suggestedChildText.setText("No children in the list for suggestion!");
-        }
-
-        pickStatus = findViewById(R.id.pickStatus);
-        pickStatus.setVisibility(View.VISIBLE);
-        if (childrenList.size() == 0) {
-            pickStatus.setVisibility(View.INVISIBLE);
-        }
-    }
-*/
     private void populateChildrenList() {
         Context context = getApplicationContext();
         SharedPreferences sharedPreferences = Helpers.getSharedPreference(context);
@@ -163,9 +154,23 @@ public class CoinFlipActivity extends AppCompatActivity {
         if (sharedPreferences.contains(childrenListKey)) {
             childrenManager.setChildren(Helpers.getObjectFromSharedPreference(context, childrenListKey, Helpers.getListOfClassType(Child.class)));
         }
+        lastSelectedChild = getSharedPrefLastChildIndex(this);
 
-        this.childrenList = childrenManager.getChildren();
-        this.spinnerChildrenContent = childrenManager.getChildren();
+        if (lastSelectedChild >= childrenManager.getChildren().size()) {
+            lastSelectedChild = childrenManager.getChildren().size() - 1;
+        }
+        Toast.makeText(CoinFlipActivity.this,"lastSelectedChild is " + lastSelectedChild, Toast.LENGTH_SHORT).show();
+        childrenList = childrenManager.getChildren();
+        childrenList.clear();
+        childrenList = getArrayPrefs(this);
+        Child lastPickedChild = childrenList.get(lastSelectedChild);
+
+        childrenList.remove(lastPickedChild);
+        childrenList.add(lastPickedChild);
+        lastSelectedChild += 1;
+        Bitmap icon = ((BitmapDrawable)getResources().getDrawable(R.drawable.child_image_listview)).getBitmap();
+        Child nobody = new Child("Child","Anonymous", icon);
+        childrenList.add(nobody);
         for (int i = 0; i < childrenList.size(); i++) {
             Child childInstance = childrenList.get(i);
             String fullName = childInstance.getFirstName() + " " + childInstance.getLastName();
@@ -212,6 +217,9 @@ public class CoinFlipActivity extends AppCompatActivity {
         coinFlipActivate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                spinnerChildren.setClickable(false);
+                chooseHint = findViewById(R.id.suggestedChild);
+                chooseHint.setVisibility(View.INVISIBLE);
                 result = rng.nextInt() % 2 == 0;
                 resultHead.setVisibility(View.INVISIBLE);
                 resultTail.setVisibility(View.INVISIBLE);
@@ -264,8 +272,9 @@ public class CoinFlipActivity extends AppCompatActivity {
         CoinFlip flip;
 
         if (suggestedChildIndex != NO_CHILDREN_INT) {
-            Child pickedChild = childrenList.get(suggestedChildIndex);
-            flip = new CoinFlip(pickedChild, result, childPickedHead);
+            Child pickedChild = childrenList.get(lastSelectedChild);
+            Bitmap portrait = pickedChild.getPortrait();
+            flip = new CoinFlip(pickedChild, result, childPickedHead, portrait);
         } else {
             flip = new CoinFlip(result);
             suggestedChildIndex = NO_CHILDREN_INT;
@@ -280,7 +289,8 @@ public class CoinFlipActivity extends AppCompatActivity {
         }
 
         coinFlipManager.addCoinFlip(flip);
-        updateSuggestedChildSharedPref(suggestedChildIndex, this);
+        updateSuggestedChildSharedPref(lastSelectedChild, this);
+
         updateCoinFlipHistorySharedPref();
 
         String resultMessage = "Result: " + resultedSide + " !\n" + flip.getPickerStatus();
@@ -306,33 +316,11 @@ public class CoinFlipActivity extends AppCompatActivity {
         Helpers.saveObjectToSharedPreference(ctx, historyKey, coinFlipManager.getCoinFlipHistory());
     }
 
-    public static void updateSuggestedChildSharedPref(int savedIndex, Context context) {
+    public static void updateSuggestedChildSharedPref (int savedIndex, Context context) {
         SharedPreferences.Editor editor = Helpers.getSharedPrefEditor(context);
         String lastPickedChildKey = context.getResources().getString(R.string.shared_pref_suggested_child_key);
         editor.putInt(lastPickedChildKey, savedIndex);
         editor.apply();
-    }
-
-    public static Bitmap drawableToBitmap (Drawable drawable) {
-        Bitmap bitmap = null;
-
-        if (drawable instanceof BitmapDrawable) {
-            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
-            if(bitmapDrawable.getBitmap() != null) {
-                return bitmapDrawable.getBitmap();
-            }
-        }
-
-        if(drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
-            bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
-        } else {
-            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        }
-
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
-        return bitmap;
     }
 
     @Override
@@ -346,20 +334,38 @@ public class CoinFlipActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onPause() {
+        childrenList.remove(childrenList.size() - 1);
+        setArrayPrefs((ArrayList<Child>) childrenList,this);
+        super.onPause();
+    }
+
+
+    @Override
     public void onBackPressed() {
         if (coinFlipSound != null) {
             coinFlipSound.stop();
             coinFlipSound.release();
             coinFlipSound = null;
         }
+        /*
+        childrenList.remove(childrenList.size() - 1);
+        setArrayPrefs((ArrayList<Child>) childrenList,this);
 
+         */
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onResume() {
+        spinnerChildren.setClickable(true);
+        populateChildrenList();
+        super.onResume();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
         if (coinFlipSound == null) {
             coinFlipSound = Helpers.getMediaPlayer(CoinFlipActivity.this, R.raw.coin_flip_sound);
         }
@@ -373,8 +379,6 @@ public class CoinFlipActivity extends AppCompatActivity {
         resultTail = findViewById(R.id.resultTail);
         resultTail.setVisibility(View.INVISIBLE);
 
-        //setSuggestedChildIndex();
-        //displaySuggestedChildAndOptions();
         attachButtonListeners();
     }
 }

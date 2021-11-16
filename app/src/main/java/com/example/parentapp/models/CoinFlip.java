@@ -1,5 +1,7 @@
 package com.example.parentapp.models;
 
+import android.graphics.Bitmap;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -16,12 +18,14 @@ public class CoinFlip {
     private boolean pickerWon;
     private boolean pickedHead;
     private boolean flippedHead;
+    private transient Bitmap childPortrait;
 
-    public CoinFlip(Child picker, boolean flippedHead, boolean pickedHead) {
+    public CoinFlip(Child picker, boolean flippedHead, boolean pickedHead, Bitmap childPortrait) {
         this.formattedCoinFlipTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMM dd @ h:mm a"));
         this.picker = picker;
         this.pickedHead = pickedHead;
         this.flippedHead = flippedHead;
+        this.childPortrait = childPortrait;
         pickerWon = flippedHead == pickedHead;
     }
 

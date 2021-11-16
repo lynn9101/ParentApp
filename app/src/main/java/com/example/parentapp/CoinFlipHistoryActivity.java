@@ -73,6 +73,8 @@ public class CoinFlipHistoryActivity extends AppCompatActivity {
             CoinFlip coinFlipInstance = history.get(position);
 
             ImageView statusIcon = itemView.findViewById(R.id.statusIcon);
+            ImageView kidsPortrait = itemView.findViewById(R.id.imgChildPortrait);
+            kidsPortrait.setImageBitmap(coinFlipInstance.getPicker().getPortrait());
             int iconID;
             if (coinFlipInstance.didPickerWin()) {
                 iconID = R.drawable.ic_check_circle_48;
@@ -90,4 +92,5 @@ public class CoinFlipHistoryActivity extends AppCompatActivity {
             return itemView;
         }
     }
+
 }
