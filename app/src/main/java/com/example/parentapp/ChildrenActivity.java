@@ -66,7 +66,7 @@ public class ChildrenActivity extends AppCompatActivity {
     }
 
     private void attachButtonListeners() {
-        FloatingActionButton fab = findViewById(R.id.addButton);
+        FloatingActionButton fab = findViewById(R.id.childAddButton);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
