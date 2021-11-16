@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.parentapp">
-    <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
+
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,6 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ParentApp">
+        <activity
+            android:name=".TaskEditActivity"
+            android:exported="false" />
         <activity
             android:name=".WhoseTurnActivity"
             android:exported="true"
@@ -62,9 +67,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-
-        <receiver
-            android:name=".NotificationReceiver" />
+        <receiver android:name=".NotificationReceiver" />
     </application>
 
 </manifest>

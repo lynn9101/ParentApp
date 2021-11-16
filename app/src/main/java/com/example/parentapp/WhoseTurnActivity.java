@@ -39,6 +39,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
                 .getColor(R.color.app_title_color)));
 
         attachAddButtonListener();
+        displayEmptyListState();
     }
 
     private void attachAddButtonListener() {
@@ -46,8 +47,13 @@ public class WhoseTurnActivity extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = TaskEditActivity.makeLaunchIntent(WhoseTurnActivity.this, "New");
+                startActivity(intent);
             }
         });
     }
+
+    private void displayEmptyListState() {
+    }
+
 }
