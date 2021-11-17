@@ -67,10 +67,14 @@ public class CoinFlipActivity extends AppCompatActivity {
     private Spinner spinnerChildren;
     int lastSelectedChild;
     String childrenListKey = "ChildrenListKey";
+    String childrenIDKey = "AllChildrenIDListKey";
+    String spinnerChildrenKey = "SpinnerChildrenListKey";
     private TextView chooseHint;
     private SpinnerChildrenAdapter spinnerAdapter;
     private boolean flipped;
     private boolean isFinishFlip;
+    private ArrayList<Integer> allChildrenID;
+
     public static Intent makeIntent(Context context) {
         return new Intent(context, CoinFlipActivity.class);
     }
@@ -126,13 +130,23 @@ public class CoinFlipActivity extends AppCompatActivity {
         attachButtonListeners();
     }
 
+    private int generateChildID() {
+        Random rand = new Random();
+        int newChildID = rand.nextInt(100000);
+        while (allChildrenID.contains(newChildID)) {
+            newChildID = rand.nextInt(100000);
+        }
+        allChildrenID.add(newChildID);
+        return newChildID;
+    }
+
     public void setArrayPrefs(ArrayList<Child> array, Context mContext) {
         SharedPreferences prefs = Helpers.getSharedPreference(mContext);
         SharedPreferences.Editor editor = Helpers.getSharedPrefEditor(getApplicationContext());
         Gson gson = new Gson();
         String json = gson.toJson(array);
         //childrenListKey= mContext.getResources().getString(R.string.shared_pref_children_list_key);
-        editor.putString(childrenListKey, json);
+        editor.putString(spinnerChildrenKey, json);
         editor.putBoolean("ISFLIPPED", flipped);
         editor.putBoolean("ISFINISHED", isFinishFlip);
         editor.commit();
@@ -141,7 +155,7 @@ public class CoinFlipActivity extends AppCompatActivity {
     public ArrayList<Child> getArrayPrefs(Context mContext) {
         SharedPreferences prefs = Helpers.getSharedPreference(mContext);
         Gson gson = new Gson();
-        String json = prefs.getString(childrenListKey, "");
+        String json = prefs.getString(spinnerChildrenKey, "");
         Type type = new TypeToken<ArrayList<Child>>(){}.getType();
         ArrayList<Child> allChildren = gson.fromJson(json, type);
         return allChildren;
@@ -155,27 +169,29 @@ public class CoinFlipActivity extends AppCompatActivity {
     private void populateChildrenList() {
         Context context = getApplicationContext();
         SharedPreferences sharedPreferences = Helpers.getSharedPreference(context);
-        String childrenListKey = context.getResources().getString(R.string.shared_pref_children_list_key);
+        //String childrenListKey = context.getResources().getString(R.string.shared_pref_children_list_key);
 
-        if (sharedPreferences.contains(childrenListKey)) {
-            childrenManager.setChildren(Helpers.getObjectFromSharedPreference(context, childrenListKey, Helpers.getListOfClassType(Child.class)));
+        if (sharedPreferences.contains(spinnerChildrenKey)) {
+            childrenManager.setSpinnerChildren(Helpers.getObjectFromSharedPreference(context, spinnerChildrenKey, Helpers.getListOfClassType(Child.class)));
         }
         lastSelectedChild = getSharedPrefLastChildIndex(this);
         flipped = Helpers.getSharedPreference(this).getBoolean("ISFLIPPED", false);
         isFinishFlip = Helpers.getSharedPreference(this).getBoolean("ISFINISHED", false);
-        if (lastSelectedChild >= childrenManager.getChildren().size()) {
-            lastSelectedChild = childrenManager.getChildren().size() - 1;
+        allChildrenID = getAllChildrenID(this);
+        if (lastSelectedChild >= childrenManager.getSpinnerChildren().size()) {
+            lastSelectedChild = childrenManager.getSpinnerChildren().size() - 1;
         }
         //Toast.makeText(CoinFlipActivity.this,"lastSelectedChild is " + lastSelectedChild, Toast.LENGTH_SHORT).show();
-        childrenList = childrenManager.getChildren();
-        childrenList.clear();
-        childrenList = getArrayPrefs(this);
+        childrenList = childrenManager.getSpinnerChildren();
+        //childrenList.clear();
+        //childrenList = getArrayPrefs(this);
         Child nobody;
-        if (childrenList.size() == 0) {
+        int anonymousChildID = generateChildID();
+        if (childrenList == null || childrenList.size() == 0) {
             Bitmap icon = ((BitmapDrawable)getResources().getDrawable(R.drawable.child_image_listview)).getBitmap();
-            nobody = new Child("Child","Anonymous", icon);
+            nobody = new Child("Child","Anonymous", icon, anonymousChildID);
         } else {
-            //Toast.makeText(CoinFlipActivity.this, "child list not 0", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CoinFlipActivity.this, "child list not 0", Toast.LENGTH_SHORT).show();
             if (flipped && isFinishFlip) {
                 Child lastPickedChild = childrenList.get(lastSelectedChild);
                 childrenList.remove(lastPickedChild);
@@ -185,9 +201,8 @@ public class CoinFlipActivity extends AppCompatActivity {
                 flipped = false;
                 isFinishFlip = false;
             }
-
             Bitmap icon = ((BitmapDrawable)getResources().getDrawable(R.drawable.child_image_listview)).getBitmap();
-            nobody = new Child("Child","Anonymous", icon);
+            nobody = new Child("Child","Anonymous", icon, anonymousChildID);
         }
         childrenList.add(nobody);
         for (int i = 0; i < childrenList.size(); i++) {
@@ -343,6 +358,15 @@ public class CoinFlipActivity extends AppCompatActivity {
         String lastPickedChildKey = context.getResources().getString(R.string.shared_pref_suggested_child_key);
         editor.putInt(lastPickedChildKey, savedIndex);
         editor.apply();
+    }
+
+    public ArrayList<Integer> getAllChildrenID (Context mContext) {
+        SharedPreferences prefs = Helpers.getSharedPreference(mContext);
+        Gson gson = new Gson();
+        String json = prefs.getString(childrenIDKey, "");
+        Type type = new TypeToken<ArrayList<Integer>>(){}.getType();
+        ArrayList<Integer> allChildrenID = gson.fromJson(json, type);
+        return allChildrenID;
     }
 
     @Override

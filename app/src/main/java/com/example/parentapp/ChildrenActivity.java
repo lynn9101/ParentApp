@@ -143,4 +143,10 @@ public class ChildrenActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onResume() {
+        populateChildrenList();
+        super.onResume();
+    }
 }
