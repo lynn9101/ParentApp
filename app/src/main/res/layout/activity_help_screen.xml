@@ -11,7 +11,7 @@
         android:layout_width="305dp"
         android:layout_height="422dp"
         android:autoLink="web"
-        android:background="@drawable/back"
+        android:background="@drawable/help_text_box_background"
         android:fontFamily="@font/timeless"
         android:lineSpacingExtra="20dp"
         android:maxLines="12"

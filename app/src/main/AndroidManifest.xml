@@ -56,10 +56,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-<<<<<<< HEAD
         <receiver android:name=".NotificationReceiver" />
-=======
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -69,11 +66,8 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
-
         <receiver
             android:name=".NotificationReceiver" />
->>>>>>> master
     </application>
 
 </manifest>

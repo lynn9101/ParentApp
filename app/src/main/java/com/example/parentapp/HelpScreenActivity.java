@@ -12,6 +12,9 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 public class HelpScreenActivity extends AppCompatActivity {
+    ToggleButton toggleButtonForMemOrCopy;
+    TextView textForTitle;
+    TextView textForMemOrCopy;
 
     public static Intent makeIntent(Context context) {
         return new Intent(context,HelpScreenActivity.class);
@@ -29,20 +32,10 @@ public class HelpScreenActivity extends AppCompatActivity {
 
         setInitialStates();
 
-        TextView textForLongTxt = findViewById(R.id.textLongBox);
-        TextView textForTitle = findViewById(R.id.textTitleOfText);
-
-        ToggleButton toggleButtonForMemOrCopy  = findViewById(R.id.toggleMemOrCopy);
         toggleButtonForMemOrCopy.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
-                    textForTitle.setText(R.string.membersName);
-                    textForLongTxt.setText(R.string.listOfMembers);
-                } else {
-                    textForTitle.setText(R.string.copyrightName);
-                    textForLongTxt.setText(R.string.very_long_text);
-                }
+                attachButtonListener(isChecked);
             }
         });
     }
@@ -53,17 +46,27 @@ public class HelpScreenActivity extends AppCompatActivity {
     }
 
     private void setInitialStates(){
-        ToggleButton toggleButtonForMemOrCopy  = findViewById(R.id.toggleMemOrCopy);
+        toggleButtonForMemOrCopy  = findViewById(R.id.toggleMemOrCopy);
+        textForTitle = findViewById(R.id.textTitleOfText);
+        textForMemOrCopy = findViewById(R.id.textLongBox);
+
         toggleButtonForMemOrCopy.setText(getString(R.string.copyrightName));
         toggleButtonForMemOrCopy.setTextOff(getString(R.string.membersName));
         toggleButtonForMemOrCopy.setTextOn(getString(R.string.copyrightName));
 
-        TextView textForLongTxt = findViewById(R.id.textLongBox);
-        TextView textForTitle = findViewById(R.id.textTitleOfText);
-
-        textForLongTxt.setMovementMethod(new ScrollingMovementMethod());
-        textForLongTxt.setText(R.string.listOfMembers);
+        textForMemOrCopy.setMovementMethod(new ScrollingMovementMethod());
+        textForMemOrCopy.setText(R.string.listOfMembers);
         textForTitle.setText(R.string.membersName);
         textForTitle.setAllCaps(true);
+    }
+
+    private void attachButtonListener(boolean isChecked){
+        if (isChecked){
+            textForTitle.setText(R.string.membersName);
+            textForMemOrCopy.setText(R.string.listOfMembers);
+        } else {
+            textForTitle.setText(R.string.copyrightName);
+            textForMemOrCopy.setText(R.string.help_text_box_content);
+        }
     }
 }

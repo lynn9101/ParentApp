@@ -65,6 +65,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        CardView timerBtn = findViewById(R.id.timerActivityButton);
+        timerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = TimerActivity.makeIntent(MainActivity.this);
+                startActivity(intent);
+            }
+        });
+
         FloatingActionButton helpActivityBtn = findViewById(R.id.helpActivityButton);
         helpActivityBtn.setOnClickListener(new View.OnClickListener() {
             @Override
