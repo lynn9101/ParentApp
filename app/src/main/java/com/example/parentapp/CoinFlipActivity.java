@@ -16,6 +16,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -69,6 +70,7 @@ public class CoinFlipActivity extends AppCompatActivity {
     private TextView chooseHint;
     private SpinnerChildrenAdapter spinnerAdapter;
     private boolean flipped;
+    private boolean isFinishFlip;
     public static Intent makeIntent(Context context) {
         return new Intent(context, CoinFlipActivity.class);
     }
@@ -109,6 +111,8 @@ public class CoinFlipActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 lastSelectedChild = position;
+                resultHead.setVisibility(View.INVISIBLE);
+                resultTail.setVisibility(View.INVISIBLE);
                 Child clickedItem = (Child) adapterView.getItemAtPosition(position);
                 String clickedChildName = clickedItem.getFirstName() + " " + clickedItem.getLastName();
                 //Toast.makeText(CoinFlipActivity.this,clickedChildName + " is selected", Toast.LENGTH_SHORT).show();
@@ -130,6 +134,7 @@ public class CoinFlipActivity extends AppCompatActivity {
         //childrenListKey= mContext.getResources().getString(R.string.shared_pref_children_list_key);
         editor.putString(childrenListKey, json);
         editor.putBoolean("ISFLIPPED", flipped);
+        editor.putBoolean("ISFINISHED", isFinishFlip);
         editor.commit();
     }
 
@@ -157,6 +162,7 @@ public class CoinFlipActivity extends AppCompatActivity {
         }
         lastSelectedChild = getSharedPrefLastChildIndex(this);
         flipped = Helpers.getSharedPreference(this).getBoolean("ISFLIPPED", false);
+        isFinishFlip = Helpers.getSharedPreference(this).getBoolean("ISFINISHED", false);
         if (lastSelectedChild >= childrenManager.getChildren().size()) {
             lastSelectedChild = childrenManager.getChildren().size() - 1;
         }
@@ -170,13 +176,14 @@ public class CoinFlipActivity extends AppCompatActivity {
             nobody = new Child("Child","Anonymous", icon);
         } else {
             //Toast.makeText(CoinFlipActivity.this, "child list not 0", Toast.LENGTH_SHORT).show();
-            if (flipped) {
+            if (flipped && isFinishFlip) {
                 Child lastPickedChild = childrenList.get(lastSelectedChild);
                 childrenList.remove(lastPickedChild);
                 childrenList.add(lastPickedChild);
                 lastSelectedChild += 1;
                 //Toast.makeText(CoinFlipActivity.this, "flipped", Toast.LENGTH_SHORT).show();
                 flipped = false;
+                isFinishFlip = false;
             }
 
             Bitmap icon = ((BitmapDrawable)getResources().getDrawable(R.drawable.child_image_listview)).getBitmap();
@@ -229,10 +236,6 @@ public class CoinFlipActivity extends AppCompatActivity {
         coinFlipActivate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                spinnerChildren.setClickable(false);
-                chooseHint = findViewById(R.id.suggestedChild);
-                chooseHint.setVisibility(View.INVISIBLE);
                 result = rng.nextInt() % 2 == 0;
                 resultHead.setVisibility(View.INVISIBLE);
                 resultTail.setVisibility(View.INVISIBLE);
@@ -250,18 +253,19 @@ public class CoinFlipActivity extends AppCompatActivity {
                     }
                     coinFlipSound.start();
                     flipped = true;
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                     coinFlipAnimated.setVisibility(View.VISIBLE);
                     coinFlipActivate.setVisibility(View.INVISIBLE);
-
+                    spinnerChildren.setClickable(false);
+                    chooseHint = findViewById(R.id.suggestedChild);
+                    chooseHint.setVisibility(View.INVISIBLE);
                     new CountDownTimer(2000, 1000) {
                         public void onTick(long millisUntilFinished) {
                         }
 
                         public void onFinish() {
                             if (coinFlipAnimated != null && coinFlipSound != null) {
-
                                 displayDialog();
-
                             }
                         }
                     }.start();
@@ -280,6 +284,7 @@ public class CoinFlipActivity extends AppCompatActivity {
     }
 
     private void displayDialog() {
+        isFinishFlip = true;
         if (coinFlipAnimated != null) {
             coinFlipAnimated.setVisibility(View.INVISIBLE);
         }
@@ -323,6 +328,8 @@ public class CoinFlipActivity extends AppCompatActivity {
         }
         coinFlipActivate.setVisibility(View.VISIBLE);
         coinFlipAnimated.setVisibility(View.INVISIBLE);
+        spinnerChildren.setClickable(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void updateCoinFlipHistorySharedPref() {
@@ -362,19 +369,22 @@ public class CoinFlipActivity extends AppCompatActivity {
             coinFlipSound.stop();
             coinFlipSound.release();
             coinFlipSound = null;
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            isFinishFlip = true;
+        } else {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        /*
-        childrenList.remove(childrenList.size() - 1);
-        setArrayPrefs((ArrayList<Child>) childrenList,this);
-
-         */
+        //resultHead.setVisibility(View.INVISIBLE);
+        //resultTail.setVisibility(View.INVISIBLE);
+        Toast.makeText(CoinFlipActivity.this,"On-back pressed in CoinFlip", Toast.LENGTH_SHORT).show();
         super.onBackPressed();
     }
+
 
     @Override
     protected void onResume() {
         spinnerChildren.setClickable(true);
-        //populateChildrenList();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         super.onResume();
     }
 
