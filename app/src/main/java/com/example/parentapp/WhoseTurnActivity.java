@@ -28,7 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * WhoseTurnActivity class is an android activity and handles the listview of task objects
+ * WhoseTurnActivity class is an android activity and handles the listview of task objects.
+ * ListView display the tasks and the name of children assigned to those tasks.
  */
 
 public class WhoseTurnActivity extends AppCompatActivity {
