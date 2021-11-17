@@ -12,9 +12,9 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 public class HelpScreenActivity extends AppCompatActivity {
-    ToggleButton toggleButtonForMemOrCopy;
-    TextView textForTitle;
-    TextView textForMemOrCopy;
+    private ToggleButton toggleButtonForMemOrCopy;
+    private TextView textForTitle;
+    private TextView textForMemOrCopy;
 
     public static Intent makeIntent(Context context) {
         return new Intent(context,HelpScreenActivity.class);
