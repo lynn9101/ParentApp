@@ -8,8 +8,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -80,7 +78,8 @@ public class MainActivity extends AppCompatActivity {
         helpActivityBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = HelpScreenActivity.makeIntent(MainActivity.this);
+                startActivity(intent);
             }
         });
     }
