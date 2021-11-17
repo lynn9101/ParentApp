@@ -93,9 +93,13 @@ public class ChildrenActivity extends AppCompatActivity {
         Context context = getApplicationContext();
         SharedPreferences sharedPreferences = Helpers.getSharedPreference(context);
         String childrenListKey = context.getResources().getString(R.string.shared_pref_children_list_key);
+        String spinnerChildrenKey = "SpinnerChildrenListKey";
 
         if (sharedPreferences.contains(childrenListKey)) {
             childrenManager.setChildren(Helpers.getObjectFromSharedPreference(context, childrenListKey, Helpers.getListOfClassType(Child.class)));
+        }
+        if (sharedPreferences.contains(spinnerChildrenKey)) {
+            childrenManager.setSpinnerChildren(Helpers.getObjectFromSharedPreference(context, spinnerChildrenKey, Helpers.getListOfClassType(Child.class)));
         }
 
         this.childrenList = childrenManager.getChildren();

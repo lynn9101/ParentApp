@@ -109,11 +109,18 @@ public class CoinFlipActivity extends AppCompatActivity {
 
         populateChildrenList();
 
+
+
+        attachButtonListeners();
+    }
+
+    private void spinnerViewBegin() {
         spinnerAdapter = new SpinnerChildrenAdapter(CoinFlipActivity.this,childrenList);
         spinnerChildren.setAdapter(spinnerAdapter);
         spinnerChildren.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                spinnerAdapter.notifyDataSetChanged();
                 lastSelectedChild = position;
                 resultHead.setVisibility(View.INVISIBLE);
                 resultTail.setVisibility(View.INVISIBLE);
@@ -126,8 +133,6 @@ public class CoinFlipActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {}
         });
-
-        attachButtonListeners();
     }
 
     private int generateChildID() {
@@ -177,7 +182,10 @@ public class CoinFlipActivity extends AppCompatActivity {
         lastSelectedChild = getSharedPrefLastChildIndex(this);
         flipped = Helpers.getSharedPreference(this).getBoolean("ISFLIPPED", false);
         isFinishFlip = Helpers.getSharedPreference(this).getBoolean("ISFINISHED", false);
-        allChildrenID = getAllChildrenID(this);
+        if (sharedPreferences.contains(childrenIDKey)) {
+            allChildrenID = getAllChildrenID(this);
+        }
+        //allChildrenID = getAllChildrenID(this);
         if (lastSelectedChild >= childrenManager.getSpinnerChildren().size()) {
             lastSelectedChild = childrenManager.getSpinnerChildren().size() - 1;
         }
@@ -210,6 +218,7 @@ public class CoinFlipActivity extends AppCompatActivity {
             String fullName = childInstance.getFirstName() + " " + childInstance.getLastName();
             childrenFullNames.add(fullName);
         }
+        spinnerViewBegin();
     }
 
     private void attachButtonListeners() {
@@ -332,6 +341,10 @@ public class CoinFlipActivity extends AppCompatActivity {
         FragmentManager manager = getSupportFragmentManager();
         FlipCoinMessageFragment dialog = new FlipCoinMessageFragment(result, resultMessage);
         dialog.show(manager, "MessageDialog");
+        onPause();
+        populateChildrenList();
+        isFinishFlip = false;
+        flipped = false;
         Log.i("TAG", "Showed the dialog.");
 
         if (childrenList.size() != 0) {
@@ -400,7 +413,7 @@ public class CoinFlipActivity extends AppCompatActivity {
         }
         //resultHead.setVisibility(View.INVISIBLE);
         //resultTail.setVisibility(View.INVISIBLE);
-        Toast.makeText(CoinFlipActivity.this,"On-back pressed in CoinFlip", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(CoinFlipActivity.this,"On-back pressed in CoinFlip", Toast.LENGTH_SHORT).show();
         super.onBackPressed();
     }
 
@@ -408,6 +421,8 @@ public class CoinFlipActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         spinnerChildren.setClickable(true);
+        Log.e("TAG", "in onresume");
+        //populateChildrenList();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         super.onResume();
     }

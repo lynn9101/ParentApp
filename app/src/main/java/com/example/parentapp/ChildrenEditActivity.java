@@ -44,7 +44,6 @@ import java.util.Random;
 
 public class ChildrenEditActivity extends AppCompatActivity {
     private ChildrenManager childrenManager = ChildrenManager.getInstance();
-    //private ChildrenManager spinnerChildrenManager = ChildrenManager.getInstance();
     private static final String EXTRA_MESSAGE = "Passing Edit State";
     private String title;
     private int editIndex;
@@ -59,8 +58,9 @@ public class ChildrenEditActivity extends AppCompatActivity {
     private ActivityResultLauncher<String> gallerySelectionActivityLauncher;
 
     private ArrayList<Integer> allChildID = new ArrayList<>();
+    private ArrayList<Child> spinnerChildren = new ArrayList<>();
     String allChildIdKey = "AllChildrenIDListKey";
-
+    String spinnerChildrenKey = "SpinnerChildrenListKey";
     public static Intent makeLaunchIntent(Context ctx, String message) {
         Intent intent = new Intent(ctx, ChildrenEditActivity.class);
         intent.putExtra(EXTRA_MESSAGE, message);
@@ -76,7 +76,12 @@ public class ChildrenEditActivity extends AppCompatActivity {
         Context context = getApplicationContext();
         SharedPreferences sharedPreferences = Helpers.getSharedPreference(context);
         //String childrenListKey = context.getResources().getString(R.string.shared_pref_children_list_key);
+        /*
+        if (sharedPreferences.contains(spinnerChildrenKey)) {
+           spinnerChildren = getSpinnerChildrenArrayPrefs(this);
+        }
 
+         */
         if (sharedPreferences.contains(allChildIdKey)) {
             allChildID = getArrayPrefs(this);
         } else {
@@ -197,6 +202,7 @@ public class ChildrenEditActivity extends AppCompatActivity {
                             childrenManager.getSpinnerChildren().remove(deleteChild);
                             //spinnerChildrenManager.removeChild(editIndex);
                             updateChildrenListSharedPref();
+                            //childrenManager.getSpinnerChildren().clear();
                             updateSpinnerChildrenListSharedPref();
                             finish();
                         })
@@ -311,7 +317,6 @@ public class ChildrenEditActivity extends AppCompatActivity {
 
     private void updateSpinnerChildrenListSharedPref() {
         Context context = getApplicationContext();
-        String spinnerChildrenKey = context.getResources().getString(R.string.shared_pref_spinner_children_list_key);
         Helpers.saveObjectToSharedPreference(context, spinnerChildrenKey, childrenManager.getSpinnerChildren());
     }
 
@@ -322,5 +327,14 @@ public class ChildrenEditActivity extends AppCompatActivity {
         Type type = new TypeToken<ArrayList<Integer>>(){}.getType();
         ArrayList<Integer> allChildrenID = gson.fromJson(json, type);
         return allChildrenID;
+    }
+
+    public ArrayList<Child> getSpinnerChildrenArrayPrefs(Context mContext) {
+        SharedPreferences prefs = Helpers.getSharedPreference(mContext);
+        Gson gson = new Gson();
+        String json = prefs.getString(spinnerChildrenKey, "");
+        Type type = new TypeToken<ArrayList<Child>>(){}.getType();
+        ArrayList<Child> allChildren = gson.fromJson(json, type);
+        return allChildren;
     }
 }
