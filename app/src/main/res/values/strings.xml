@@ -32,6 +32,7 @@
     <string name="pop_up_task_field">Task:</string>
     <string name="pop_up_child_field">Child\'s turn:</string>
     <string name="confirm_child_turn">Child finished their turn</string>
+    <string name="add_new_child_for_task">Please Add New Child in Configure Children</string>
     <string-array name="imageSourceOptions">
         <item>Camera</item>
         <item>Gallery</item>

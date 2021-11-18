@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.parentapp.models.Child;
+import com.example.parentapp.models.ChildrenManager;
 import com.example.parentapp.models.Helpers;
 import com.example.parentapp.models.Task;
 import com.example.parentapp.models.TasksManager;
@@ -25,6 +26,7 @@ import com.example.parentapp.models.TasksManager;
 public class TaskEditActivity extends AppCompatActivity {
 
     private TasksManager tasksManager = TasksManager.getInstance();
+    private ChildrenManager childrenManager = ChildrenManager.getInstance();
     private static final String EXTRA_MESSAGE = "Passing Edit State";
     private String title;
     private int editIndex;
@@ -91,9 +93,15 @@ public class TaskEditActivity extends AppCompatActivity {
 
     private void saveTaskName() {
         String validTaskName = taskName.getText().toString();
-        int firstChildIndex = 0;
-        String message;
+        final int DEFAULT_NO_CHILDREN = -1;
+        int firstChildIndex;
+        if (childrenManager.getChildren().size() == 0) {
+            firstChildIndex = DEFAULT_NO_CHILDREN;
+        } else {
+            firstChildIndex = 0;
+        }
 
+        String message;
         if (title.equals("Add New")) {
             message = "New task is added.";
             tasksManager.addTask(new Task(validTaskName, firstChildIndex));

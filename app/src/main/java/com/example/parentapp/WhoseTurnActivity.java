@@ -37,6 +37,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
     private TasksManager tasksManager = TasksManager.getInstance();
     private ChildrenManager childrenManager = ChildrenManager.getInstance();
     private List<Task> tasksHistory = new ArrayList<>();
+    private final int DEFAULT_NO_CHILDREN_IDX = -1;
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, WhoseTurnActivity.class);
@@ -62,6 +63,8 @@ public class WhoseTurnActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        setContentView(R.layout.activity_whose_turn);
+
         attachAddButtonListener();
         displayEmptyListState();
         updateChildrenList();
@@ -140,15 +143,34 @@ public class WhoseTurnActivity extends AppCompatActivity {
             txtTaskName.setText(taskName);
 
             int currentChildIndex = taskInstance.getCurrentChildIndex();
-            Child childInstance = childrenManager.getChild(currentChildIndex);
-
-            String fullName = childInstance.getFirstName() + " " + childInstance.getLastName();
             TextView childFullName = itemView.findViewById(R.id.currentChildName);
-            childFullName.setText(fullName);
+            ImageView currentChildIcon = itemView.findViewById(R.id.taskChildImage);
 
-            if (childInstance.hasPortrait()) {
-                ImageView currentChildIcon = itemView.findViewById(R.id.taskChildImage);
-                currentChildIcon.setImageBitmap(childInstance.getPortrait());
+            if (childrenManager.getChildren().size() == 0) {
+                if (currentChildIndex != DEFAULT_NO_CHILDREN_IDX) {
+                    currentChildIndex = DEFAULT_NO_CHILDREN_IDX;
+                    tasksManager.getTask(position).setCurrentChildIndex(currentChildIndex);
+                    updateTasksListSharedPref();
+                }
+
+                String noChildText = "No assigned child.";
+                childFullName.setText(noChildText);
+                currentChildIcon.setImageResource(R.drawable.task_no_child_icon);
+
+            } else {
+                if (currentChildIndex == DEFAULT_NO_CHILDREN_IDX) {
+                    currentChildIndex++;
+                    tasksManager.getTask(position).setCurrentChildIndex(currentChildIndex);
+                    updateTasksListSharedPref();
+                }
+
+                Child childInstance = childrenManager.getChild(currentChildIndex);
+                String fullName = childInstance.getFirstName() + " " + childInstance.getLastName();
+
+                childFullName.setText(fullName);
+                if (childInstance.hasPortrait()) {
+                    currentChildIcon.setImageBitmap(childInstance.getPortrait());
+                }
             }
 
             return itemView;
@@ -166,5 +188,11 @@ public class WhoseTurnActivity extends AppCompatActivity {
                 Log.i("TAG", "Showed task pop-up message.");
             }
         });
+    }
+
+    private void updateTasksListSharedPref() {
+        Context context = getApplicationContext();
+        String tasksListKey = context.getResources().getString(R.string.shared_pref_tasks_list_key);
+        Helpers.saveObjectToSharedPreference(context, tasksListKey, tasksManager.getTasksHistory());
     }
 }

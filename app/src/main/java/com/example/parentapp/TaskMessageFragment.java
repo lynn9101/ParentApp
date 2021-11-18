@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Layout;
 import android.view.LayoutInflater;
@@ -36,6 +37,7 @@ public class TaskMessageFragment extends AppCompatDialogFragment {
     private String taskName;
     private int currentChildIndex;
     private View v;
+    private final int DEFAULT_NO_CHILDREN_IDX = -1;
 
     public TaskMessageFragment(int taskIndex) {
         this.taskIndex = taskIndex;
@@ -54,14 +56,26 @@ public class TaskMessageFragment extends AppCompatDialogFragment {
             }
         };
 
+        populateTaskList();
         displayTaskInformation();
         attachConfirmButtonListener();
+        attachAddChildMessage();
 
         return new AlertDialog.Builder(getActivity())
                 .setView(v)
                 .setPositiveButton("EDIT", listener)
                 .setNegativeButton("CANCEL", null)
                 .create();
+    }
+
+    private void populateTaskList() {
+        Context context = getActivity();
+        SharedPreferences sharedPreferences = Helpers.getSharedPreference(context);
+        String tasksListKey = context.getResources().getString(R.string.shared_pref_tasks_list_key);
+
+        if (sharedPreferences.contains(tasksListKey)) {
+            tasksManager.setTasksHistory(Helpers.getObjectFromSharedPreference(context, tasksListKey, Helpers.getListOfClassType(Task.class)));
+        }
     }
 
     private void displayTaskInformation() {
@@ -72,29 +86,54 @@ public class TaskMessageFragment extends AppCompatDialogFragment {
         txtTaskName.setText(taskName);
 
         currentChildIndex = taskInstance.getCurrentChildIndex();
-        Child childInstance = childrenManager.getChild(currentChildIndex);
-
-        String fullName = childInstance.getFirstName() + " " + childInstance.getLastName();
         TextView childFullName = v.findViewById(R.id.popupChildName);
-        childFullName.setText(fullName);
+        ImageView currentChildIcon = v.findViewById(R.id.popupChildImage);
 
-        if (childInstance.hasPortrait()) {
-            ImageView currentChildIcon = v.findViewById(R.id.popupChildImage);
-            currentChildIcon.setImageBitmap(childInstance.getPortrait());
+        if (currentChildIndex == DEFAULT_NO_CHILDREN_IDX) {
+            String noChildText = "No assigned child.";
+            childFullName.setText(noChildText);
+            currentChildIcon.setImageResource(R.drawable.task_no_child_icon);
+
+        } else {
+            Child childInstance = childrenManager.getChild(currentChildIndex);
+            String fullName = childInstance.getFirstName() + " " + childInstance.getLastName();
+
+            childFullName.setText(fullName);
+            if (childInstance.hasPortrait()) {
+                currentChildIcon.setImageBitmap(childInstance.getPortrait());
+            }
         }
+
     }
 
     private void attachConfirmButtonListener() {
         Button confirmChildTurn = v.findViewById(R.id.confirmButton);
-        confirmChildTurn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                currentChildIndex++;
-                tasksManager.updateTask(taskIndex, new Task(taskName, currentChildIndex));
-                updateTasksListSharedPref();
-                dismiss();
-            }
-        });
+
+        if (currentChildIndex != DEFAULT_NO_CHILDREN_IDX) {
+            confirmChildTurn.setVisibility(View.VISIBLE);
+            confirmChildTurn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    currentChildIndex++;
+                    tasksManager.updateTask(taskIndex, new Task(taskName, currentChildIndex));
+                    updateTasksListSharedPref();
+                    dismiss();
+                }
+            });
+
+        } else {
+            confirmChildTurn.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void attachAddChildMessage() {
+        TextView addChildMessage = v.findViewById(R.id.addNewChildMessage);
+
+        if (currentChildIndex == DEFAULT_NO_CHILDREN_IDX) {
+            addChildMessage.setVisibility(View.VISIBLE);
+        } else {
+            addChildMessage.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void updateTasksListSharedPref() {
