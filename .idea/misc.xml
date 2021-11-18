@@ -9,14 +9,10 @@
         <entry key="..\:/Users/imsl/AndroidStudioProjects/ParentApp/app/src/main/res/drawable/round_button.xml" value="0.38333333333333336" />
         <entry key="..\:/Users/imsl/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_children.xml" value="0.3671875" />
         <entry key="..\:/Users/imsl/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_children_edit.xml" value="0.7333333333333334" />
-        <entry key="..\:/Users/imsl/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_coin_flip.xml" value="0.3671875" />
-        <entry key="..\:/Users/imsl/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_coin_flip_history.xml" value="0.24947916666666667" />
+        <entry key="..\:/Users/imsl/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_coin_flip.xml" value="0.7333333333333334" />
         <entry key="..\:/Users/imsl/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_main.xml" value="0.3671875" />
         <entry key="..\:/Users/imsl/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_timer.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/imsl/AndroidStudioProjects/ParentApp/app/src/main/res/layout/children_list_view.xml" value="1.0" />
-        <entry key="..\:/Users/imsl/AndroidStudioProjects/ParentApp/app/src/main/res/layout/children_spinner_row.xml" value="0.3671875" />
-        <entry key="..\:/Users/imsl/AndroidStudioProjects/ParentApp/app/src/main/res/layout/coinflip_history_list.xml" value="0.6" />
-        <entry key="..\:/Users/imsl/AndroidStudioProjects/ParentApp/app/src/main/res/layout/flip_coin_popup_message.xml" value="0.3671875" />
         <entry key="..\:/Users/mike/Desktop/SFU Related/Fall/CMPT 276/ParentApp/app/src/main/res/layout/activity_children.xml" value="0.4041666666666667" />
         <entry key="..\:/Users/mike/Desktop/SFU Related/Fall/CMPT 276/ParentApp/app/src/main/res/layout/activity_children_edit.xml" value="0.4041666666666667" />
         <entry key="..\:/Users/mike/Desktop/SFU Related/Fall/CMPT 276/ParentApp/app/src/main/res/layout/activity_coin_flip.xml" value="0.39010416666666664" />
@@ -39,6 +35,14 @@
         <entry key="..\:/cmpt276/ParentApp/app/src/main/res/layout/coinflip_history_list.xml" value="0.3333333333333333" />
         <entry key="..\:/cmpt276/ParentApp/app/src/main/res/layout/flip_coin_popup_message.xml" value="0.25" />
         <entry key="..\:/cmpt276/ParentApp/app/src/main/res/layout/main_buttons_gradient_bg.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/back.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/help_text_box_background.xml" value="0.18489583333333334" />
+        <entry key="app/src/main/res/drawable/my_button_background.xml" value="0.18055555555555555" />
+        <entry key="app/src/main/res/font/oswald.xml" value="0.26666666666666666" />
+        <entry key="app/src/main/res/font/oswald_light.xml" value="0.26666666666666666" />
+        <entry key="app/src/main/res/font/reenie_beanie.xml" value="0.26666666666666666" />
+        <entry key="app/src/main/res/layout/activity_help_screen.xml" value="0.2746316602308015" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.18541666666666667" />
       </map>
     </option>
   </component>
