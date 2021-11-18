@@ -322,7 +322,7 @@ public class CoinFlipActivity extends AppCompatActivity {
         populateChildrenList();
         isFinishFlip = false;
         flipped = false;
-        Log.i("TAG", "Showed the dialog.");
+        Log.i("TAG", "Showed the dialog. ");
 
         if (childrenList.size() != 0) {
             addHeadBtn.setVisibility(View.VISIBLE);
