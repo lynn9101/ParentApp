@@ -1,22 +1,15 @@
 package com.example.parentapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -24,6 +17,9 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.parentapp.models.Child;
 import com.example.parentapp.models.ChildrenManager;
@@ -66,7 +62,6 @@ public class CoinFlipActivity extends AppCompatActivity {
     private Random rng;
     private Spinner spinnerChildren;
     int lastSelectedChild;
-    String childrenListKey = "ChildrenListKey";
     String childrenIDKey = "AllChildrenIDListKey";
     String spinnerChildrenKey = "SpinnerChildrenListKey";
     private TextView chooseHint;
@@ -108,9 +103,6 @@ public class CoinFlipActivity extends AppCompatActivity {
         resultTail.setVisibility(View.INVISIBLE);
 
         populateChildrenList();
-
-
-
         attachButtonListeners();
     }
 
@@ -126,9 +118,8 @@ public class CoinFlipActivity extends AppCompatActivity {
                 resultTail.setVisibility(View.INVISIBLE);
                 Child clickedItem = (Child) adapterView.getItemAtPosition(position);
                 String clickedChildName = clickedItem.getFirstName() + " " + clickedItem.getLastName();
-                //Toast.makeText(CoinFlipActivity.this,clickedChildName + " is selected", Toast.LENGTH_SHORT).show();
                 pickStatus = findViewById(R.id.pickStatus);
-                pickStatus.setText(clickedChildName + " wants: ");
+                pickStatus.setText(clickedChildName + getString(R.string.childWants));
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {}
@@ -146,24 +137,13 @@ public class CoinFlipActivity extends AppCompatActivity {
     }
 
     public void setArrayPrefs(ArrayList<Child> array, Context mContext) {
-        SharedPreferences prefs = Helpers.getSharedPreference(mContext);
         SharedPreferences.Editor editor = Helpers.getSharedPrefEditor(getApplicationContext());
         Gson gson = new Gson();
         String json = gson.toJson(array);
-        //childrenListKey= mContext.getResources().getString(R.string.shared_pref_children_list_key);
         editor.putString(spinnerChildrenKey, json);
         editor.putBoolean("ISFLIPPED", flipped);
         editor.putBoolean("ISFINISHED", isFinishFlip);
         editor.commit();
-    }
-
-    public ArrayList<Child> getArrayPrefs(Context mContext) {
-        SharedPreferences prefs = Helpers.getSharedPreference(mContext);
-        Gson gson = new Gson();
-        String json = prefs.getString(spinnerChildrenKey, "");
-        Type type = new TypeToken<ArrayList<Child>>(){}.getType();
-        ArrayList<Child> allChildren = gson.fromJson(json, type);
-        return allChildren;
     }
 
     public static int getSharedPrefLastChildIndex(Context context) {
@@ -174,7 +154,6 @@ public class CoinFlipActivity extends AppCompatActivity {
     private void populateChildrenList() {
         Context context = getApplicationContext();
         SharedPreferences sharedPreferences = Helpers.getSharedPreference(context);
-        //String childrenListKey = context.getResources().getString(R.string.shared_pref_children_list_key);
 
         if (sharedPreferences.contains(spinnerChildrenKey)) {
             childrenManager.setSpinnerChildren(Helpers.getObjectFromSharedPreference(context, spinnerChildrenKey, Helpers.getListOfClassType(Child.class)));
@@ -182,30 +161,28 @@ public class CoinFlipActivity extends AppCompatActivity {
         lastSelectedChild = getSharedPrefLastChildIndex(this);
         flipped = Helpers.getSharedPreference(this).getBoolean("ISFLIPPED", false);
         isFinishFlip = Helpers.getSharedPreference(this).getBoolean("ISFINISHED", false);
+
         if (sharedPreferences.contains(childrenIDKey)) {
             allChildrenID = getAllChildrenID(this);
+        } else {
+            allChildrenID = new ArrayList<>();
         }
-        //allChildrenID = getAllChildrenID(this);
+
         if (lastSelectedChild >= childrenManager.getSpinnerChildren().size()) {
             lastSelectedChild = childrenManager.getSpinnerChildren().size() - 1;
         }
-        //Toast.makeText(CoinFlipActivity.this,"lastSelectedChild is " + lastSelectedChild, Toast.LENGTH_SHORT).show();
         childrenList = childrenManager.getSpinnerChildren();
-        //childrenList.clear();
-        //childrenList = getArrayPrefs(this);
         Child nobody;
         int anonymousChildID = generateChildID();
         if (childrenList == null || childrenList.size() == 0) {
             Bitmap icon = ((BitmapDrawable)getResources().getDrawable(R.drawable.child_image_listview)).getBitmap();
             nobody = new Child("Child","Anonymous", icon, anonymousChildID);
         } else {
-            Toast.makeText(CoinFlipActivity.this, "child list not 0", Toast.LENGTH_SHORT).show();
             if (flipped && isFinishFlip) {
                 Child lastPickedChild = childrenList.get(lastSelectedChild);
                 childrenList.remove(lastPickedChild);
                 childrenList.add(lastPickedChild);
                 lastSelectedChild += 1;
-                //Toast.makeText(CoinFlipActivity.this, "flipped", Toast.LENGTH_SHORT).show();
                 flipped = false;
                 isFinishFlip = false;
             }
@@ -411,9 +388,6 @@ public class CoinFlipActivity extends AppCompatActivity {
         } else {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        //resultHead.setVisibility(View.INVISIBLE);
-        //resultTail.setVisibility(View.INVISIBLE);
-        //Toast.makeText(CoinFlipActivity.this,"On-back pressed in CoinFlip", Toast.LENGTH_SHORT).show();
         super.onBackPressed();
     }
 
@@ -421,8 +395,6 @@ public class CoinFlipActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         spinnerChildren.setClickable(true);
-        Log.e("TAG", "in onresume");
-        //populateChildrenList();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         super.onResume();
     }

@@ -58,7 +58,6 @@ public class ChildrenEditActivity extends AppCompatActivity {
     private ActivityResultLauncher<String> gallerySelectionActivityLauncher;
 
     private ArrayList<Integer> allChildID = new ArrayList<>();
-    private ArrayList<Child> spinnerChildren = new ArrayList<>();
     String allChildIdKey = "AllChildrenIDListKey";
     String spinnerChildrenKey = "SpinnerChildrenListKey";
     public static Intent makeLaunchIntent(Context ctx, String message) {
@@ -75,13 +74,6 @@ public class ChildrenEditActivity extends AppCompatActivity {
         allChildID.clear();
         Context context = getApplicationContext();
         SharedPreferences sharedPreferences = Helpers.getSharedPreference(context);
-        //String childrenListKey = context.getResources().getString(R.string.shared_pref_children_list_key);
-        /*
-        if (sharedPreferences.contains(spinnerChildrenKey)) {
-           spinnerChildren = getSpinnerChildrenArrayPrefs(this);
-        }
-
-         */
         if (sharedPreferences.contains(allChildIdKey)) {
             allChildID = getArrayPrefs(this);
         } else {
@@ -168,18 +160,13 @@ public class ChildrenEditActivity extends AppCompatActivity {
             Child newChild = new Child(lastName, firstName, portraitImage,uniqueID);
             childrenManager.addChild(newChild);
             childrenManager.addSpinnerChild(newChild);
-            Toast.makeText(ChildrenEditActivity.this, " first id is " + newChild.getUniqueID(), Toast.LENGTH_SHORT).show();
-            //spinnerChildrenManager.addChild(new Child(lastName, firstName, portraitImage,uniqueID));
         } else {
             message = "Child's information has been edited.";
             int originalChildID = childrenManager.getChild(editIndex).getUniqueID();
             Child childEdited = new Child(lastName, firstName, portraitImage, originalChildID);
             childrenManager.updateChild(editIndex, childEdited);
             childrenManager.updateSpinnerChild(editIndex,childEdited);
-            //spinnerChildrenManager.updateChild(editIndex, childEdited);
         }
-
-        //Toast.makeText(ChildrenEditActivity.this, message, Toast.LENGTH_SHORT).show();
         updateChildrenListSharedPref();
         updateSpinnerChildrenListSharedPref();
         finish();
@@ -196,13 +183,10 @@ public class ChildrenEditActivity extends AppCompatActivity {
                 builder.setMessage("Delete this child? It cannot be restored!")
                         .setPositiveButton("Confirm", (dialogInterface, i) -> {
                             int removeID = childrenManager.getChildren().get(editIndex).getUniqueID();
-                            Toast.makeText(ChildrenEditActivity.this, " second id is " + removeID, Toast.LENGTH_SHORT).show();
                             childrenManager.removeChild(editIndex);
                             int deleteChild = childrenManager.getSpinnerChildByID(childrenManager.getSpinnerChildren(), removeID);
                             childrenManager.getSpinnerChildren().remove(deleteChild);
-                            //spinnerChildrenManager.removeChild(editIndex);
                             updateChildrenListSharedPref();
-                            //childrenManager.getSpinnerChildren().clear();
                             updateSpinnerChildrenListSharedPref();
                             finish();
                         })
