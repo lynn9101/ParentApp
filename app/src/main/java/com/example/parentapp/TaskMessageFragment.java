@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -56,7 +55,6 @@ public class TaskMessageFragment extends AppCompatDialogFragment {
             }
         };
 
-        populateTaskList();
         displayTaskInformation();
         attachConfirmButtonListener();
         attachAddChildMessage();
@@ -66,16 +64,6 @@ public class TaskMessageFragment extends AppCompatDialogFragment {
                 .setPositiveButton("EDIT", listener)
                 .setNegativeButton("CANCEL", null)
                 .create();
-    }
-
-    private void populateTaskList() {
-        Context context = getActivity();
-        SharedPreferences sharedPreferences = Helpers.getSharedPreference(context);
-        String tasksListKey = context.getResources().getString(R.string.shared_pref_tasks_list_key);
-
-        if (sharedPreferences.contains(tasksListKey)) {
-            tasksManager.setTasksHistory(Helpers.getObjectFromSharedPreference(context, tasksListKey, Helpers.getListOfClassType(Task.class)));
-        }
     }
 
     private void displayTaskInformation() {
@@ -114,10 +102,17 @@ public class TaskMessageFragment extends AppCompatDialogFragment {
             confirmChildTurn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    currentChildIndex++;
+                    if (currentChildIndex < childrenManager.getChildren().size() - 1) {
+                        currentChildIndex++;
+                    } else {
+                        currentChildIndex = 0;
+                    }
+
                     tasksManager.updateTask(taskIndex, new Task(taskName, currentChildIndex));
                     updateTasksListSharedPref();
                     dismiss();
+                    WhoseTurnActivity activity = (WhoseTurnActivity) getActivity();
+                    activity.onStart();
                 }
             });
 
