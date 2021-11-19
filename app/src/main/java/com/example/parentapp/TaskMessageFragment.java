@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,13 +29,14 @@ import com.example.parentapp.models.TasksManager;
  */
 
 public class TaskMessageFragment extends AppCompatDialogFragment {
+
     private TasksManager tasksManager = TasksManager.getInstance();
     private ChildrenManager childrenManager = ChildrenManager.getInstance();
     private int taskIndex;
     private String taskName;
     private int currentChildIndex;
-    private View v;
     private final int DEFAULT_NO_CHILDREN_IDX = -1;
+    private View v;
 
     public TaskMessageFragment(int taskIndex) {
         this.taskIndex = taskIndex;
@@ -49,7 +49,7 @@ public class TaskMessageFragment extends AppCompatDialogFragment {
         DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int i) {
-                Intent intent = TaskEditActivity.makeLaunchIntent(((Dialog)dialog).getContext(), "Edit Current");
+                Intent intent = TaskEditActivity.makeLaunchIntent(getActivity(), "Edit Current");
                 intent.putExtra("editIndex", taskIndex);
                 startActivity(intent);
             }
@@ -85,13 +85,12 @@ public class TaskMessageFragment extends AppCompatDialogFragment {
         } else {
             Child childInstance = childrenManager.getChild(currentChildIndex);
             String fullName = childInstance.getFirstName() + " " + childInstance.getLastName();
-
             childFullName.setText(fullName);
+
             if (childInstance.hasPortrait()) {
                 currentChildIcon.setImageBitmap(childInstance.getPortrait());
             }
         }
-
     }
 
     private void attachConfirmButtonListener() {
@@ -102,15 +101,17 @@ public class TaskMessageFragment extends AppCompatDialogFragment {
             confirmChildTurn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    // Update the childIndex of that task to the next child in the list.
                     if (currentChildIndex < childrenManager.getChildren().size() - 1) {
                         currentChildIndex++;
                     } else {
                         currentChildIndex = 0;
                     }
 
-                    tasksManager.updateTask(taskIndex, new Task(taskName, currentChildIndex));
+                    tasksManager.getTask(taskIndex).setCurrentChildIndex(currentChildIndex);
                     updateTasksListSharedPref();
                     dismiss();
+
                     WhoseTurnActivity activity = (WhoseTurnActivity) getActivity();
                     activity.onStart();
                 }
@@ -123,7 +124,6 @@ public class TaskMessageFragment extends AppCompatDialogFragment {
 
     private void attachAddChildMessage() {
         TextView addChildMessage = v.findViewById(R.id.addNewChildMessage);
-
         if (currentChildIndex == DEFAULT_NO_CHILDREN_IDX) {
             addChildMessage.setVisibility(View.VISIBLE);
         } else {

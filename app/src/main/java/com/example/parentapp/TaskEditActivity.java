@@ -12,7 +12,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.parentapp.models.Child;
 import com.example.parentapp.models.ChildrenManager;
 import com.example.parentapp.models.Helpers;
 import com.example.parentapp.models.Task;
@@ -30,7 +29,6 @@ public class TaskEditActivity extends AppCompatActivity {
     private static final String EXTRA_MESSAGE = "Passing Edit State";
     private String title;
     private int editIndex;
-
     private EditText taskName;
 
     public static Intent makeLaunchIntent(Context ctx, String message) {
@@ -48,7 +46,6 @@ public class TaskEditActivity extends AppCompatActivity {
         Intent intent = getIntent();
         title = intent.getStringExtra(EXTRA_MESSAGE);
         editIndex = intent.getIntExtra("editIndex", -1);
-
         taskName = findViewById(R.id.editTaskName);
 
         // Set up UI elements
@@ -81,6 +78,7 @@ public class TaskEditActivity extends AppCompatActivity {
     }
 
     private boolean checkValidTaskName() {
+
         if (taskName.getText().toString().equals("")) {
             String message = "Please fill out the task name before saving!";
             Toast.makeText(TaskEditActivity.this, message, Toast.LENGTH_SHORT)
@@ -93,10 +91,13 @@ public class TaskEditActivity extends AppCompatActivity {
 
     private void saveTaskName() {
         String validTaskName = taskName.getText().toString();
-        final int DEFAULT_NO_CHILDREN = -1;
+        final int DEFAULT_NO_CHILDREN_IDX = -1;
         int firstChildIndex;
+
+        // If there is no child in Configure Children, assign the task to anonymous child index (-1)
+        // Otherwise, always assign new task to the first child in the list.
         if (childrenManager.getChildren().size() == 0) {
-            firstChildIndex = DEFAULT_NO_CHILDREN;
+            firstChildIndex = DEFAULT_NO_CHILDREN_IDX;
         } else {
             firstChildIndex = 0;
         }
@@ -107,9 +108,7 @@ public class TaskEditActivity extends AppCompatActivity {
             tasksManager.addTask(new Task(validTaskName, firstChildIndex));
         } else {
             message = "Task's name has been edited.";
-            int currentChildIndex = tasksManager.getTask(editIndex).getCurrentChildIndex();
-            Task taskEdited = new Task(validTaskName, currentChildIndex);
-            tasksManager.updateTask(editIndex, taskEdited);
+            tasksManager.getTask(editIndex).setTaskName(validTaskName);
         }
 
         Toast.makeText(TaskEditActivity.this, message, Toast.LENGTH_SHORT)
@@ -145,7 +144,6 @@ public class TaskEditActivity extends AppCompatActivity {
     private void fillModel() {
         if (editIndex >= 0) {
             Task taskInstance = tasksManager.getTask(editIndex);
-
             taskName.setText(taskInstance.getTaskName());
         }
     }

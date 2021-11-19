@@ -25,19 +25,17 @@ import com.example.parentapp.models.TasksManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * WhoseTurnActivity class is an android activity and handles the listview of task objects.
- * ListView display the tasks and the name of children assigned to those tasks.
+ * ListView display the tasks and the names of children assigned to those tasks.
  */
 
 public class WhoseTurnActivity extends AppCompatActivity {
 
     private TasksManager tasksManager = TasksManager.getInstance();
     private ChildrenManager childrenManager = ChildrenManager.getInstance();
-    private List<Task> tasksHistory = new ArrayList<>();
-    private final int DEFAULT_NO_CHILDREN_IDX = -1;
+    private ArrayList<Task> tasksHistory = new ArrayList<>();
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, WhoseTurnActivity.class);
@@ -53,10 +51,11 @@ public class WhoseTurnActivity extends AppCompatActivity {
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources()
                 .getColor(R.color.app_title_color)));
 
+        // Set up UI elements
         attachAddButtonListener();
-        displayEmptyListState();
         updateChildrenList();
         populateTaskList();
+        displayEmptyListState();
         registerClickListener();
     }
 
@@ -66,9 +65,9 @@ public class WhoseTurnActivity extends AppCompatActivity {
         setContentView(R.layout.activity_whose_turn);
 
         attachAddButtonListener();
-        displayEmptyListState();
         updateChildrenList();
         populateTaskList();
+        displayEmptyListState();
         registerClickListener();
     }
 
@@ -81,19 +80,6 @@ public class WhoseTurnActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
-
-    private void displayEmptyListState() {
-        TextView noTaskText = findViewById(R.id.noTaskText);
-        ImageView addTaskIcon = findViewById(R.id.addTaskIcon);
-        TextView addTaskInstruction = findViewById(R.id.addTaskInstruction);
-
-        tasksHistory = tasksManager.getTasksHistory();
-        if (tasksHistory.size() != 0) {
-            noTaskText.setVisibility(View.INVISIBLE);
-            addTaskIcon.setVisibility(View.INVISIBLE);
-            addTaskInstruction.setVisibility(View.INVISIBLE);
-        }
     }
 
     private void updateChildrenList() {
@@ -121,7 +107,18 @@ public class WhoseTurnActivity extends AppCompatActivity {
 
         adapter.notifyDataSetChanged();
         tasksListView.setAdapter(adapter);
+    }
 
+    private void displayEmptyListState() {
+        TextView noTaskText = findViewById(R.id.noTaskText);
+        ImageView addTaskIcon = findViewById(R.id.addTaskIcon);
+        TextView addTaskInstruction = findViewById(R.id.addTaskInstruction);
+
+        if (tasksHistory.size() != 0) {
+            noTaskText.setVisibility(View.INVISIBLE);
+            addTaskIcon.setVisibility(View.INVISIBLE);
+            addTaskInstruction.setVisibility(View.INVISIBLE);
+        }
     }
 
     private class TasksListAdapter extends ArrayAdapter<Task> {
@@ -146,27 +143,31 @@ public class WhoseTurnActivity extends AppCompatActivity {
             TextView childFullName = itemView.findViewById(R.id.currentChildName);
             ImageView currentChildIcon = itemView.findViewById(R.id.taskChildImage);
 
+            final int DEFAULT_NO_CHILDREN_IDX = -1;
             if (childrenManager.getChildren().size() == 0) {
+                // If all children in Configure Children are removed, update the task information
+                // to no assigned child to all the task.
                 if (currentChildIndex != DEFAULT_NO_CHILDREN_IDX) {
                     currentChildIndex = DEFAULT_NO_CHILDREN_IDX;
                     tasksManager.getTask(position).setCurrentChildIndex(currentChildIndex);
                     updateTasksListSharedPref();
                 }
 
-                String noChildText = "No assigned child.";
+                String noChildText = "No assigned child";
                 childFullName.setText(noChildText);
                 currentChildIcon.setImageResource(R.drawable.task_no_child_icon);
 
             } else {
+                // If there exists children in Configure Children and the current task is not assigned
+                // to anyone, update the task to the FIRST child in the list (index 0)
                 if (currentChildIndex == DEFAULT_NO_CHILDREN_IDX) {
-                    currentChildIndex++;
+                    currentChildIndex = 0;
                     tasksManager.getTask(position).setCurrentChildIndex(currentChildIndex);
                     updateTasksListSharedPref();
                 }
 
                 Child childInstance = childrenManager.getChild(currentChildIndex);
                 String fullName = childInstance.getFirstName() + " " + childInstance.getLastName();
-
                 childFullName.setText(fullName);
                 if (childInstance.hasPortrait()) {
                     currentChildIcon.setImageBitmap(childInstance.getPortrait());
@@ -177,7 +178,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
         }
     }
 
-    public void registerClickListener() {
+    private void registerClickListener() {
         ListView tasksList = findViewById(R.id.tasksListView);
         tasksList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
