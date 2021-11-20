@@ -71,7 +71,8 @@ public class CoinFlipActivity extends AppCompatActivity {
     private boolean flipped;
     private boolean isFinishFlip;
     private ArrayList<Integer> allChildrenID;
-    SharedPreferences.Editor editor = Helpers.getSharedPrefEditor(getApplicationContext());
+    private Boolean needChangeFlip = false;
+
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, CoinFlipActivity.class);
@@ -143,47 +144,34 @@ public class CoinFlipActivity extends AppCompatActivity {
         Context context = getApplicationContext();
         Helpers.saveObjectToSharedPreference(context, spinnerChildrenKey, childrenManager.getSpinnerChildren());
     }
-    /*
-    public void updateSpinnerChildrenSharPref(ArrayList<Child> array, Context mContext) {
+
+    public void updateIsFinishedSharPref(Context context) {
         SharedPreferences.Editor editor = Helpers.getSharedPrefEditor(getApplicationContext());
-        Gson gson = new Gson();
-        String json = gson.toJson(array);
-        editor.putString(spinnerChildrenKey, json);
-        editor.putBoolean("ISFLIPPED", flipped);
-        editor.putBoolean("ISFINISHED", isFinishFlip);
-        editor.commit();
-    }
-
-     */
-
-
-    public void updateIsFinishedSharPref () {
+        String isFinishedKeySharPref = context.getResources().getString(R.string.shared_pref_is_finished_key);
         editor.putBoolean(isFinishedKeySharPref, isFinishFlip);
-        //Helpers.saveObjectToSharedPreference(context, isFinishedKeySharPref, isFinishFlip);
+
+        editor.apply();
     }
 
-    public void updateIsFlippedSharPref () {
-        editor.putBoolean(isFlippedKeySharPref, flipped);
-        //Context context = getApplicationContext();
-        //Helpers.saveObjectToSharedPreference(context, isFlippedKeySharPref, flipped);
-    }
-
-    public static boolean getSharedPrefIsFinished(Context context) {
-        String isFinishedKey = context.getResources().getString(R.string.shared_pref_is_finished_key);
-        return Helpers.getSharedPreference(context).getBoolean(isFinishedKey,false);
-    }
-
-    public static boolean getSharedPrefIsFlipped(Context context) {
+    public void updateIsFlippedSharPref(Context context) {
+        SharedPreferences.Editor editor = Helpers.getSharedPrefEditor(getApplicationContext());
         String isFlippedKey = context.getResources().getString(R.string.shared_pref_is_flipped_key);
-        return Helpers.getSharedPreference(context).getBoolean(isFlippedKey,false);
+        editor.putBoolean(isFlippedKey, flipped);
+        editor.apply();
+    }
+
+    public boolean getSharedPrefIsFinished(Context context) {
+        return Helpers.getSharedPreference(context).getBoolean(isFinishedKeySharPref, false);
+    }
+
+    public boolean getSharedPrefIsFlipped(Context context) {
+        return Helpers.getSharedPreference(context).getBoolean(isFlippedKeySharPref, false);
     }
 
     public static int getSharedPrefLastChildIndex(Context context) {
         String lastPickedChildKey = context.getResources().getString(R.string.shared_pref_suggested_child_key);
         return Helpers.getSharedPreference(context).getInt(lastPickedChildKey, NO_CHILDREN_INT);
     }
-
-
 
     private void populateChildrenList() {
         Context context = getApplicationContext();
@@ -193,10 +181,6 @@ public class CoinFlipActivity extends AppCompatActivity {
             childrenManager.setSpinnerChildren(Helpers.getObjectFromSharedPreference(context, spinnerChildrenKey, Helpers.getListOfClassType(Child.class)));
         }
         lastSelectedChild = getSharedPrefLastChildIndex(this);
-        flipped = getSharedPrefIsFlipped(this);
-        isFinishFlip = getSharedPrefIsFinished(this);
-        //flipped = Helpers.getSharedPreference(this).getBoolean("ISFLIPPED", false);
-        //isFinishFlip = Helpers.getSharedPreference(this).getBoolean("ISFINISHED", false);
 
         if (sharedPreferences.contains(childrenIDKey)) {
             allChildrenID = getAllChildrenID(this);
@@ -210,20 +194,21 @@ public class CoinFlipActivity extends AppCompatActivity {
         childrenList = childrenManager.getSpinnerChildren();
         Child nobody;
         int anonymousChildID = generateChildID();
+        isFinishFlip = getSharedPrefIsFinished(this);
+        flipped = getSharedPrefIsFlipped(this);
         if (childrenList == null || childrenList.size() == 0) {
             Bitmap icon = ((BitmapDrawable)getResources().getDrawable(R.drawable.child_image_listview)).getBitmap();
             nobody = new Child("Child","Anonymous", icon, anonymousChildID);
         } else {
             if (flipped && isFinishFlip) {
-                Toast.makeText(this,"both are true", Toast.LENGTH_SHORT).show();
                 Child lastPickedChild = childrenList.get(lastSelectedChild);
                 childrenList.remove(lastPickedChild);
                 childrenList.add(lastPickedChild);
                 lastSelectedChild += 1;
                 flipped = false;
                 isFinishFlip = false;
-                updateIsFinishedSharPref();
-                updateIsFlippedSharPref();
+                updateIsFinishedSharPref(this);
+                updateIsFlippedSharPref(this);
             }
             Bitmap icon = ((BitmapDrawable)getResources().getDrawable(R.drawable.child_image_listview)).getBitmap();
             nobody = new Child("Child","Anonymous", icon, anonymousChildID);
@@ -325,7 +310,9 @@ public class CoinFlipActivity extends AppCompatActivity {
 
     private void displayDialog() {
         isFinishFlip = true;
-        updateIsFinishedSharPref();
+        updateIsFinishedSharPref(this);
+        updateIsFlippedSharPref(this);
+
         if (coinFlipAnimated != null) {
             coinFlipAnimated.setVisibility(View.INVISIBLE);
         }
@@ -365,8 +352,8 @@ public class CoinFlipActivity extends AppCompatActivity {
         populateChildrenList();
         isFinishFlip = false;
         flipped = false;
-        updateIsFlippedSharPref();
-        updateIsFinishedSharPref();
+        updateIsFlippedSharPref(this);
+        updateIsFinishedSharPref(this);
         Log.i("TAG", "Showed the dialog. ");
 
         if (childrenList.size() != 0) {
@@ -418,7 +405,6 @@ public class CoinFlipActivity extends AppCompatActivity {
     protected void onPause() {
         childrenList.remove(childrenList.size() - 1);
         updateSpinnerChildrenSharPref();
-        //setArrayPrefs((ArrayList<Child>) childrenList,this);
         super.onPause();
     }
 
@@ -431,7 +417,7 @@ public class CoinFlipActivity extends AppCompatActivity {
             coinFlipSound = null;
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             isFinishFlip = true;
-            updateIsFinishedSharPref();
+            updateIsFinishedSharPref(this);
         } else {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }

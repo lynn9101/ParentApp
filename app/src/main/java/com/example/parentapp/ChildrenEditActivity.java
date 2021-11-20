@@ -29,12 +29,8 @@ import com.example.parentapp.models.Child;
 import com.example.parentapp.models.ChildrenManager;
 import com.example.parentapp.models.Helpers;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -299,18 +295,5 @@ public class ChildrenEditActivity extends AppCompatActivity {
     private void updateSpinnerChildrenListSharedPref() {
         Context context = getApplicationContext();
         Helpers.saveObjectToSharedPreference(context, spinnerChildrenKey, childrenManager.getSpinnerChildren());
-    }
-
-    public void getChildIdListSharedPref() {
-        Context context = getApplicationContext();
-        Helpers.getObjectFromSharedPreference(context,allChildIdKey, Helpers.getListOfClassType(Integer.class));
-        /*
-        SharedPreferences prefs = Helpers.getSharedPreference(mContext);
-        Gson gson = new Gson();
-        String json = prefs.getString(allChildIdKey, "");
-        Type type = new TypeToken<ArrayList<Integer>>(){}.getType();
-        ArrayList<Integer> allChildrenID = gson.fromJson(json, type);
-        return allChildrenID;
-         */
     }
 }

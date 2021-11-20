@@ -88,17 +88,4 @@ public class Helpers {
         Vibrator vibrator = (Vibrator) ctx.getSystemService(Context.VIBRATOR_SERVICE);
         vibrator.vibrate(VibrationEffect.createOneShot(intervalInMillis, VibrationEffect.DEFAULT_AMPLITUDE));
     }
-
-    private int generateChildID() {
-        Random rand = new Random();
-        int newChildID = rand.nextInt(100000);
-        /*
-        while (allChildID.contains(newChildID)) {
-            newChildID = rand.nextInt(100000);
-        }
-        allChildID.add(newChildID);
-        updateAllChildIdSharedPref();
-         */
-        return newChildID;
-    }
 }
