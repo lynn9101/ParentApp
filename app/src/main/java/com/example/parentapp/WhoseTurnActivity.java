@@ -160,7 +160,8 @@ public class WhoseTurnActivity extends AppCompatActivity {
             } else {
                 // If there exists children in Configure Children and the current task is not assigned
                 // to anyone, update the task to the FIRST child in the list (index 0)
-                if (currentChildIndex == DEFAULT_NO_CHILDREN_IDX) {
+                if (currentChildIndex == DEFAULT_NO_CHILDREN_IDX ||
+                    currentChildIndex >= childrenManager.getChildren().size()) {
                     currentChildIndex = 0;
                     tasksManager.getTask(position).setCurrentChildIndex(currentChildIndex);
                     updateTasksListSharedPref();
