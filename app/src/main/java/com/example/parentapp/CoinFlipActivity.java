@@ -71,7 +71,7 @@ public class CoinFlipActivity extends AppCompatActivity {
     private boolean flipped;
     private boolean isFinishFlip;
     private ArrayList<Integer> allChildrenID;
-    private Boolean needChangeFlip = false;
+    int anonymousChildID = -1;
 
 
     public static Intent makeIntent(Context context) {
@@ -193,12 +193,13 @@ public class CoinFlipActivity extends AppCompatActivity {
         }
         childrenList = childrenManager.getSpinnerChildren();
         Child nobody;
-        int anonymousChildID = generateChildID();
+
         isFinishFlip = getSharedPrefIsFinished(this);
         flipped = getSharedPrefIsFlipped(this);
         if (childrenList == null || childrenList.size() == 0) {
             Bitmap icon = ((BitmapDrawable)getResources().getDrawable(R.drawable.child_image_listview)).getBitmap();
             nobody = new Child("Child","Anonymous", icon, anonymousChildID);
+
         } else {
             if (flipped && isFinishFlip) {
                 Child lastPickedChild = childrenList.get(lastSelectedChild);
@@ -228,7 +229,9 @@ public class CoinFlipActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CoinFlipActivity.this, CoinFlipHistoryActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+                CoinFlipActivity.this.finish();
             }
         });
 
@@ -398,13 +401,13 @@ public class CoinFlipActivity extends AppCompatActivity {
             coinFlipSound.release();
             coinFlipSound = null;
         }
+        childrenList.remove(childrenList.size() - 1);
+        updateSpinnerChildrenSharPref();
         super.onStop();
     }
 
     @Override
     protected void onPause() {
-        childrenList.remove(childrenList.size() - 1);
-        updateSpinnerChildrenSharPref();
         super.onPause();
     }
 
@@ -416,8 +419,6 @@ public class CoinFlipActivity extends AppCompatActivity {
             coinFlipSound.release();
             coinFlipSound = null;
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-            isFinishFlip = true;
-            updateIsFinishedSharPref(this);
         } else {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
