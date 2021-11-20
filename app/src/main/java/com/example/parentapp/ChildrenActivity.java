@@ -66,7 +66,7 @@ public class ChildrenActivity extends AppCompatActivity {
     }
 
     private void attachButtonListeners() {
-        FloatingActionButton fab = findViewById(R.id.addButton);
+        FloatingActionButton fab = findViewById(R.id.childAddButton);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,7 +82,7 @@ public class ChildrenActivity extends AppCompatActivity {
         TextView addInstruction = findViewById(R.id.addInstruction);
 
         childrenList = childrenManager.getChildren();
-        if(childrenList.size() != 0) {
+        if (childrenList.size() != 0) {
             noChildText.setVisibility(View.INVISIBLE);
             addIcon.setVisibility(View.INVISIBLE);
             addInstruction.setVisibility(View.INVISIBLE);
