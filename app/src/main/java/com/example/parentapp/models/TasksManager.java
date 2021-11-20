@@ -3,8 +3,8 @@ package com.example.parentapp.models;
 import java.util.ArrayList;
 
 /**
- * The TasksManager class is a singleton used throughout the app
- * The class is responsible for the retrieval, addition, modification and deletion of task object/
+ * The TasksManager class is a singleton used throughout the app.
+ * The class is responsible for the retrieval, addition, modification and deletion of task object.
  */
 
 public class TasksManager {

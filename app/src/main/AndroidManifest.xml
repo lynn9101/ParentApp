@@ -16,6 +16,11 @@
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".TaskEditActivity"
+            android:exported="true"
+            android:parentActivityName=".WhoseTurnActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".WhoseTurnActivity"
             android:exported="true"
             android:parentActivityName=".MainActivity"
@@ -56,7 +61,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name=".NotificationReceiver" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -66,8 +71,8 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-        <receiver
-            android:name=".NotificationReceiver" />
+
+        <receiver android:name=".NotificationReceiver" />
     </application>
 
 </manifest>
