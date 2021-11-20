@@ -27,7 +27,6 @@ import android.widget.Toast;
 import com.example.parentapp.models.Child;
 import com.example.parentapp.models.ChildrenManager;
 import com.example.parentapp.models.Helpers;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
 import java.io.IOException;
@@ -141,7 +140,7 @@ public class ChildrenEditActivity extends AppCompatActivity {
     }
 
     private void setUpDeleteButton() {
-        FloatingActionButton deleteButton = findViewById(R.id.childDeleteButton);
+        Button deleteButton = findViewById(R.id.childDeleteButton);
 
         if (title.equals("Edit")) {
             deleteButton.setVisibility(View.VISIBLE);
