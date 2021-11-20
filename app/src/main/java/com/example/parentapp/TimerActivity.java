@@ -122,7 +122,7 @@ public class TimerActivity extends AppCompatActivity {
         btn1Min.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                long millisInput = MINS_TO_MILLS;
+                long millisInput = 5000;
                 setTime(millisInput);
                 customMinutes.setText("");
             }
