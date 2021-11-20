@@ -98,6 +98,7 @@ public class ChildrenEditActivity extends AppCompatActivity {
         saveButton.setOnClickListener(view -> {
             if (checkValidName()) {
                 saveValidName();
+                saveButton.setClickable(false);
             }
         });
     }
