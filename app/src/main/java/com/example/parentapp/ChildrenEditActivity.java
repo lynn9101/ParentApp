@@ -152,16 +152,13 @@ public class ChildrenEditActivity extends AppCompatActivity {
         String firstName = childFirstName.getText().toString();
         String lastName = childLastName.getText().toString();
         Bitmap portraitImage = ((BitmapDrawable)childImage.getDrawable()).getBitmap();
-        String message;
 
         if (title.equals("New")) {
-            message = "New child is added.";
             int uniqueID = generateChildID();
             Child newChild = new Child(lastName, firstName, portraitImage,uniqueID);
             childrenManager.addChild(newChild);
             childrenManager.addSpinnerChild(newChild);
         } else {
-            message = "Child's information has been edited.";
             int originalChildID = childrenManager.getChild(editIndex).getUniqueID();
             Child childEdited = new Child(lastName, firstName, portraitImage, originalChildID);
             childrenManager.updateChild(editIndex, childEdited);
@@ -311,14 +308,5 @@ public class ChildrenEditActivity extends AppCompatActivity {
         Type type = new TypeToken<ArrayList<Integer>>(){}.getType();
         ArrayList<Integer> allChildrenID = gson.fromJson(json, type);
         return allChildrenID;
-    }
-
-    public ArrayList<Child> getSpinnerChildrenArrayPrefs(Context mContext) {
-        SharedPreferences prefs = Helpers.getSharedPreference(mContext);
-        Gson gson = new Gson();
-        String json = prefs.getString(spinnerChildrenKey, "");
-        Type type = new TypeToken<ArrayList<Child>>(){}.getType();
-        ArrayList<Child> allChildren = gson.fromJson(json, type);
-        return allChildren;
     }
 }

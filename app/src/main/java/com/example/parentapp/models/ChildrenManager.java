@@ -88,20 +88,4 @@ public class ChildrenManager {
 
         this.children.remove(childId);
     }
-
-    public void removeSpinnerChild(int childID) {
-        /*
-        if (childId >= this.spinnerChildren.size()) {
-            throw new IllegalArgumentException("Child ID: " + childId + " exceeds children count.");
-        }
-
-        if (this.spinnerChildren.get(childId) == null) {
-            throw new IllegalArgumentException("Child ID: " + childId + " not found.");
-        }
-
-         */
-
-        this.spinnerChildren.remove(childID);
-    }
-
 }
