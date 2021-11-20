@@ -168,7 +168,7 @@ public class ChildrenEditActivity extends AppCompatActivity {
     private void setUpDeleteButton() {
         FloatingActionButton deleteButton = findViewById(R.id.childDeleteButton);
 
-        if(title.equals("Edit")) {
+        if (title.equals("Edit")) {
             deleteButton.setVisibility(View.VISIBLE);
 
             deleteButton.setOnClickListener(view -> {

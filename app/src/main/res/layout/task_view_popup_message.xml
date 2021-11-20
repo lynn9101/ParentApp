@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/popupChildImage"
+        android:layout_width="91dp"
+        android:layout_height="81dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/child_image_listview" />
+
+    <TextView
+        android:id="@+id/popupTask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/oswald"
+        android:text="@string/pop_up_task_field"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.015"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/popupChildImage" />
+
+    <TextView
+        android:id="@+id/popupTurn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/oswald"
+        android:text="@string/pop_up_child_field"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/popupTask"
+        app:layout_constraintTop_toBottomOf="@+id/popupTask" />
+
+    <TextView
+        android:id="@+id/popupTaskName"
+        android:layout_width="266dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="2dp"
+        android:fontFamily="@font/oswald_light"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/popupTask"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/popupTask"
+        app:layout_constraintTop_toTopOf="@+id/popupTask"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/popupChildName"
+        android:layout_width="221dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="2dp"
+        android:fontFamily="@font/oswald_light"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/popupTurn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/popupTurn"
+        app:layout_constraintTop_toTopOf="@+id/popupTurn"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/confirmButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="3dp"
+        android:backgroundTint="@color/task_box_bg_color"
+        android:text="@string/confirm_child_turn"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/popupChildImage"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="@+id/popupChildImage"
+        app:layout_constraintTop_toBottomOf="@+id/popupChildName"
+        app:layout_constraintVertical_bias="0.01" />
+
+    <TextView
+        android:id="@+id/addNewChildMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="@string/add_new_child_for_task"
+        android:fontFamily="@font/oswald"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/popupChildImage"
+        app:layout_constraintStart_toStartOf="@+id/popupChildImage"
+        app:layout_constraintTop_toBottomOf="@+id/popupChildName"
+        app:layout_constraintVertical_bias="0.009" />
+</androidx.constraintlayout.widget.ConstraintLayout>

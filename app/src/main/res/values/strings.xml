@@ -14,7 +14,6 @@
     <string name="btn_5min">5 min</string>
     <string name="btn_10min">10 min</string>
     <string name="shared_pref_key">ParentAppSharedPref</string>
-    <string name="main_select_option">Select your option:</string>
     <string name="shared_pref_coin_flip_history_key">ParentAppCoinFlipHistory</string>
     <string name="shared_pref_children_list_key">ChildrenListKey</string>
     <string name="shared_pref_childId_list_key">AllChildrenIDListKey</string>
@@ -22,6 +21,7 @@
     <string name="shared_pref_suggested_child_key">LastChildPickedHistory</string>
     <string name="shared_pref_is_finished_key">IsFinishedKey</string>
     <string name="shared_pref_is_flipped_key">IsFlippedKey</string>
+    <string name="shared_pref_tasks_list_key">TasksListKey</string>
     <string name="help_screen_title">Help</string>
     <string name="help_text_box_content">Copyright links and Image resources link</string>
     <string name="listOfMembers">1- Jing Luo - jla787\n 2- Ngan Nguyen - nnn2\n 3- Fatemeh Kiannejad - fkiannej\n 4- Wenqing Liu - wla161\n</string>
@@ -29,6 +29,15 @@
     <string name="copyrightName">Copyright</string>
     <string name="image_source_dialog_title">Select image from: </string>
     <string name="childWants">\ wants: \</string>
+    <string name="no_task_message">You have no task yet!</string>
+    <string name="add_task_instruction">Click + button to enter new task!</string>
+    <string name="add_new_task_title">Task Name</string>
+    <string name="task_save_button">SAVE</string>
+    <string name="task_delete_button">DELETE</string>
+    <string name="pop_up_task_field">Task:</string>
+    <string name="pop_up_child_field">Child\'s turn:</string>
+    <string name="confirm_child_turn">Child finished their turn</string>
+    <string name="add_new_child_for_task">Please Add New Child in Configure Children</string>
     <string-array name="imageSourceOptions">
         <item>Camera</item>
         <item>Gallery</item>
