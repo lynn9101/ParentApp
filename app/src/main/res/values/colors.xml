@@ -17,5 +17,6 @@
     <color name="listview_add_fab">#438857</color>
     <color name="listview_child_name">#605959</color>
     <color name="task_box_bg_color">#9ACE9A</color>
+    <color name="child_box_bg_color">#B7B5E6</color>
     <color name="delete_button_color">#E0A0A0</color>
 </resources>
