@@ -75,7 +75,7 @@ public class ChildrenEditActivity extends AppCompatActivity {
         Context context = getApplicationContext();
         SharedPreferences sharedPreferences = Helpers.getSharedPreference(context);
         if (sharedPreferences.contains(allChildIdKey)) {
-            allChildID = getArrayPrefs(this);
+            allChildID = Helpers.getObjectFromSharedPreference(context, allChildIdKey, Helpers.getListOfClassType(Integer.class));
         } else {
             allChildID = new ArrayList<>();
         }
@@ -301,12 +301,16 @@ public class ChildrenEditActivity extends AppCompatActivity {
         Helpers.saveObjectToSharedPreference(context, spinnerChildrenKey, childrenManager.getSpinnerChildren());
     }
 
-    public ArrayList<Integer> getArrayPrefs(Context mContext) {
+    public void getChildIdListSharedPref() {
+        Context context = getApplicationContext();
+        Helpers.getObjectFromSharedPreference(context,allChildIdKey, Helpers.getListOfClassType(Integer.class));
+        /*
         SharedPreferences prefs = Helpers.getSharedPreference(mContext);
         Gson gson = new Gson();
         String json = prefs.getString(allChildIdKey, "");
         Type type = new TypeToken<ArrayList<Integer>>(){}.getType();
         ArrayList<Integer> allChildrenID = gson.fromJson(json, type);
         return allChildrenID;
+         */
     }
 }

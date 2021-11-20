@@ -39,7 +39,9 @@ public class SpinnerChildrenAdapter extends ArrayAdapter<Child> {
         TextView textViewChild = convertView.findViewById(R.id.selectedChildName);
         Child currentItem = getItem(position);
         if (currentItem != null) {
-            imgViewChild.setImageBitmap(currentItem.getPortrait());
+            if (currentItem.hasPortrait()){
+                imgViewChild.setImageBitmap(currentItem.getPortrait());
+            }
             String fullName = currentItem.getFirstName() + " " + currentItem.getLastName();
             textViewChild.setText(fullName);
         }

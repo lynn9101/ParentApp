@@ -20,6 +20,8 @@
     <string name="shared_pref_childId_list_key">AllChildrenIDListKey</string>
     <string name="shared_pref_spinner_children_list_key">SpinnerChildrenListKey</string>
     <string name="shared_pref_suggested_child_key">LastChildPickedHistory</string>
+    <string name="shared_pref_is_finished_key">IsFinishedKey</string>
+    <string name="shared_pref_is_flipped_key">IsFlippedKey</string>
     <string name="help_screen_title">Help</string>
     <string name="help_text_box_content">Copyright links and Image resources link</string>
     <string name="listOfMembers">1- Jing Luo - jla787\n 2- Ngan Nguyen - nnn2\n 3- Fatemeh Kiannejad - fkiannej\n 4- Wenqing Liu - wla161\n</string>
