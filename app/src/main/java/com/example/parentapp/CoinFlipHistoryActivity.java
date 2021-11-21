@@ -126,4 +126,9 @@ public class CoinFlipHistoryActivity extends AppCompatActivity {
         startActivity(new Intent(this,CoinFlipActivity.class));
         super.onBackPressed();
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
 }
