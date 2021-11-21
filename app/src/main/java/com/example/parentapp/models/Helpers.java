@@ -100,11 +100,15 @@ public class Helpers {
 
     //Adapted from https://stackoverflow.com/questions/13562429/how-many-ways-to-convert-bitmap-to-string-and-vice-versa
     public static String convertBitmapToString(Bitmap bitmap){
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        int scaledHeight = (height * 200) / width;
+
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, 200, scaledHeight, false);
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        scaledBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         byte [] byteArray = stream.toByteArray();
-        String temp = Base64.encodeToString(byteArray, Base64.DEFAULT);
-        return temp;
+        return Base64.encodeToString(byteArray, Base64.DEFAULT);
     }
 
     /**
