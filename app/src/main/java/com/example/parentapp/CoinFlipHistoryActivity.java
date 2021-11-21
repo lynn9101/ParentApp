@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.parentapp.models.Child;
+import com.example.parentapp.models.ChildrenManager;
 import com.example.parentapp.models.CoinFlip;
 import com.example.parentapp.models.CoinFlipManager;
 import com.example.parentapp.models.Helpers;
@@ -29,6 +31,7 @@ import java.util.List;
 public class CoinFlipHistoryActivity extends AppCompatActivity {
 
     private List<CoinFlip> history = new ArrayList<>();
+    private ChildrenManager childrenManager = ChildrenManager.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +89,21 @@ public class CoinFlipHistoryActivity extends AppCompatActivity {
 
             ImageView statusIcon = itemView.findViewById(R.id.statusIcon);
             ImageView kidsPortrait = itemView.findViewById(R.id.imgChildPortrait);
-            kidsPortrait.setImageBitmap(coinFlipInstance.getPicker().getPortrait());
+
+            Child picker = null;
+
+            if (Helpers.isStringNullOrEmpty(coinFlipInstance.getPickerID())) {
+                kidsPortrait.setImageDrawable(getResources().getDrawable(R.drawable.child_image_listview));
+            } else {
+                picker = childrenManager.getChildren().stream().filter(x -> x.getUniqueID().equals(coinFlipInstance.getPickerID())).findFirst().orElse(null);
+
+                if (picker != null) {
+                    kidsPortrait.setImageBitmap(picker.getPortrait());
+                } else {
+                    kidsPortrait.setImageDrawable(getResources().getDrawable(R.drawable.child_image_listview));
+                }
+            }
+
             int iconID;
             if (coinFlipInstance.didPickerWin()) {
                 iconID = R.drawable.ic_check_circle_48;
@@ -96,7 +113,7 @@ public class CoinFlipHistoryActivity extends AppCompatActivity {
             statusIcon.setImageResource(iconID);
 
             TextView pickerStatus = itemView.findViewById(R.id.pickerStatus);
-            pickerStatus.setText(coinFlipInstance.getPickerStatus());
+            pickerStatus.setText(coinFlipInstance.getPickerStatus(picker));
 
             TextView coinFlipDate = itemView.findViewById(R.id.coinFlipDate);
             coinFlipDate.setText(coinFlipInstance.getFormattedCoinFlipTime());

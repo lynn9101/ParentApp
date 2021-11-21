@@ -305,10 +305,11 @@ public class CoinFlipActivity extends AppCompatActivity {
         }
         String resultedSide;
         CoinFlip flip = null;
+        Child pickedChild = null;
 
         if (suggestedChildIndex != NO_CHILDREN_INT) {
-            Child pickedChild = childrenList.get(lastSelectedChild);
-            flip = new CoinFlip(pickedChild, result, childPickedHead);
+            pickedChild = childrenList.get(lastSelectedChild);
+            flip = new CoinFlip(pickedChild.getUniqueID(), result, childPickedHead);
         } else {
             flip = new CoinFlip(result);
             suggestedChildIndex = NO_CHILDREN_INT;
@@ -327,7 +328,7 @@ public class CoinFlipActivity extends AppCompatActivity {
 
         updateCoinFlipHistorySharedPref();
 
-        String resultMessage = "Result: " + resultedSide + " !\n" + flip.getPickerStatus();
+        String resultMessage = "Result: " + resultedSide + " !\n" + flip.getPickerStatus(pickedChild);
         FragmentManager manager = getSupportFragmentManager();
         FlipCoinMessageFragment dialog = new FlipCoinMessageFragment(result, resultMessage);
         dialog.show(manager, "MessageDialog");
