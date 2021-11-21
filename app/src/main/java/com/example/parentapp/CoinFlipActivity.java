@@ -72,6 +72,8 @@ public class CoinFlipActivity extends AppCompatActivity {
     private boolean isFinishFlip;
     private ArrayList<Integer> allChildrenID;
     int anonymousChildID = -1;
+    int index = 0;
+    private boolean hasNoBody = false;
 
 
     public static Intent makeIntent(Context context) {
@@ -199,7 +201,6 @@ public class CoinFlipActivity extends AppCompatActivity {
         if (childrenList == null || childrenList.size() == 0) {
             Bitmap icon = ((BitmapDrawable)getResources().getDrawable(R.drawable.child_image_listview)).getBitmap();
             nobody = new Child("Child","Anonymous", icon, anonymousChildID);
-
         } else {
             if (flipped && isFinishFlip) {
                 Child lastPickedChild = childrenList.get(lastSelectedChild);
@@ -215,6 +216,7 @@ public class CoinFlipActivity extends AppCompatActivity {
             nobody = new Child("Child","Anonymous", icon, anonymousChildID);
         }
         childrenList.add(nobody);
+
         for (int i = 0; i < childrenList.size(); i++) {
             Child childInstance = childrenList.get(i);
             String fullName = childInstance.getFirstName() + " " + childInstance.getLastName();

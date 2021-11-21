@@ -113,6 +113,7 @@ public class ChildrenEditActivity extends AppCompatActivity {
         saveButton.setOnClickListener(view -> {
             if (checkValidName()) {
                 saveValidName();
+                saveButton.setClickable(false);
             }
         });
     }
@@ -155,10 +156,11 @@ public class ChildrenEditActivity extends AppCompatActivity {
             childrenManager.addChild(newChild);
             childrenManager.addSpinnerChild(newChild);
         } else {
-            int originalChildID = childrenManager.getChild(editIndex).getUniqueID();
-            Child childEdited = new Child(lastName, firstName, portraitImage, originalChildID);
+            int editedChildID = childrenManager.getChild(editIndex).getUniqueID();
+            Child childEdited = new Child(lastName, firstName, portraitImage, editedChildID);
             childrenManager.updateChild(editIndex, childEdited);
-            childrenManager.updateSpinnerChild(editIndex,childEdited);
+            int editPosition = childrenManager.getSpinnerChildByID(childrenManager.getSpinnerChildren(), editedChildID);
+            childrenManager.updateSpinnerChild(editPosition,childEdited);
         }
         updateChildrenListSharedPref();
         updateSpinnerChildrenListSharedPref();
