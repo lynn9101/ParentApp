@@ -317,11 +317,7 @@ public class CoinFlipActivity extends AppCompatActivity {
 
         if (suggestedChildIndex != NO_CHILDREN_INT) {
             Child pickedChild = childrenList.get(lastSelectedChild);
-            Bitmap portrait;
-            if (pickedChild.hasPortrait()) {
-                portrait = pickedChild.getPortrait();
-                flip = new CoinFlip(pickedChild, result, childPickedHead, portrait);
-            }
+            flip = new CoinFlip(pickedChild, result, childPickedHead);
         } else {
             flip = new CoinFlip(result);
             suggestedChildIndex = NO_CHILDREN_INT;

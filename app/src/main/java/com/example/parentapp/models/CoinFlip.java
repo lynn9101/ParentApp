@@ -18,14 +18,12 @@ public class CoinFlip {
     private boolean pickerWon;
     private boolean pickedHead;
     private boolean flippedHead;
-    private transient Bitmap childPortrait;
 
-    public CoinFlip(Child picker, boolean flippedHead, boolean pickedHead, Bitmap childPortrait) {
+    public CoinFlip(Child picker, boolean flippedHead, boolean pickedHead) {
         this.formattedCoinFlipTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMM dd @ h:mm a"));
         this.picker = picker;
         this.pickedHead = pickedHead;
         this.flippedHead = flippedHead;
-        this.childPortrait = childPortrait;
         pickerWon = flippedHead == pickedHead;
     }
 
