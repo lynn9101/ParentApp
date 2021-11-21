@@ -367,7 +367,7 @@ public class CoinFlipActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
+    protected void onPause() {
         if (coinFlipSound != null) {
             coinFlipSound.stop();
             coinFlipSound.release();
@@ -375,14 +375,8 @@ public class CoinFlipActivity extends AppCompatActivity {
         }
         childrenList.remove(childrenList.size() - 1);
         updateSpinnerChildrenSharPref();
-        super.onStop();
-    }
-
-    @Override
-    protected void onPause() {
         super.onPause();
     }
-
 
     @Override
     public void onBackPressed() {
