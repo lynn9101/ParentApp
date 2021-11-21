@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class ChildrenManager {
     private static ChildrenManager childrenManager;
     private ArrayList<Child> children;
+    private ArrayList<Child> spinnerChildren;
 
     public static ChildrenManager getInstance() {
         if (childrenManager == null) {
@@ -20,15 +21,33 @@ public class ChildrenManager {
 
     private ChildrenManager() {
         this.children = new ArrayList<>();
+        this.spinnerChildren = new ArrayList<>();
     }
 
     public ArrayList<Child> getChildren() {
         return this.children;
     }
+    public ArrayList<Child> getSpinnerChildren() {
+        return this.spinnerChildren;
+    }
 
     public void setChildren(ArrayList<Child> children) {
         this.children = children;
     }
+
+    public void setSpinnerChildren(ArrayList<Child> spinnerChildren) {
+        this.spinnerChildren = spinnerChildren;
+    }
+
+    public int getSpinnerChildByID(ArrayList<Child> spinnerChildren1, String childID) {
+        Child child = spinnerChildren1.stream().filter(x -> x.getUniqueID().equals(childID)).findFirst().orElse(null);
+        if (child != null) {
+            return spinnerChildren1.indexOf(child);
+        } else {
+            return -1;
+        }
+    }
+
 
     public Child getChild(int childId) {
         if (childId >= this.children.size()) {
@@ -46,8 +65,15 @@ public class ChildrenManager {
         this.children.add(child);
     }
 
+    public void addSpinnerChild(Child child) { this.spinnerChildren.add(child);}
+
     public Child updateChild(int index, Child child) {
         this.children.set(index, child);
+        return child;
+    }
+
+    public Child updateSpinnerChild(int index, Child child) {
+        this.spinnerChildren.set(index, child);
         return child;
     }
 

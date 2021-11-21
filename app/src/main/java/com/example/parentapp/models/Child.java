@@ -16,6 +16,7 @@ public class Child {
     private String lastName;
     private String firstName;
     private String portraitBitMap;
+    private String uniqueID;
     //ignore property during serialization & deserialization
     private transient Bitmap portrait;
 
@@ -24,8 +25,9 @@ public class Child {
         this.firstName = firstName;
     }
 
-    public Child(String lastName, String firstName, Bitmap childPortrait) {
+    public Child(String lastName, String firstName, Bitmap childPortrait, String childID) {
         this(lastName, firstName);
+        this.uniqueID = childID;
         this.setPortrait(childPortrait);
     }
 
@@ -43,6 +45,14 @@ public class Child {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    public String getUniqueID() {
+        return uniqueID;
+    }
+
+    public void setUniqueID(int childID) {
+        this.uniqueID = uniqueID;
     }
 
     public void setPortrait(Bitmap childPortrait) {
