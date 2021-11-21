@@ -74,6 +74,7 @@ public class CoinFlipActivity extends AppCompatActivity {
     int anonymousChildID = -1;
     int index = 0;
     private boolean hasNoBody = false;
+    String anonymousChildID = "-1";
 
 
     public static Intent makeIntent(Context context) {
@@ -130,16 +131,6 @@ public class CoinFlipActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {}
         });
-    }
-
-    private int generateChildID() {
-        Random rand = new Random();
-        int newChildID = rand.nextInt(100000);
-        while (allChildrenID.contains(newChildID)) {
-            newChildID = rand.nextInt(100000);
-        }
-        allChildrenID.add(newChildID);
-        return newChildID;
     }
 
     public void updateSpinnerChildrenSharPref(){

@@ -118,16 +118,6 @@ public class ChildrenEditActivity extends AppCompatActivity {
         });
     }
 
-    private int generateChildID() {
-        Random rand = new Random();
-        int newChildID = rand.nextInt(100000);
-        while (allChildID.contains(newChildID)) {
-            newChildID = rand.nextInt(100000);
-        }
-        allChildID.add(newChildID);
-        updateAllChildIdSharedPref();
-        return newChildID;
-    }
 
     private boolean checkValidName() {
         childFirstName = findViewById(R.id.fillFirstName);
@@ -151,12 +141,12 @@ public class ChildrenEditActivity extends AppCompatActivity {
         Bitmap portraitImage = ((BitmapDrawable)childImage.getDrawable()).getBitmap();
 
         if (title.equals("New")) {
-            int uniqueID = generateChildID();
+            String uniqueID = Helpers.getUUID();
             Child newChild = new Child(lastName, firstName, portraitImage,uniqueID);
             childrenManager.addChild(newChild);
             childrenManager.addSpinnerChild(newChild);
         } else {
-            int editedChildID = childrenManager.getChild(editIndex).getUniqueID();
+            String editedChildID = childrenManager.getChild(editIndex).getUniqueID();
             Child childEdited = new Child(lastName, firstName, portraitImage, editedChildID);
             childrenManager.updateChild(editIndex, childEdited);
             int editPosition = childrenManager.getSpinnerChildByID(childrenManager.getSpinnerChildren(), editedChildID);
@@ -177,7 +167,7 @@ public class ChildrenEditActivity extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(ChildrenEditActivity.this);
                 builder.setMessage("Delete this child? It cannot be restored!")
                         .setPositiveButton("Confirm", (dialogInterface, i) -> {
-                            int removeID = childrenManager.getChildren().get(editIndex).getUniqueID();
+                            String removeID = childrenManager.getChildren().get(editIndex).getUniqueID();
                             childrenManager.removeChild(editIndex);
                             int deleteChild = childrenManager.getSpinnerChildByID(childrenManager.getSpinnerChildren(), removeID);
                             childrenManager.getSpinnerChildren().remove(deleteChild);

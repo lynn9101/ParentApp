@@ -39,13 +39,13 @@ public class ChildrenManager {
         this.spinnerChildren = spinnerChildren;
     }
 
-    public int getSpinnerChildByID(ArrayList<Child> spinnerChildren1, int childID) {
-        for (Child child : spinnerChildren1) {
-            if (child.getUniqueID() == childID) {
-                return spinnerChildren1.indexOf(child);
-            }
+    public int getSpinnerChildByID(ArrayList<Child> spinnerChildren1, String childID) {
+        Child child = spinnerChildren1.stream().filter(x -> x.getUniqueID().equals(childID)).findFirst().orElse(null);
+        if (child != null) {
+            return spinnerChildren1.indexOf(child);
+        } else {
+            return -1;
         }
-        return -1;
     }
 
 

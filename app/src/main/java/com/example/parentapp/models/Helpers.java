@@ -13,6 +13,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * The Helpers class is a non instantiable class that contains a list of common functions used through out the app
@@ -87,5 +88,9 @@ public class Helpers {
     public static void vibratePhone(Context ctx, int intervalInMillis) {
         Vibrator vibrator = (Vibrator) ctx.getSystemService(Context.VIBRATOR_SERVICE);
         vibrator.vibrate(VibrationEffect.createOneShot(intervalInMillis, VibrationEffect.DEFAULT_AMPLITUDE));
+    }
+
+    public static String getUUID() {
+        return UUID.randomUUID().toString();
     }
 }
