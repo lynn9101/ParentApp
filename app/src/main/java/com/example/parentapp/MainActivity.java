@@ -4,11 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.parentapp.models.Helpers;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
@@ -24,8 +27,27 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
 
+        checkDataVersion();
         requestAppPermissions();
         attachButtonListeners();
+    }
+
+    private void checkDataVersion() {
+        Context context = getApplicationContext();
+        String versionDateKey = getString(R.string.version_date);
+        String versionDate = context.getResources().getString(R.string.version_date);
+        SharedPreferences sharedPref = Helpers.getSharedPreference(getApplicationContext());
+
+        //clear existing data if version mismatch
+        if (Helpers.isStringNullOrEmpty(versionDate) ||
+                !sharedPref.contains(versionDateKey) ||
+                !sharedPref.getString(versionDateKey, null).equals(versionDateKey)) {
+
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.clear();
+            editor.putString(versionDateKey, versionDate);
+            editor.commit();
+        }
     }
 
     private void requestAppPermissions() {
