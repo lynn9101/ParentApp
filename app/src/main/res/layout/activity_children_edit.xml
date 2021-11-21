@@ -9,23 +9,23 @@
 
     <Button
         android:id="@+id/changePortraitbtn"
-        android:layout_width="97dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="108dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:backgroundTint="@color/listview_add_fab"
         android:text="Change Portrait"
         android:textSize="11dp"
-        app:layout_constraintStart_toEndOf="@+id/childImage"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/childImage"
+        app:layout_constraintStart_toStartOf="@+id/childImage"
+        app:layout_constraintTop_toBottomOf="@+id/childImage" />
 
     <ImageView
         android:id="@+id/childImage"
-        android:layout_width="296dp"
-        android:layout_height="253dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="187dp"
+        android:layout_height="176dp"
+        android:layout_marginTop="20dp"
         android:src="@drawable/newborn_child"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,34 +33,26 @@
         android:id="@+id/childFName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="316dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
         android:text="First Name"
+        android:fontFamily="@font/oswald"
+        android:textStyle="bold"
         android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="16dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="93dp" />
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/changePortraitbtn" />
 
     <TextView
         android:id="@+id/childLName"
-        android:layout_width="73dp"
-        android:layout_height="22dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Last Name"
+        android:fontFamily="@font/oswald"
+        android:textStyle="bold"
         android:textColor="@color/black"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/childFName"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/childFName"
@@ -68,51 +60,62 @@
 
     <EditText
         android:id="@+id/fillFirstName"
-        android:layout_width="160dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="308dp"
+        android:layout_width="192dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="5dp"
         android:ems="10"
+        android:fontFamily="@font/oswald_light"
         android:inputType="textPersonName"
         android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.196"
-        app:layout_constraintStart_toStartOf="@+id/guideline4"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/childFName"
+        app:layout_constraintStart_toEndOf="@+id/childFName"
+        app:layout_constraintTop_toTopOf="@+id/childFName"
+        app:layout_constraintVertical_bias="0.347" />
 
     <EditText
         android:id="@+id/fillLastName"
-        android:layout_width="160dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="194dp"
+        android:layout_height="42dp"
         android:ems="10"
+        android:fontFamily="@font/oswald_light"
         android:inputType="textPersonName"
         android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/childLName"
         app:layout_constraintEnd_toEndOf="@+id/fillFirstName"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/fillFirstName"
-        app:layout_constraintTop_toBottomOf="@+id/fillFirstName" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/childDeleteButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:clickable="true"
-        android:backgroundTint="#C84F4F"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/child_delete_button" />
+        app:layout_constraintTop_toTopOf="@+id/childLName"
+        app:layout_constraintVertical_bias="0.409" />
 
     <Button
         android:id="@+id/childSaveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="SAVE"
-        android:backgroundTint="@color/listview_add_fab"
-        app:layout_constraintEnd_toEndOf="@+id/fillLastName"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline4"
-        app:layout_constraintTop_toBottomOf="@+id/fillLastName" />
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/task_box_bg_color"
+        android:text="@string/task_save_button"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.978" />
+
+    <Button
+        android:id="@+id/childDeleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="13dp"
+        android:text="@string/task_delete_button"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:backgroundTint="@color/delete_button_color"
+        app:layout_constraintBottom_toBottomOf="@+id/childSaveButton"
+        app:layout_constraintStart_toEndOf="@+id/childSaveButton"
+        app:layout_constraintTop_toTopOf="@+id/childSaveButton" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

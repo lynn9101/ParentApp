@@ -28,11 +28,10 @@ import android.widget.Toast;
 import com.example.parentapp.models.Child;
 import com.example.parentapp.models.ChildrenManager;
 import com.example.parentapp.models.Helpers;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * The ChildrenEditActivity class is an android activity and handles the addition, modification and deletion of child objects
@@ -123,7 +122,6 @@ public class ChildrenEditActivity extends AppCompatActivity {
         });
     }
 
-
     private boolean checkValidName() {
         childFirstName = findViewById(R.id.fillFirstName);
         childLastName = findViewById(R.id.fillLastName);
@@ -163,7 +161,7 @@ public class ChildrenEditActivity extends AppCompatActivity {
     }
 
     private void setUpDeleteButton() {
-        FloatingActionButton deleteButton = findViewById(R.id.childDeleteButton);
+        Button deleteButton = findViewById(R.id.childDeleteButton);
 
         if (title.equals("Edit")) {
             deleteButton.setVisibility(View.VISIBLE);
@@ -282,11 +280,6 @@ public class ChildrenEditActivity extends AppCompatActivity {
         Context context = getApplicationContext();
         String childrenListKey = context.getResources().getString(R.string.shared_pref_children_list_key);
         Helpers.saveObjectToSharedPreference(context, childrenListKey, childrenManager.getChildren());
-    }
-
-    private void updateAllChildIdSharedPref() {
-        Context context = getApplicationContext();
-        Helpers.saveObjectToSharedPreference(context, allChildIdKey, allChildID);
     }
 
     private void updateSpinnerChildrenListSharedPref() {
