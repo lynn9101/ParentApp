@@ -19,8 +19,28 @@
     <string name="shared_pref_suggested_child_key">LastChildPickedHistory</string>
     <string name="shared_pref_tasks_list_key">TasksListKey</string>
     <string name="help_screen_title">Help</string>
-    <string name="help_text_box_content">Copyright links and Image resources link</string>
-    <string name="listOfMembers">1- Jing Luo - jla787\n 2- Ngan Nguyen - nnn2\n 3- Fatemeh Kiannejad - fkiannej\n 4- Wenqing Liu - wla161\n</string>
+    <string name="help_text_box_content">\tI. Main Menu - Icon Sources:
+        \n1. https://www.pngaaa.com/detail/490986
+        \n2. https://www.flaticon.com/free-icon/children_3886660
+        \n3. https://www.pinclipart.com/pindetail/oxiwxw_this-is-an-image-of-a-clipboard-report/
+        \n4. https://www.pngaaa.com/detail/2802581
+        \n5. https://www.pngaaa.com/detail/473824
+        \n6. Layout Inspiration: https://youtu.be/LOcD1evBcSA
+        \n\n\tII. Coin Flip Activity:
+        \n1. Custom Spinner Tutorial: https://youtu.be/GeO5F0nnzAw
+        \n2. Coin flip GIF: https://i.pinimg.com/originals/cc/47/83/cc4783a977efbb9cd2a74d6761d7d8d3.gif
+        \n\n\tIII. Timeout Timer Activity:
+        \n1. The countdown timer: https://youtu.be/MDuGwI6P-X8
+        \n2. Timer Running in background: https://youtu.be/lvibl8YJfGo
+        \n3. Send notification when timer done: https://www.tutorialspoint.com/how-to-create-android-notification-with-broadcastreceiver
+        \n4. Customize minutes: https://youtu.be/7dQJAkjNEjM
+        \n5. Adding sound and vibration: https://stackoverflow.com/questions/31398381/how-to-add-custom-notification-sound-in-android
+        \n6. All images used in timer part:
+        \nhttps://www.clipartmax.com/middle/m2i8K9m2b1G6K9m2_calm-clip-art/
+        \nhttps://www.clipartmax.com/middle/m2i8N4b1m2N4d3Z5_when-the-district-operates-under-a-90-minute-delay-alarm-clock-clip/
+        \nhttps://tinyurl.com/timeIsUpImage
+    </string>
+    <string name="listOfMembers">Team Name: Boron\n1- Jing Luo - jla787\n2- Ngan Nguyen - nnn2\n3- Fatemeh Kiannejad - fkiannej\n4- Wenqing Liu - wla161\n</string>
     <string name="membersName">Members</string>
     <string name="copyrightName">Copyright</string>
     <string name="image_source_dialog_title">Select image from: </string>
