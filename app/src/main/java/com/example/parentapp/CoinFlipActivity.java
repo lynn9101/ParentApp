@@ -28,10 +28,7 @@ import com.example.parentapp.models.CoinFlipManager;
 import com.example.parentapp.models.Helpers;
 import com.example.parentapp.spinner.SpinnerChildrenAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -62,20 +59,16 @@ public class CoinFlipActivity extends AppCompatActivity {
     private Random rng;
     private Spinner spinnerChildren;
     int lastSelectedChild;
-    String childrenIDKey = "AllChildrenIDListKey";
-    String spinnerChildrenKey = "SpinnerChildrenListKey";
-    String isFinishedKeySharPref = "IsFinishedKey";
-    String isFlippedKeySharPref = "IsFlippedKey";
+
     private TextView chooseHint;
     private SpinnerChildrenAdapter spinnerAdapter;
     private boolean flipped;
     private boolean isFinishFlip;
-    private ArrayList<Integer> allChildrenID;
-    int anonymousChildID = -1;
-    int index = 0;
-    private boolean hasNoBody = false;
     String anonymousChildID = "-1";
 
+    String spinnerChildrenKey;
+    String isFinishedKeySharPref;
+    String isFlippedKeySharPref;
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, CoinFlipActivity.class);
@@ -90,6 +83,10 @@ public class CoinFlipActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources()
                 .getColor(R.color.app_title_color)));
+
+        spinnerChildrenKey = getString(R.string.shared_pref_spinner_children_list_key);
+        isFinishedKeySharPref = getString(R.string.shared_pref_is_finished_key);
+        isFlippedKeySharPref = getString(R.string.shared_pref_is_flipped_key);
 
         this.childrenManager = ChildrenManager.getInstance();
         this.coinFlipManager = CoinFlipManager.getInstance();
@@ -174,12 +171,6 @@ public class CoinFlipActivity extends AppCompatActivity {
             childrenManager.setSpinnerChildren(Helpers.getObjectFromSharedPreference(context, spinnerChildrenKey, Helpers.getListOfClassType(Child.class)));
         }
         lastSelectedChild = getSharedPrefLastChildIndex(this);
-
-        if (sharedPreferences.contains(childrenIDKey)) {
-            allChildrenID = getAllChildrenID(this);
-        } else {
-            allChildrenID = new ArrayList<>();
-        }
 
         if (lastSelectedChild >= childrenManager.getSpinnerChildren().size()) {
             lastSelectedChild = childrenManager.getSpinnerChildren().size() - 1;
@@ -372,15 +363,6 @@ public class CoinFlipActivity extends AppCompatActivity {
         String lastPickedChildKey = context.getResources().getString(R.string.shared_pref_suggested_child_key);
         editor.putInt(lastPickedChildKey, savedIndex);
         editor.apply();
-    }
-
-    public ArrayList<Integer> getAllChildrenID (Context mContext) {
-        SharedPreferences prefs = Helpers.getSharedPreference(mContext);
-        Gson gson = new Gson();
-        String json = prefs.getString(childrenIDKey, "");
-        Type type = new TypeToken<ArrayList<Integer>>(){}.getType();
-        ArrayList<Integer> allChildrenID = gson.fromJson(json, type);
-        return allChildrenID;
     }
 
     @Override

@@ -54,8 +54,10 @@ public class ChildrenEditActivity extends AppCompatActivity {
     private ActivityResultLauncher<String> gallerySelectionActivityLauncher;
 
     private ArrayList<Integer> allChildID = new ArrayList<>();
-    String allChildIdKey = "AllChildrenIDListKey";
-    String spinnerChildrenKey = "SpinnerChildrenListKey";
+
+    String allChildIdKey;
+    String spinnerChildrenKey;
+
     public static Intent makeLaunchIntent(Context ctx, String message) {
         Intent intent = new Intent(ctx, ChildrenEditActivity.class);
         intent.putExtra(EXTRA_MESSAGE, message);
@@ -67,14 +69,17 @@ public class ChildrenEditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_children_edit);
 
-        allChildID.clear();
         Context context = getApplicationContext();
+
         SharedPreferences sharedPreferences = Helpers.getSharedPreference(context);
         if (sharedPreferences.contains(allChildIdKey)) {
             allChildID = Helpers.getObjectFromSharedPreference(context, allChildIdKey, Helpers.getListOfClassType(Integer.class));
         } else {
             allChildID = new ArrayList<>();
         }
+
+        allChildIdKey = getString(R.string.shared_pref_childId_list_key);
+        spinnerChildrenKey = getString(R.string.shared_pref_spinner_children_list_key);
 
         // Get intent for adding vs. editing Child
         Intent intent = getIntent();
