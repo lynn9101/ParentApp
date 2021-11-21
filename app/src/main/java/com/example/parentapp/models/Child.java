@@ -25,10 +25,10 @@ public class Child {
         this.firstName = firstName;
     }
 
-    public Child(String lastName, String firstName, Bitmap childPortrait, String childID) {
+    public Child(String lastName, String firstName, String portraitBitMap, String childID) {
         this(lastName, firstName);
         this.uniqueID = childID;
-        this.setPortrait(childPortrait);
+        this.setPortrait(Helpers.convertStringToBitmap(portraitBitMap));
     }
 
     public String getLastName() {
@@ -57,11 +57,7 @@ public class Child {
 
     public void setPortrait(Bitmap childPortrait) {
         this.portrait = childPortrait;
-
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        childPortrait.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        byte [] byteArray = stream.toByteArray();
-        this.portraitBitMap = Base64.encodeToString(byteArray, Base64.DEFAULT);
+        this.portraitBitMap = Helpers.convertBitmapToString(childPortrait);
     }
 
     public boolean hasPortrait() {
@@ -72,8 +68,7 @@ public class Child {
         if (this.portrait != null) {
             return this.portrait;
         } else if (!Helpers.isStringNullOrEmpty(this.portraitBitMap)) {
-            byte [] byteArray = Base64.decode(this.portraitBitMap, Base64.DEFAULT);
-            return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+            return Helpers.convertStringToBitmap(this.portraitBitMap);
         } else {
             return null;
         }

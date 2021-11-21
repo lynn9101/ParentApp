@@ -182,7 +182,7 @@ public class CoinFlipActivity extends AppCompatActivity {
         flipped = getSharedPrefIsFlipped(this);
         if (childrenList == null || childrenList.size() == 0) {
             Bitmap icon = ((BitmapDrawable)getResources().getDrawable(R.drawable.child_image_listview)).getBitmap();
-            nobody = new Child("Child","Anonymous", icon, anonymousChildID);
+            nobody = new Child("Child","Anonymous", Helpers.convertBitmapToString(icon), anonymousChildID);
         } else {
             if (flipped && isFinishFlip) {
                 Child lastPickedChild = childrenList.get(lastSelectedChild);
@@ -195,7 +195,7 @@ public class CoinFlipActivity extends AppCompatActivity {
                 updateIsFlippedSharPref(this);
             }
             Bitmap icon = ((BitmapDrawable)getResources().getDrawable(R.drawable.child_image_listview)).getBitmap();
-            nobody = new Child("Child","Anonymous", icon, anonymousChildID);
+            nobody = new Child("Child","Anonymous", Helpers.convertBitmapToString(icon), anonymousChildID);
         }
         childrenList.add(nobody);
 
