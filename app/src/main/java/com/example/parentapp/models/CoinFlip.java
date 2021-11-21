@@ -64,7 +64,7 @@ public class CoinFlip {
     public String getPickerStatus(Child picker) {
         String pickerStatus = "";
         if (picker == null) {
-            pickerStatus = "No children available! Coin flip resulted in " + (this.flippedHead ? "head." : "tail.");
+            pickerStatus = "Anonymous coin flip resulted in " + (this.flippedHead ? "head." : "tail.");
         } else {
             pickerStatus = picker.getFirstName() + " " + picker.getLastName() + " picked " + (this.pickedHead ? "head" : "tail") + " and " + (this.pickerWon ? "won" : "lost");
         }

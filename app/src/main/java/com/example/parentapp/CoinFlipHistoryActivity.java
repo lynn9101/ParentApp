@@ -100,7 +100,7 @@ public class CoinFlipHistoryActivity extends AppCompatActivity {
                 if (picker != null) {
                     kidsPortrait.setImageBitmap(picker.getPortrait());
                 } else {
-                    kidsPortrait.setImageDrawable(getResources().getDrawable(R.drawable.child_image_listview));
+                    kidsPortrait.setImageDrawable(null);
                 }
             }
 
