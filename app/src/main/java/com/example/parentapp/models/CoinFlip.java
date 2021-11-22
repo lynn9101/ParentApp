@@ -14,14 +14,14 @@ import java.time.format.DateTimeFormatter;
 public class CoinFlip {
 
     private String formattedCoinFlipTime;
-    private Child picker;
+    private String pickerID;
     private boolean pickerWon;
     private boolean pickedHead;
     private boolean flippedHead;
 
-    public CoinFlip(Child picker, boolean flippedHead, boolean pickedHead) {
+    public CoinFlip(String pickerID, boolean flippedHead, boolean pickedHead) {
         this.formattedCoinFlipTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMM dd @ h:mm a"));
-        this.picker = picker;
+        this.pickerID = pickerID;
         this.pickedHead = pickedHead;
         this.flippedHead = flippedHead;
         pickerWon = flippedHead == pickedHead;
@@ -37,12 +37,12 @@ public class CoinFlip {
         return this.formattedCoinFlipTime;
     }
 
-    public Child getPicker() {
-        return picker;
+    public String getPickerID() {
+        return pickerID;
     }
 
-    public void setPicker(Child picker) {
-        this.picker = picker;
+    public void setPicker(String pickerID) {
+        this.pickerID = pickerID;
     }
 
     public boolean didPickerWin() {
@@ -61,10 +61,10 @@ public class CoinFlip {
         this.pickedHead = pickedHead;
     }
 
-    public String getPickerStatus() {
+    public String getPickerStatus(Child picker) {
         String pickerStatus = "";
         if (picker == null) {
-            pickerStatus = "No children available! Coin flip resulted in " + (this.flippedHead ? "head." : "tail.");
+            pickerStatus = "Anonymous coin flip resulted in " + (this.flippedHead ? "head." : "tail.");
         } else {
             pickerStatus = picker.getFirstName() + " " + picker.getLastName() + " picked " + (this.pickedHead ? "head" : "tail") + " and " + (this.pickerWon ? "won" : "lost");
         }

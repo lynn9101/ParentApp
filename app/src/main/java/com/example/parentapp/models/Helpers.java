@@ -2,14 +2,18 @@ package com.example.parentapp.models;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.util.Base64;
 
 import com.example.parentapp.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Random;
@@ -92,5 +96,32 @@ public class Helpers {
 
     public static String getUUID() {
         return UUID.randomUUID().toString();
+    }
+
+    //Adapted from https://stackoverflow.com/questions/13562429/how-many-ways-to-convert-bitmap-to-string-and-vice-versa
+    public static String convertBitmapToString(Bitmap bitmap){
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        int scaledHeight = (height * 200) / width;
+
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, 200, scaledHeight, false);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        scaledBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte [] byteArray = stream.toByteArray();
+        return Base64.encodeToString(byteArray, Base64.DEFAULT);
+    }
+
+    /**
+     * @param encodedString
+     * @return bitmap (from given string)
+     */
+    public static Bitmap convertStringToBitmap(String encodedString){
+        try {
+            byte [] byteArray = Base64.decode(encodedString, Base64.DEFAULT);
+            return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+        } catch(Exception e) {
+            e.getMessage();
+            return null;
+        }
     }
 }

@@ -182,7 +182,7 @@ public class CoinFlipActivity extends AppCompatActivity {
         flipped = getSharedPrefIsFlipped(this);
         if (childrenList == null || childrenList.size() == 0) {
             Bitmap icon = ((BitmapDrawable)getResources().getDrawable(R.drawable.child_image_listview)).getBitmap();
-            nobody = new Child("Child","Anonymous", icon, anonymousChildID);
+            nobody = new Child("Child","Anonymous", Helpers.convertBitmapToString(icon), anonymousChildID);
         } else {
             if (flipped && isFinishFlip) {
                 Child lastPickedChild = childrenList.get(lastSelectedChild);
@@ -195,7 +195,7 @@ public class CoinFlipActivity extends AppCompatActivity {
                 updateIsFlippedSharPref(this);
             }
             Bitmap icon = ((BitmapDrawable)getResources().getDrawable(R.drawable.child_image_listview)).getBitmap();
-            nobody = new Child("Child","Anonymous", icon, anonymousChildID);
+            nobody = new Child("Child","Anonymous", Helpers.convertBitmapToString(icon), anonymousChildID);
         }
         childrenList.add(nobody);
 
@@ -305,10 +305,11 @@ public class CoinFlipActivity extends AppCompatActivity {
         }
         String resultedSide;
         CoinFlip flip = null;
+        Child pickedChild = null;
 
         if (suggestedChildIndex != NO_CHILDREN_INT) {
-            Child pickedChild = childrenList.get(lastSelectedChild);
-            flip = new CoinFlip(pickedChild, result, childPickedHead);
+            pickedChild = childrenList.get(lastSelectedChild);
+            flip = new CoinFlip(pickedChild.getUniqueID(), result, childPickedHead);
         } else {
             flip = new CoinFlip(result);
             suggestedChildIndex = NO_CHILDREN_INT;
@@ -327,7 +328,7 @@ public class CoinFlipActivity extends AppCompatActivity {
 
         updateCoinFlipHistorySharedPref();
 
-        String resultMessage = "Result: " + resultedSide + " !\n" + flip.getPickerStatus();
+        String resultMessage = "Result: " + resultedSide + " !\n" + flip.getPickerStatus(pickedChild);
         FragmentManager manager = getSupportFragmentManager();
         FlipCoinMessageFragment dialog = new FlipCoinMessageFragment(result, resultMessage);
         dialog.show(manager, "MessageDialog");
@@ -366,7 +367,7 @@ public class CoinFlipActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
+    protected void onPause() {
         if (coinFlipSound != null) {
             coinFlipSound.stop();
             coinFlipSound.release();
@@ -374,14 +375,8 @@ public class CoinFlipActivity extends AppCompatActivity {
         }
         childrenList.remove(childrenList.size() - 1);
         updateSpinnerChildrenSharPref();
-        super.onStop();
-    }
-
-    @Override
-    protected void onPause() {
         super.onPause();
     }
-
 
     @Override
     public void onBackPressed() {

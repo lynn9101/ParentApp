@@ -145,12 +145,12 @@ public class ChildrenEditActivity extends AppCompatActivity {
 
         if (title.equals("New")) {
             String uniqueID = Helpers.getUUID();
-            Child newChild = new Child(lastName, firstName, portraitImage,uniqueID);
+            Child newChild = new Child(lastName, firstName, Helpers.convertBitmapToString(portraitImage),uniqueID);
             childrenManager.addChild(newChild);
             childrenManager.addSpinnerChild(newChild);
         } else {
             String editedChildID = childrenManager.getChild(editIndex).getUniqueID();
-            Child childEdited = new Child(lastName, firstName, portraitImage, editedChildID);
+            Child childEdited = new Child(lastName, firstName, Helpers.convertBitmapToString(portraitImage), editedChildID);
             childrenManager.updateChild(editIndex, childEdited);
             int editPosition = childrenManager.getSpinnerChildByID(childrenManager.getSpinnerChildren(), editedChildID);
             childrenManager.updateSpinnerChild(editPosition,childEdited);

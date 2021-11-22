@@ -34,14 +34,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkDataVersion() {
         Context context = getApplicationContext();
-        String versionDateKey = getString(R.string.version_date);
+        String versionDateKey = context.getResources().getResourceEntryName(R.string.version_date);
         String versionDate = context.getResources().getString(R.string.version_date);
         SharedPreferences sharedPref = Helpers.getSharedPreference(getApplicationContext());
 
         //clear existing data if version mismatch
         if (Helpers.isStringNullOrEmpty(versionDate) ||
                 !sharedPref.contains(versionDateKey) ||
-                !sharedPref.getString(versionDateKey, null).equals(versionDateKey)) {
+                !sharedPref.getString(versionDateKey, null).equals(versionDate)) {
 
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.clear();
