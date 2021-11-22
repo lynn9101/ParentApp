@@ -61,6 +61,11 @@ public class CoinFlipHistoryActivity extends AppCompatActivity {
         CoinFlipManager coinManager = CoinFlipManager.getInstance();
         SharedPreferences sharedPreference = Helpers.getSharedPreference(ctx);
         String historyKey = ctx.getResources().getString(R.string.shared_pref_coin_flip_history_key);
+        String childrenListKey = getString(R.string.shared_pref_children_list_key);
+
+        if (sharedPreference.contains(childrenListKey)) {
+            childrenManager.setChildren(Helpers.getObjectFromSharedPreference(ctx, childrenListKey, Helpers.getListOfClassType(Child.class)));
+        }
 
         if (sharedPreference.contains(historyKey)) {
             coinManager.setCoinFlipHistory(Helpers.getObjectFromSharedPreference(ctx, historyKey, Helpers.getListOfClassType(CoinFlip.class)));
