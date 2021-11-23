@@ -15,3 +15,14 @@ SCRUM roles for the SECOND iteration
 2. Product owner: Lillian Liu
 3. Repo Manager: Fatemeh Kiannejad
 4. Team Member: Lynn Nguyen
+
+
+
+SCRUM roles for the THIRD iteration
+************************************
+1. Scrum Master: Lillian Liu
+2. Product owner: Michael Luo
+3. Repo Manager: Lynn Nguyen
+4. Team Member: Fatemeh Kiannejad
+
+
