@@ -9,6 +9,7 @@
     <string name="coin_flip_title">Coin Flip</string>
     <string name="coin_flip_history_title">Coin flip history</string>
     <string name="timer_title">Timeout Timer</string>
+    <string name="take_breath_title">Take Breath</string>
     <string name="btn_1min">1 min</string>
     <string name="btn_2min">2 min</string>
     <string name="btn_3min">3 min</string>

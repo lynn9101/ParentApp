@@ -96,6 +96,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /*
+        CardView takeBreathBtn = findViewById(R.id.takeBreathActivityButton);
+        takeBreathBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = TakeBreathActivity.makeIntent(MainActivity.this);
+                startActivity(intent);
+            }
+        });
+         */
+
         FloatingActionButton helpActivityBtn = findViewById(R.id.helpActivityButton);
         helpActivityBtn.setOnClickListener(new View.OnClickListener() {
             @Override
