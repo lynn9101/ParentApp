@@ -22,8 +22,8 @@
 
     <ImageView
         android:id="@+id/appIcon"
-        android:layout_width="88dp"
-        android:layout_height="81dp"
+        android:layout_width="87dp"
+        android:layout_height="79dp"
         android:layout_marginEnd="44dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/appTitle"
@@ -31,17 +31,19 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="242dp"
+        android:layout_height="293dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appTitle">
+        app:layout_constraintTop_toBottomOf="@+id/appTitle"
+        app:layout_constraintVertical_bias="0.567">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/childrenActivityButton"
-            android:layout_width="136dp"
-            android:layout_height="125dp"
+            android:layout_width="110dp"
+            android:layout_height="90dp"
             android:backgroundTint="@android:color/transparent"
             android:outlineProvider="none"
             app:layout_constraintStart_toStartOf="parent"
@@ -60,19 +62,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/oswald"
                     android:text="@string/children_title"
                     android:textAlignment="center"
-                    android:fontFamily="@font/oswald"
                     android:textColor="@color/black"
-                    android:textSize="16sp"
+                    android:textSize="13dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <ImageView
                     android:id="@+id/childrenIcon"
-                    android:layout_width="104dp"
-                    android:layout_height="85dp"
+                    android:layout_width="66dp"
+                    android:layout_height="58dp"
                     app:layout_constraintBottom_toTopOf="@+id/childrenTitle"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -85,8 +87,8 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/taskActivityButton"
-            android:layout_width="136dp"
-            android:layout_height="125dp"
+            android:layout_width="110dp"
+            android:layout_height="90dp"
             android:layout_marginStart="20dp"
             android:backgroundTint="@android:color/transparent"
             android:outlineProvider="none"
@@ -107,24 +109,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/oswald"
                     android:text="@string/whose_turn_title"
                     android:textAlignment="center"
-                    android:fontFamily="@font/oswald"
                     android:textColor="@color/black"
-                    android:textSize="16sp"
+                    android:textSize="13dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <ImageView
                     android:id="@+id/taskIcon"
-                    android:layout_width="104dp"
-                    android:layout_height="85dp"
+                    android:layout_width="60dp"
+                    android:layout_height="53dp"
                     app:layout_constraintBottom_toTopOf="@+id/taskTitle"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.538"
                     app:srcCompat="@drawable/main_task_icon" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -132,9 +134,9 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/coinFlipActivityButton"
-            android:layout_width="136dp"
-            android:layout_height="125dp"
-            android:layout_marginTop="20dp"
+            android:layout_width="110dp"
+            android:layout_height="90dp"
+            android:layout_marginTop="10dp"
             android:backgroundTint="@android:color/transparent"
             android:outlineProvider="none"
             app:layout_constraintEnd_toEndOf="@+id/childrenActivityButton"
@@ -154,19 +156,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/oswald"
                     android:text="@string/coin_flip_title"
                     android:textAlignment="center"
-                    android:fontFamily="@font/oswald"
                     android:textColor="@color/black"
-                    android:textSize="16sp"
+                    android:textSize="13dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <ImageView
                     android:id="@+id/coinIcon"
-                    android:layout_width="104dp"
-                    android:layout_height="85dp"
+                    android:layout_width="56dp"
+                    android:layout_height="51dp"
                     app:layout_constraintBottom_toTopOf="@+id/coinTitle"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -178,10 +180,57 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/takeBreathActivityButton"
+            android:layout_width="110dp"
+            android:layout_height="90dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@android:color/transparent"
+            android:outlineProvider="none"
+            app:layout_constraintEnd_toEndOf="@+id/timerActivityButton"
+            app:layout_constraintStart_toStartOf="@+id/coinFlipActivityButton"
+            app:layout_constraintTop_toBottomOf="@+id/coinFlipActivityButton">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/main_rounded_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TextView
+                    android:id="@+id/takeBreathTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/oswald"
+                    android:text="@string/take_breath_title"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="13dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <ImageView
+                    android:id="@+id/takeBreathIcon"
+                    android:layout_width="49dp"
+                    android:layout_height="54dp"
+                    app:layout_constraintBottom_toTopOf="@+id/takeBreathTitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/main_breath_icon" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
             android:id="@+id/timerActivityButton"
-            android:layout_width="136dp"
-            android:layout_height="125dp"
-            android:layout_marginTop="20dp"
+            android:layout_width="110dp"
+            android:layout_height="90dp"
+            android:layout_marginTop="10dp"
             android:backgroundTint="@android:color/transparent"
             android:outlineProvider="none"
             app:layout_constraintEnd_toEndOf="@+id/taskActivityButton"
@@ -201,19 +250,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/oswald"
                     android:text="@string/timer_title"
                     android:textAlignment="center"
-                    android:fontFamily="@font/oswald"
                     android:textColor="@color/black"
-                    android:textSize="16sp"
+                    android:textSize="13dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <ImageView
                     android:id="@+id/timerIcon"
-                    android:layout_width="104dp"
-                    android:layout_height="85dp"
+                    android:layout_width="49dp"
+                    android:layout_height="53dp"
                     app:layout_constraintBottom_toTopOf="@+id/timerTitle"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
