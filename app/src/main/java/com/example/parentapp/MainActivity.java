@@ -96,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /*
         CardView takeBreathBtn = findViewById(R.id.takeBreathActivityButton);
         takeBreathBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-         */
 
         FloatingActionButton helpActivityBtn = findViewById(R.id.helpActivityButton);
         helpActivityBtn.setOnClickListener(new View.OnClickListener() {
