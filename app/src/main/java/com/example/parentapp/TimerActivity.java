@@ -78,7 +78,7 @@ public class TimerActivity extends AppCompatActivity {
     private AlarmManager alarmManager;
     private int progress = 0;
     private ProgressBar timerSpinner;
-    private final String SPINNER_PROGRESS = "spinner";
+    private final String SPINNER_PROGRESS = "spinner1";
 
     public static Intent makeIntent(Context context) {
         return new Intent(context,TimerActivity.class);
