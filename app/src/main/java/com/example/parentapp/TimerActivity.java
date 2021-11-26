@@ -59,7 +59,7 @@ public class TimerActivity extends AppCompatActivity {
     private final int COUNTDOWN_INTERVAL = 1000;
     private final int HOURS_TO_SECONDS = 3600;
     private final int SIXTY = 60;
-    private final int MINS_TO_MILLS = 20000; // !!!!!!!!!!!!!!!!!!!!!! Please CHANGE BACK TO 60000 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    private final int MINS_TO_MILLS = 60000;
     private final int TWO_MINS_TO_MILLS = 120000;
     private final int THREE_MINS_TO_MILLS = 180000;
     private final int FIVE_MINS_TO_MILLS = 300000;
