@@ -21,19 +21,19 @@
     <TextView
         android:id="@+id/txtTimer"
         android:layout_width="291dp"
-        android:layout_height="84dp"
+        android:layout_height="70dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:text="00:00"
         android:textAlignment="center"
         android:textColor="@android:color/black"
-        android:textSize="50sp"
+        android:textSize="40sp"
         app:layout_constraintBottom_toBottomOf="@+id/view"
         app:layout_constraintEnd_toEndOf="@+id/btn3min"
-        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintHorizontal_bias="0.52"
         app:layout_constraintStart_toStartOf="@+id/btn1min"
         app:layout_constraintTop_toTopOf="@+id/view"
-        app:layout_constraintVertical_bias="0.091" />
+        app:layout_constraintVertical_bias="0.38" />
 
     <ImageButton
         android:id="@+id/imgBtnStart"
@@ -208,15 +208,15 @@
 
     <ImageView
         android:id="@+id/imgCalmDown"
-        android:layout_width="92dp"
-        android:layout_height="211dp"
+        android:layout_width="86dp"
+        android:layout_height="202dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/imgBtnStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view"
-        app:layout_constraintVertical_bias="0.619"
+        app:layout_constraintVertical_bias="0.607"
         app:srcCompat="@drawable/calm_down" />
 
     <ImageView
@@ -233,33 +233,47 @@
 
     <EditText
         android:id="@+id/editTextSetMinutes"
-        android:layout_width="145dp"
-        android:layout_height="39dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="118dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="12dp"
         android:ems="10"
         android:hint="Customize Minutes"
         android:inputType="number"
         android:textAlignment="center"
-        android:textSize="16sp"
+        android:textSize="13sp"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="@+id/txtTimer"
-        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="@+id/txtTimer"
         app:layout_constraintTop_toBottomOf="@+id/txtTimer" />
 
     <Button
         android:id="@+id/btnConfirmMinutes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginRight="24dp"
+        android:layout_width="85dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="15dp"
         android:backgroundTint="@color/confirm_button_color"
         android:text="Confirm"
         android:textColor="@color/black"
-        android:textSize="13sp"
+        android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.907"
         app:layout_constraintStart_toEndOf="@+id/editTextSetMinutes"
-        app:layout_constraintTop_toBottomOf="@+id/editTextSetMinutes" />
+        app:layout_constraintTop_toTopOf="@+id/editTextSetMinutes" />
+
+    <ProgressBar
+        android:id="@+id/timerSpinner"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="235dp"
+        android:layout_height="189dp"
+        android:indeterminateOnly="false"
+        android:progressDrawable="@drawable/circle"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="@+id/view"
+        app:layout_constraintStart_toStartOf="@+id/view"
+        app:layout_constraintTop_toTopOf="@+id/view"
+        tools:progress="100" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
