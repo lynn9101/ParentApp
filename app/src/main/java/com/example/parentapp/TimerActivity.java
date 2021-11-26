@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -75,6 +76,9 @@ public class TimerActivity extends AppCompatActivity {
     private final static String DEFAULT_NOTIFICATION_CHANNEL_ID = "default" ;
     public final static String SEND_TITLE = "Time is up!";
     private AlarmManager alarmManager;
+    private int progress = 0;
+    private ProgressBar timerSpinner;
+    private final String SPINNER_PROGRESS = "spinner1";
 
     public static Intent makeIntent(Context context) {
         return new Intent(context,TimerActivity.class);
@@ -103,11 +107,15 @@ public class TimerActivity extends AppCompatActivity {
         btn3Min = findViewById(R.id.btn3min);
         btn5Min = findViewById(R.id.btn5min);
         btn10Min = findViewById(R.id.btn10min);
-        calmDown = findViewById(R.id.imgCalmDown); // Resource:https://www.clipartmax.com/middle/m2i8K9m2b1G6K9m2_calm-clip-art/
-        timeIsUp = findViewById(R.id.imgTimeIsUp); // https://www.clipartmax.com/middle/m2i8N4b1m2N4d3Z5_when-the-district-operates-under-a-90-minute-delay-alarm-clock-clip/
+        calmDown = findViewById(R.id.imgCalmDown);
+        timeIsUp = findViewById(R.id.imgTimeIsUp);
         alarmManager = (AlarmManager) getSystemService(Context. ALARM_SERVICE);
         customMinutes = findViewById(R.id.editTextSetMinutes);
         confirmMinutes = findViewById(R.id.btnConfirmMinutes);
+        timerSpinner = findViewById(R.id.timerSpinner);
+        timerSpinner.setVisibility(View.INVISIBLE);
+
+        updateProgressBar(progress);
 
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,6 +123,7 @@ public class TimerActivity extends AppCompatActivity {
                 isRunning = true;
                 startTimer();
                 scheduleNotification(getNotification()) ;
+                updateProgressBar(progress);
                 updateButtons();
             }
         });
@@ -215,17 +224,28 @@ public class TimerActivity extends AppCompatActivity {
         });
     }
 
+    private void updateProgressBar(int spinner_progress) {
+        timerSpinner.setMax((int) timeInMills / 1000);
+        timerSpinner.setProgress(spinner_progress);
+    }
+
     private void setTime(long milliseconds) {
         timeInMills = milliseconds;
         resetTimer();
     }
+
     private void startTimer() {
+        timerSpinner.setVisibility(View.VISIBLE);
         endTime = System.currentTimeMillis() + timeLeftMills;
         countDownTimer = new CountDownTimer(timeLeftMills,COUNTDOWN_INTERVAL) {
+            int numberOfSeconds = (int)(timeInMills/1000);
             @Override
             public void onTick(long l) {
                 timeLeftMills = l;
                 refreshCountDownText();
+                int secondsRemaining = (int) (l/ 1000);
+                progress = numberOfSeconds - ((numberOfSeconds-secondsRemaining));
+                timerSpinner.setProgress(progress);
             }
 
             @Override
@@ -259,6 +279,8 @@ public class TimerActivity extends AppCompatActivity {
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.deleteNotificationChannel(SEND_NOTIFICATION_ID);
+
+        timerSpinner.setVisibility(View.INVISIBLE);
     }
 
     private void pauseTimer() {
@@ -304,6 +326,7 @@ public class TimerActivity extends AppCompatActivity {
             btnStart.setVisibility(View.VISIBLE);
             calmDown.setVisibility(View.INVISIBLE);
             if (timeLeftMills < COUNTDOWN_INTERVAL) { // case when the timer runs out of time
+                timerSpinner.setVisibility(View.INVISIBLE);
                 btnResetWhenStop.setVisibility(View.VISIBLE);
                 timeIsUp.setVisibility(View.VISIBLE);
                 calmDown.setVisibility(View.INVISIBLE);
@@ -321,6 +344,7 @@ public class TimerActivity extends AppCompatActivity {
             } else { // still have remaining time but is not running
                 if (timeLeftMills < timeInMills) { // case when pressing "PAUSE"
                     btnPause.setVisibility(View.INVISIBLE);
+                    timerSpinner.setVisibility(View.VISIBLE);
                     timeIsUp.setVisibility(View.INVISIBLE);
                     calmDown.setVisibility(View.VISIBLE);
                     btnReset.setVisibility(View.VISIBLE);
@@ -377,6 +401,7 @@ public class TimerActivity extends AppCompatActivity {
         editor.putBoolean(IS_TIMER_RUNNING, isRunning);
         editor.putLong(END_TIME,endTime);
         editor.putLong(CUSTOM_TIME,timeInMills);
+        editor.putInt(SPINNER_PROGRESS,progress);
         editor.apply();
     }
 
@@ -387,7 +412,10 @@ public class TimerActivity extends AppCompatActivity {
         timeInMills = prefs.getLong(CUSTOM_TIME, MINS_TO_MILLS);
         timeLeftMills = prefs.getLong(TIME_LEFT,timeInMills);
         isRunning = prefs.getBoolean(IS_TIMER_RUNNING,false);
+        progress = prefs.getInt(SPINNER_PROGRESS, 0);
         updateButtons();
+        updateProgressBar(progress);
+
         if (isRunning) {
             endTime = prefs.getLong(END_TIME,0);
             timeLeftMills = endTime - System.currentTimeMillis();
@@ -397,6 +425,7 @@ public class TimerActivity extends AppCompatActivity {
                 refreshCountDownText();
                 updateButtons();
             } else {
+                timerSpinner.setVisibility(View.VISIBLE);
                 startTimer();
             }
         }
