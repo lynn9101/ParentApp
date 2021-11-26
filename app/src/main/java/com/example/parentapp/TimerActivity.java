@@ -344,6 +344,7 @@ public class TimerActivity extends AppCompatActivity {
             } else { // still have remaining time but is not running
                 if (timeLeftMills < timeInMills) { // case when pressing "PAUSE"
                     btnPause.setVisibility(View.INVISIBLE);
+                    timerSpinner.setVisibility(View.VISIBLE);
                     timeIsUp.setVisibility(View.INVISIBLE);
                     calmDown.setVisibility(View.VISIBLE);
                     btnReset.setVisibility(View.VISIBLE);
@@ -424,6 +425,7 @@ public class TimerActivity extends AppCompatActivity {
                 refreshCountDownText();
                 updateButtons();
             } else {
+                timerSpinner.setVisibility(View.VISIBLE);
                 startTimer();
             }
         }
