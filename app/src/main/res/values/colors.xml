@@ -19,4 +19,5 @@
     <color name="task_box_bg_color">#9ACE9A</color>
     <color name="child_box_bg_color">#B7B5E6</color>
     <color name="delete_button_color">#E0A0A0</color>
+    <color name="time_progress_bar_color">#D8E2DC</color>
 </resources>
