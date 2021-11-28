@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -28,15 +29,8 @@ import java.util.Locale;
 /**
  * Timeout timer can count down time in 1 sec interval
  * and display reset, pause, resume buttons according
- * to different cases.
- * "Countdown Timer" adapted from (with some modifications):
- * https://www.youtube.com/watch?v=MDuGwI6P-X8&list=PLrnPJCHvNZuB8wxqXCwKw2_NkyEmFwcSd&index=1
- * "Keep the timer running while closing app" adapted from (with some modifications):
- *  https://www.youtube.com/watch?v=lvibl8YJfGo&list=PLrnPJCHvNZuB8wxqXCwKw2_NkyEmFwcSd&index=3
- *  "Send notification when timer done":
- *  https://www.tutorialspoint.com/how-to-create-android-notification-with-broadcastreceiver
- *  "Customize minutes" adapted from:
- *  https://www.youtube.com/watch?v=7dQJAkjNEjM
+ * to different cases. The timer also displays dynamic
+ * visualization when it is activated.
  */
 public class TimerActivity extends AppCompatActivity {
     public static final String NOTIFICATION_CONTENT = "Time is up!";
@@ -88,6 +82,7 @@ public class TimerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer);
+        getWindow().addFlags (WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         getSupportActionBar().setTitle(R.string.timer_title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources()
