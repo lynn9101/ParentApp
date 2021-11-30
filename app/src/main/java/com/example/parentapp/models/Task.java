@@ -7,12 +7,22 @@ package com.example.parentapp.models;
 
 public class Task {
 
+    private String uniqueID;
     private String taskName;
     private int currentChildIndex;
 
-    public Task(String taskName, int currentChildIndex) {
+    public Task(String taskID, String taskName, int currentChildIndex) {
+        this.uniqueID = taskID;
         this.taskName = taskName;
         this.currentChildIndex = currentChildIndex;
+    }
+
+    public String getUniqueID() {
+        return uniqueID;
+    }
+
+    public void setUniqueID(String uniqueID) {
+        this.uniqueID = uniqueID;
     }
 
     public String getTaskName() {

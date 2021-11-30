@@ -25,6 +25,7 @@
     <string name="shared_pref_is_finished_key">IsFinishedKey</string>
     <string name="shared_pref_is_flipped_key">IsFlippedKey</string>
     <string name="shared_pref_tasks_list_key">TasksListKey</string>
+    <string name="shared_pref_turns_list_key">TurnsListKey</string>
     <string name="help_screen_title">Help</string>
     <string name="help_text_box_content">\tI. Main Menu - Icon Sources:
         \n1. https://www.pngaaa.com/detail/490986

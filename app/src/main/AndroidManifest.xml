@@ -15,7 +15,9 @@
         android:theme="@style/Theme.ParentApp">
         <activity
             android:name=".WhoseTurnHistoryActivity"
-            android:exported="false" />
+            android:exported="true"
+            android:parentActivityName=".WhoseTurnActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".TakeBreathActivity"
             android:exported="true"

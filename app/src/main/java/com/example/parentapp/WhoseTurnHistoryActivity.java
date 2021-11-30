@@ -7,10 +7,19 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
-public class WhoseTurnHistoryActivity extends AppCompatActivity {
+import com.example.parentapp.models.ChildrenManager;
+import com.example.parentapp.models.TurnsManager;
 
-    public static Intent makeIntent(Context context) {
-        return new Intent(context, WhoseTurnHistoryActivity.class);
+public class WhoseTurnHistoryActivity extends AppCompatActivity {
+    private ChildrenManager childrenManager = ChildrenManager.getInstance();
+    private TurnsManager turnsManager = TurnsManager.getInstance();
+    private static final String EXTRA_MESSAGE = "Passing Turns State";
+    private String taskID;
+
+    public static Intent makeIntent(Context context, String taskIDMessage) {
+        Intent intent = new Intent(context, WhoseTurnHistoryActivity.class);
+        intent.putExtra(EXTRA_MESSAGE, taskIDMessage);
+        return intent;
     }
 
     @Override

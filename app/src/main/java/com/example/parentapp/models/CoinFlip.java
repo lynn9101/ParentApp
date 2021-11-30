@@ -1,7 +1,5 @@
 package com.example.parentapp.models;
 
-import android.graphics.Bitmap;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
