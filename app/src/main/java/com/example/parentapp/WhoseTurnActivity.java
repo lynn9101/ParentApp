@@ -103,7 +103,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
 
         updateTaskUUIDFromOldVersion();
         this.tasksHistory = tasksManager.getTasksHistory();
-        ListView tasksListView = findViewById(R.id.turnsListView);
+        ListView tasksListView = findViewById(R.id.tasksListView);
         ArrayAdapter<Task> adapter = new TasksListAdapter();
 
         adapter.notifyDataSetChanged();
@@ -121,7 +121,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
     }
 
     private void displayEmptyListState() {
-        TextView noTaskText = findViewById(R.id.noTurnsRecordText);
+        TextView noTaskText = findViewById(R.id.noTaskText);
         ImageView addTaskIcon = findViewById(R.id.addTaskIcon);
         TextView addTaskInstruction = findViewById(R.id.addTaskInstruction);
 
@@ -191,7 +191,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
     }
 
     private void registerClickListener() {
-        ListView tasksList = findViewById(R.id.turnsListView);
+        ListView tasksList = findViewById(R.id.tasksListView);
         tasksList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
