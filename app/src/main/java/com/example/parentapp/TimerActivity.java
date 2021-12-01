@@ -1,4 +1,5 @@
 package com.example.parentapp;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 
@@ -13,6 +14,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -73,9 +77,40 @@ public class TimerActivity extends AppCompatActivity {
     private int progress = 0;
     private ProgressBar timerSpinner;
     private final String SPINNER_PROGRESS = "spinner1";
+    private int speedPercentage = 100;
 
     public static Intent makeIntent(Context context) {
         return new Intent(context,TimerActivity.class);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.timer_menu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.spd1:
+                speedPercentage = 25;
+            case R.id.spd2:
+                speedPercentage = 50;
+            case R.id.spd3:
+                speedPercentage = 75;
+            case R.id.spd4:
+                speedPercentage = 100;
+            case R.id.spd5:
+                speedPercentage = 200;
+            case R.id.spd6:
+                speedPercentage = 300;
+            case R.id.spd7:
+                speedPercentage = 400;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
