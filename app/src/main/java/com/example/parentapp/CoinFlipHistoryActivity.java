@@ -56,6 +56,7 @@ public class CoinFlipHistoryActivity extends AppCompatActivity {
 
         return(super.onOptionsItemSelected(item));
     }
+
     private void populateCoinFlipHistoryList() {
         Context ctx = getApplicationContext();
         CoinFlipManager coinManager = CoinFlipManager.getInstance();
@@ -93,7 +94,7 @@ public class CoinFlipHistoryActivity extends AppCompatActivity {
             CoinFlip coinFlipInstance = history.get(position);
 
             ImageView statusIcon = itemView.findViewById(R.id.statusIcon);
-            ImageView kidsPortrait = itemView.findViewById(R.id.imgChildPortrait);
+            ImageView kidsPortrait = itemView.findViewById(R.id.flipChildPortrait);
 
             Child picker = null;
 
@@ -117,7 +118,7 @@ public class CoinFlipHistoryActivity extends AppCompatActivity {
             }
             statusIcon.setImageResource(iconID);
 
-            TextView pickerStatus = itemView.findViewById(R.id.pickerStatus);
+            TextView pickerStatus = itemView.findViewById(R.id.coinFLipStatus);
             pickerStatus.setText(coinFlipInstance.getPickerStatus(picker));
 
             TextView coinFlipDate = itemView.findViewById(R.id.coinFlipDate);
@@ -126,6 +127,7 @@ public class CoinFlipHistoryActivity extends AppCompatActivity {
             return itemView;
         }
     }
+
     @Override
     public void onBackPressed() {
         startActivity(new Intent(this,CoinFlipActivity.class));

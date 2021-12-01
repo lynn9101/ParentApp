@@ -19,6 +19,8 @@ import com.example.parentapp.models.ChildrenManager;
 import com.example.parentapp.models.Helpers;
 import com.example.parentapp.models.Task;
 import com.example.parentapp.models.TasksManager;
+import com.example.parentapp.models.Turn;
+import com.example.parentapp.models.TurnsManager;
 
 /**
  * The TaskMessageFragment class is an dialog fragment that showcases a popup message showing:
@@ -26,14 +28,17 @@ import com.example.parentapp.models.TasksManager;
  *  Name and photo of child whose turn to do task.
  *  Button to confirm that child has had their turn.
  *  Cancel text to return back to the list without making any changes.
+ *  Button to view the History for that task only.
  */
 
 public class TaskMessageFragment extends AppCompatDialogFragment {
 
     private TasksManager tasksManager = TasksManager.getInstance();
+    private TurnsManager turnsManager = TurnsManager.getInstance();
     private ChildrenManager childrenManager = ChildrenManager.getInstance();
     private int taskIndex;
     private String taskName;
+    private String taskUUID;
     private int currentChildIndex;
     private final int DEFAULT_NO_CHILDREN_IDX = -1;
     private View v;
@@ -46,11 +51,20 @@ public class TaskMessageFragment extends AppCompatDialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         v = LayoutInflater.from(getActivity()).inflate(R.layout.task_view_popup_message, null);
 
-        DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+        DialogInterface.OnClickListener editListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int i) {
                 Intent intent = TaskEditActivity.makeLaunchIntent(getActivity(), "Edit Current");
                 intent.putExtra("editIndex", taskIndex);
+                startActivity(intent);
+            }
+        };
+
+        DialogInterface.OnClickListener historyListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                Intent intent = WhoseTurnHistoryActivity.makeIntent(getActivity(), taskUUID);
+                intent.putExtra("turnsHistory", taskName);
                 startActivity(intent);
             }
         };
@@ -61,13 +75,15 @@ public class TaskMessageFragment extends AppCompatDialogFragment {
 
         return new AlertDialog.Builder(getActivity())
                 .setView(v)
-                .setPositiveButton("EDIT", listener)
+                .setPositiveButton("EDIT", editListener)
                 .setNegativeButton("CANCEL", null)
+                .setNeutralButton("HISTORY", historyListener)
                 .create();
     }
 
     private void displayTaskInformation() {
         Task taskInstance = tasksManager.getTask(taskIndex);
+        taskUUID = taskInstance.getUniqueID();
 
         taskName = taskInstance.getTaskName();
         TextView txtTaskName = v.findViewById(R.id.popupTaskName);
@@ -101,6 +117,11 @@ public class TaskMessageFragment extends AppCompatDialogFragment {
             confirmChildTurn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    // Add new turn (for that task with unique ID) into turns history
+                    String confirmedChildID = childrenManager.getChild(currentChildIndex).getUniqueID();
+                    turnsManager.addTurn(new Turn(taskUUID, confirmedChildID));
+                    updateTurnsListSharedPref();
+
                     // Update the childIndex of that task to the next child in the list.
                     if (currentChildIndex < childrenManager.getChildren().size() - 1) {
                         currentChildIndex++;
@@ -129,6 +150,12 @@ public class TaskMessageFragment extends AppCompatDialogFragment {
         } else {
             addChildMessage.setVisibility(View.INVISIBLE);
         }
+    }
+
+    private void updateTurnsListSharedPref() {
+        Context context = getActivity();
+        String turnsListKey = context.getResources().getString(R.string.shared_pref_turns_list_key);
+        Helpers.saveObjectToSharedPreference(context, turnsListKey, turnsManager.getTurnsHistory());
     }
 
     private void updateTasksListSharedPref() {

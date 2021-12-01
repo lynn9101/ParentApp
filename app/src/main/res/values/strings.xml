@@ -4,8 +4,9 @@
     <string name="main_title">Main</string>
     <string name="children_title">Configure Children</string>
     <string name="children_edit_title">Children Edit</string>
-    <string name="whose_turn_title">Whose Turn History</string>
+    <string name="whose_turn_title">Tasks History</string>
     <string name="whose_turn_edit_title">Task Edit</string>
+    <string name="whose_turn_history_title">Whose Turn History</string>
     <string name="coin_flip_title">Coin Flip</string>
     <string name="coin_flip_history_title">Coin flip history</string>
     <string name="timer_title">Timeout Timer</string>
@@ -24,6 +25,7 @@
     <string name="shared_pref_is_finished_key">IsFinishedKey</string>
     <string name="shared_pref_is_flipped_key">IsFlippedKey</string>
     <string name="shared_pref_tasks_list_key">TasksListKey</string>
+    <string name="shared_pref_turns_list_key">TurnsListKey</string>
     <string name="help_screen_title">Help</string>
     <string name="help_text_box_content">\tI. Main Menu - Icon Sources:
         \n1. https://www.pngaaa.com/detail/490986
@@ -60,6 +62,7 @@
     <string name="pop_up_child_field">Child\'s turn:</string>
     <string name="confirm_child_turn">Child finished their turn</string>
     <string name="add_new_child_for_task">Please Add New Child in Configure Children</string>
+    <string name="no_turn_record_message">No child has confirmed their turn for this task!</string>
     <string-array name="imageSourceOptions">
         <item>Camera</item>
         <item>Gallery</item>

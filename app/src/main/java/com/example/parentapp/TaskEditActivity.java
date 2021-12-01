@@ -16,6 +16,7 @@ import com.example.parentapp.models.ChildrenManager;
 import com.example.parentapp.models.Helpers;
 import com.example.parentapp.models.Task;
 import com.example.parentapp.models.TasksManager;
+import com.example.parentapp.models.TurnsManager;
 
 /**
  * TaskEditActivity class is an android activity which handles the addition, modification and
@@ -26,6 +27,7 @@ public class TaskEditActivity extends AppCompatActivity {
 
     private TasksManager tasksManager = TasksManager.getInstance();
     private ChildrenManager childrenManager = ChildrenManager.getInstance();
+    private TurnsManager turnsManager = TurnsManager.getInstance();
     private static final String EXTRA_MESSAGE = "Passing Edit State";
     private String title;
     private int editIndex;
@@ -78,7 +80,6 @@ public class TaskEditActivity extends AppCompatActivity {
     }
 
     private boolean checkValidTaskName() {
-
         if (taskName.getText().toString().equals("")) {
             String message = "Please fill out the task name before saving!";
             Toast.makeText(TaskEditActivity.this, message, Toast.LENGTH_SHORT)
@@ -105,7 +106,8 @@ public class TaskEditActivity extends AppCompatActivity {
         String message;
         if (title.equals("Add New")) {
             message = "New task is added.";
-            tasksManager.addTask(new Task(validTaskName, firstChildIndex));
+            String uniqueID = Helpers.getUUID();
+            tasksManager.addTask(new Task(uniqueID, validTaskName, firstChildIndex));
         } else {
             message = "Task's name has been edited.";
             tasksManager.getTask(editIndex).setTaskName(validTaskName);
@@ -127,6 +129,10 @@ public class TaskEditActivity extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(TaskEditActivity.this);
                 builder.setMessage("Delete this task? It cannot be restored!")
                         .setPositiveButton("Confirm", (dialogInterface, i) -> {
+                            String taskUUID = tasksManager.getTask(editIndex).getUniqueID();
+                            turnsManager.removeTurnsHistoryByTaskID(taskUUID);
+                            updateTurnsListSharedPref();
+
                             tasksManager.removeTask(editIndex);
                             updateTasksListSharedPref();
                             finish();
@@ -146,6 +152,12 @@ public class TaskEditActivity extends AppCompatActivity {
             Task taskInstance = tasksManager.getTask(editIndex);
             taskName.setText(taskInstance.getTaskName());
         }
+    }
+
+    private void updateTurnsListSharedPref() {
+        Context context = getApplicationContext();
+        String turnsListKey = context.getResources().getString(R.string.shared_pref_turns_list_key);
+        Helpers.saveObjectToSharedPreference(context, turnsListKey, turnsManager.getTurnsHistory());
     }
 
     private void updateTasksListSharedPref() {

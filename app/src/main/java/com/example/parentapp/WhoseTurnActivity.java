@@ -101,12 +101,23 @@ public class WhoseTurnActivity extends AppCompatActivity {
             tasksManager.setTasksHistory(Helpers.getObjectFromSharedPreference(context, tasksListKey, Helpers.getListOfClassType(Task.class)));
         }
 
+        updateTaskUUIDFromOldVersion();
         this.tasksHistory = tasksManager.getTasksHistory();
         ListView tasksListView = findViewById(R.id.tasksListView);
         ArrayAdapter<Task> adapter = new TasksListAdapter();
 
         adapter.notifyDataSetChanged();
         tasksListView.setAdapter(adapter);
+    }
+
+    private void updateTaskUUIDFromOldVersion() {
+        for (int i = 0; i < tasksManager.getTasksHistory().size(); i++) {
+            if (tasksManager.getTask(i).getUniqueID() == null) {
+                String uniqueID = Helpers.getUUID();
+                tasksManager.getTask(i).setUniqueID(uniqueID);
+            }
+        }
+        updateTasksListSharedPref();
     }
 
     private void displayEmptyListState() {
