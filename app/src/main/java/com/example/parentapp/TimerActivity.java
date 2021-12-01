@@ -53,6 +53,7 @@ public class TimerActivity extends AppCompatActivity {
     private ImageView timeIsUp;
     private EditText customMinutes;
     private Button confirmMinutes;
+    private TextView speedTv;
     private long timeInMills;
     private final int COUNTDOWN_INTERVAL = 1000;
     private final int HOURS_TO_SECONDS = 3600;
@@ -108,6 +109,7 @@ public class TimerActivity extends AppCompatActivity {
                 speedPercentage = 300;
             case R.id.spd7:
                 speedPercentage = 400;
+            speedTv.setText(speedPercentage + "% speed");
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -137,6 +139,7 @@ public class TimerActivity extends AppCompatActivity {
         btn3Min = findViewById(R.id.btn3min);
         btn5Min = findViewById(R.id.btn5min);
         btn10Min = findViewById(R.id.btn10min);
+        speedTv = findViewById(R.id.currentSpd);
         calmDown = findViewById(R.id.imgCalmDown);
         timeIsUp = findViewById(R.id.imgTimeIsUp);
         alarmManager = (AlarmManager) getSystemService(Context. ALARM_SERVICE);
@@ -266,6 +269,7 @@ public class TimerActivity extends AppCompatActivity {
 
     private void startTimer() {
         timerSpinner.setVisibility(View.VISIBLE);
+        speedTv.setVisibility(View.VISIBLE);
         endTime = System.currentTimeMillis() + timeLeftMills;
         countDownTimer = new CountDownTimer(timeLeftMills,COUNTDOWN_INTERVAL) {
             int numberOfSeconds = (int)(timeInMills/1000);
