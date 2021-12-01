@@ -2,7 +2,7 @@ package com.example.parentapp.models;
 
 /**
  * The Task class represent a task object.
- * The name of the task and the index of current child responsible for that task are stored.
+ * The generated unique ID, name of the task and the index of current child responsible for that task are stored.
  */
 
 public class Task {

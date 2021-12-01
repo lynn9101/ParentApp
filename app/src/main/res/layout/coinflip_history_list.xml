@@ -18,11 +18,11 @@
         app:layout_constraintBottom_toBottomOf="@+id/coinFlipDate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/pickerStatus"
-        app:layout_constraintTop_toTopOf="@+id/pickerStatus" />
+        app:layout_constraintStart_toEndOf="@+id/coinFLipStatus"
+        app:layout_constraintTop_toTopOf="@+id/coinFLipStatus" />
 
     <TextView
-        android:id="@+id/pickerStatus"
+        android:id="@+id/coinFLipStatus"
         android:layout_width="230dp"
         android:layout_height="20dp"
         android:layout_marginStart="8dp"
@@ -50,18 +50,18 @@
         app:layout_constraintEnd_toStartOf="@+id/statusIcon"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pickerStatus" />
+        app:layout_constraintTop_toBottomOf="@+id/coinFLipStatus" />
 
     <ImageView
-        android:id="@+id/imgChildPortrait"
+        android:id="@+id/flipChildPortrait"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginStart="40dp"
         app:layout_constraintBottom_toBottomOf="@+id/coinFlipDate"
-        app:layout_constraintEnd_toStartOf="@+id/pickerStatus"
+        app:layout_constraintEnd_toStartOf="@+id/coinFLipStatus"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/pickerStatus"
+        app:layout_constraintTop_toTopOf="@+id/coinFLipStatus"
         app:srcCompat="@drawable/child_image_listview" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

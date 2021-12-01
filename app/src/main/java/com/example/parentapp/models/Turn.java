@@ -5,8 +5,8 @@ import java.time.format.DateTimeFormatter;
 
 /**
  * The Turn class represents a turn object
- * Currently stores the index of the task, time of which child has confirmed their turn,
- * and the id of that child.
+ * Currently stores the unique ID of the task, time when child has confirmed their turn for that task,
+ * and the unique ID of that child.
  */
 public class Turn {
 
@@ -39,9 +39,9 @@ public class Turn {
     public String getTurnStatus(Child child) {
         String turnStatus = "";
         if (child == null) {
-            turnStatus = "A deleted child" + "\nConfirmed turn on " + formattedTurnTime;
+            turnStatus = "A deleted child" + "\nFinished turn on " + formattedTurnTime;
         } else {
-            turnStatus = child.getFirstName() + " " + child.getLastName() + "\nConfirmed turn on " + formattedTurnTime;
+            turnStatus = child.getFirstName() + " " + child.getLastName() + "\nFinished turn on " + formattedTurnTime;
         }
 
         return turnStatus;

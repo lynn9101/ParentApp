@@ -101,16 +101,27 @@ public class WhoseTurnActivity extends AppCompatActivity {
             tasksManager.setTasksHistory(Helpers.getObjectFromSharedPreference(context, tasksListKey, Helpers.getListOfClassType(Task.class)));
         }
 
+        updateTaskUUIDFromOldVersion();
         this.tasksHistory = tasksManager.getTasksHistory();
-        ListView tasksListView = findViewById(R.id.tasksListView);
+        ListView tasksListView = findViewById(R.id.turnsListView);
         ArrayAdapter<Task> adapter = new TasksListAdapter();
 
         adapter.notifyDataSetChanged();
         tasksListView.setAdapter(adapter);
     }
 
+    private void updateTaskUUIDFromOldVersion() {
+        for (int i = 0; i < tasksManager.getTasksHistory().size(); i++) {
+            if (tasksManager.getTask(i).getUniqueID() == null) {
+                String uniqueID = Helpers.getUUID();
+                tasksManager.getTask(i).setUniqueID(uniqueID);
+            }
+        }
+        updateTasksListSharedPref();
+    }
+
     private void displayEmptyListState() {
-        TextView noTaskText = findViewById(R.id.noTaskText);
+        TextView noTaskText = findViewById(R.id.noTurnsRecordText);
         ImageView addTaskIcon = findViewById(R.id.addTaskIcon);
         TextView addTaskInstruction = findViewById(R.id.addTaskInstruction);
 
@@ -180,7 +191,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
     }
 
     private void registerClickListener() {
-        ListView tasksList = findViewById(R.id.tasksListView);
+        ListView tasksList = findViewById(R.id.turnsListView);
         tasksList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {

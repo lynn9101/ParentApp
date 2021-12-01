@@ -62,6 +62,7 @@
     <string name="pop_up_child_field">Child\'s turn:</string>
     <string name="confirm_child_turn">Child finished their turn</string>
     <string name="add_new_child_for_task">Please Add New Child in Configure Children</string>
+    <string name="no_turn_record_message">No child has confirmed their turn for this task!</string>
     <string-array name="imageSourceOptions">
         <item>Camera</item>
         <item>Gallery</item>

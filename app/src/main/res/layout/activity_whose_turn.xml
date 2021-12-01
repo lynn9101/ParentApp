@@ -21,7 +21,7 @@
         tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
-        android:id="@+id/noTaskText"
+        android:id="@+id/noTurnsRecordText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
@@ -40,9 +40,9 @@
         android:layout_height="65dp"
         android:layout_marginTop="10dp"
         android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="@+id/noTaskText"
-        app:layout_constraintStart_toStartOf="@+id/noTaskText"
-        app:layout_constraintTop_toBottomOf="@+id/noTaskText"
+        app:layout_constraintEnd_toEndOf="@+id/noTurnsRecordText"
+        app:layout_constraintStart_toStartOf="@+id/noTurnsRecordText"
+        app:layout_constraintTop_toBottomOf="@+id/noTurnsRecordText"
         app:srcCompat="@drawable/add_task_icon" />
 
     <TextView
@@ -60,7 +60,7 @@
         app:layout_constraintTop_toBottomOf="@+id/addTaskIcon" />
 
     <ListView
-        android:id="@+id/tasksListView"
+        android:id="@+id/turnsListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="24dp"

@@ -28,6 +28,7 @@ import com.example.parentapp.models.TurnsManager;
  *  Name and photo of child whose turn to do task.
  *  Button to confirm that child has had their turn.
  *  Cancel text to return back to the list without making any changes.
+ *  Button to view the History for that task only.
  */
 
 public class TaskMessageFragment extends AppCompatDialogFragment {
@@ -44,7 +45,6 @@ public class TaskMessageFragment extends AppCompatDialogFragment {
 
     public TaskMessageFragment(int taskIndex) {
         this.taskIndex = taskIndex;
-        this.taskUUID = tasksManager.getTask(taskIndex).getUniqueID();
     }
 
     @Override
@@ -63,7 +63,8 @@ public class TaskMessageFragment extends AppCompatDialogFragment {
         DialogInterface.OnClickListener historyListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int i) {
-                Intent intent = WhoseTurnHistoryActivity.makeIntent(getActivity(),taskUUID);
+                Intent intent = WhoseTurnHistoryActivity.makeIntent(getActivity(), taskUUID);
+                intent.putExtra("turnsHistory", taskName);
                 startActivity(intent);
             }
         };
@@ -82,6 +83,7 @@ public class TaskMessageFragment extends AppCompatDialogFragment {
 
     private void displayTaskInformation() {
         Task taskInstance = tasksManager.getTask(taskIndex);
+        taskUUID = taskInstance.getUniqueID();
 
         taskName = taskInstance.getTaskName();
         TextView txtTaskName = v.findViewById(R.id.popupTaskName);
@@ -115,7 +117,7 @@ public class TaskMessageFragment extends AppCompatDialogFragment {
             confirmChildTurn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // Add new turn (for that task) into turnsManager
+                    // Add new turn (for that task with unique ID) into turns history
                     String confirmedChildID = childrenManager.getChild(currentChildIndex).getUniqueID();
                     turnsManager.addTurn(new Turn(taskUUID, confirmedChildID));
                     updateTurnsListSharedPref();
@@ -150,15 +152,15 @@ public class TaskMessageFragment extends AppCompatDialogFragment {
         }
     }
 
-    private void updateTasksListSharedPref() {
-        Context context = getActivity();
-        String tasksListKey = context.getResources().getString(R.string.shared_pref_tasks_list_key);
-        Helpers.saveObjectToSharedPreference(context, tasksListKey, tasksManager.getTasksHistory());
-    }
-
     private void updateTurnsListSharedPref() {
         Context context = getActivity();
         String turnsListKey = context.getResources().getString(R.string.shared_pref_turns_list_key);
         Helpers.saveObjectToSharedPreference(context, turnsListKey, turnsManager.getTurnsHistory());
+    }
+
+    private void updateTasksListSharedPref() {
+        Context context = getActivity();
+        String tasksListKey = context.getResources().getString(R.string.shared_pref_tasks_list_key);
+        Helpers.saveObjectToSharedPreference(context, tasksListKey, tasksManager.getTasksHistory());
     }
 }

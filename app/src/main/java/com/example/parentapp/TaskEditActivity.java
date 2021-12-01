@@ -80,7 +80,6 @@ public class TaskEditActivity extends AppCompatActivity {
     }
 
     private boolean checkValidTaskName() {
-
         if (taskName.getText().toString().equals("")) {
             String message = "Please fill out the task name before saving!";
             Toast.makeText(TaskEditActivity.this, message, Toast.LENGTH_SHORT)
@@ -131,7 +130,7 @@ public class TaskEditActivity extends AppCompatActivity {
                 builder.setMessage("Delete this task? It cannot be restored!")
                         .setPositiveButton("Confirm", (dialogInterface, i) -> {
                             String taskUUID = tasksManager.getTask(editIndex).getUniqueID();
-                            turnsManager.removeTurnsByTaskID(taskUUID);
+                            turnsManager.removeTurnsHistoryByTaskID(taskUUID);
                             updateTurnsListSharedPref();
 
                             tasksManager.removeTask(editIndex);
@@ -155,15 +154,15 @@ public class TaskEditActivity extends AppCompatActivity {
         }
     }
 
-    private void updateTasksListSharedPref() {
-        Context context = getApplicationContext();
-        String tasksListKey = context.getResources().getString(R.string.shared_pref_tasks_list_key);
-        Helpers.saveObjectToSharedPreference(context, tasksListKey, tasksManager.getTasksHistory());
-    }
-
     private void updateTurnsListSharedPref() {
         Context context = getApplicationContext();
         String turnsListKey = context.getResources().getString(R.string.shared_pref_turns_list_key);
         Helpers.saveObjectToSharedPreference(context, turnsListKey, turnsManager.getTurnsHistory());
+    }
+
+    private void updateTasksListSharedPref() {
+        Context context = getApplicationContext();
+        String tasksListKey = context.getResources().getString(R.string.shared_pref_tasks_list_key);
+        Helpers.saveObjectToSharedPreference(context, tasksListKey, tasksManager.getTasksHistory());
     }
 }
