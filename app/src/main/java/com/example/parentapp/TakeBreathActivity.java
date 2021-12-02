@@ -71,6 +71,9 @@ public class TakeBreathActivity extends AppCompatActivity {
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (breaths <= 0) {
+                    ((EditText) findViewById(R.id.editTextBreaths)).setText("3");
+                }
                 me.toggleBreathUI(false);
             }
         });
