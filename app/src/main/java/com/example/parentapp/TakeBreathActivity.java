@@ -143,6 +143,7 @@ public class TakeBreathActivity extends AppCompatActivity {
         ImageView circleIn = findViewById(R.id.circleIn);
         ImageView circleOut = findViewById(R.id.circleOut);
 
+        transitionBtn.setEnabled(false);
         transitionBtn.setVisibility(View.GONE);
         circleOut.setVisibility(View.GONE);
 
@@ -227,8 +228,8 @@ public class TakeBreathActivity extends AppCompatActivity {
                                     updateTitle();
                                     //avoid using closure since beginBtn could be null at this stage
                                     Button beginBtn = findViewById(R.id.beginBtn);
-                                    beginBtn.setEnabled(true);
 
+                                    beginBtn.setEnabled(true);
                                     Button transitionBtn = findViewById(R.id.transitionBtn);
 
                                     if (breaths > 0) {
@@ -240,6 +241,7 @@ public class TakeBreathActivity extends AppCompatActivity {
 
                                     beginBtn.setVisibility(View.GONE);
                                     transitionBtn.setVisibility(View.VISIBLE);
+                                    transitionBtn.setEnabled(true);
                                 }
                             });
                         }
@@ -283,6 +285,7 @@ public class TakeBreathActivity extends AppCompatActivity {
                 getCircle(true).setVisibility(View.VISIBLE);
                 getCircle(false).setVisibility(View.GONE);
 
+                transitionBtn.setEnabled(false);
                 transitionBtn.setVisibility(View.GONE);
                 beginBtn.setVisibility(View.VISIBLE);
             }
