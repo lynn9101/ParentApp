@@ -33,6 +33,7 @@ public class TakeBreathActivity extends AppCompatActivity {
     private long timeElapsed = 0L;
     private boolean inBreathOutStage = false;
     private ViewAnimator animator;
+    private Timer timer;
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, TakeBreathActivity.class);
@@ -61,15 +62,27 @@ public class TakeBreathActivity extends AppCompatActivity {
     private void addListeners() {
         TakeBreathActivity me = this;
         Button startBtn = findViewById(R.id.startBtn);
+        Button beginBtn = findViewById(R.id.beginBtn);
+        Button transitionBtn = findViewById(R.id.transitionBtn);
+        EditText editBreaths = findViewById(R.id.editTextBreaths);
+
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(me, getString(R.string.breath_in), Toast.LENGTH_SHORT).show();
                 me.toggleBreathUI(false);
             }
         });
 
-        EditText editBreaths = findViewById(R.id.editTextBreaths);
+        transitionBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (timer != null) {
+                    timer.cancel();
+                }
+                handleStageTransition();
+            }
+        });
+
         editBreaths.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -107,13 +120,11 @@ public class TakeBreathActivity extends AppCompatActivity {
             }
         });
 
-        Button beginBtn = findViewById(R.id.beginBtn);
-
         //noinspection AndroidLintClickableViewAccessibility
         beginBtn.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                handleButtonDownEvents(event);
+                handleInButtonDownEvent(event);
                 return true;
             }
         });
@@ -122,6 +133,7 @@ public class TakeBreathActivity extends AppCompatActivity {
     private void toggleBreathUI(boolean initialUI) {
         Button startBtn = findViewById(R.id.startBtn);
         Button beginBtn = findViewById(R.id.beginBtn);
+        Button transitionBtn = findViewById(R.id.transitionBtn);
         TextView msg1 = findViewById(R.id.breathWelcomeMessage);
         TextView msg2 = findViewById(R.id.breathWelcomeMessage2);
         TextView helperMessage = findViewById(R.id.helperMessage);
@@ -129,10 +141,11 @@ public class TakeBreathActivity extends AppCompatActivity {
         ImageView circleIn = findViewById(R.id.circleIn);
         ImageView circleOut = findViewById(R.id.circleOut);
 
-
+        transitionBtn.setVisibility(View.GONE);
         circleOut.setVisibility(View.GONE);
 
         if (!initialUI) {
+            beginBtn.setText(getString(R.string.button_breath_in));
             startBtn.setVisibility(View.GONE);
             msg1.setVisibility(View.GONE);
             msg2.setVisibility(View.GONE);
@@ -152,58 +165,96 @@ public class TakeBreathActivity extends AppCompatActivity {
         }
     }
 
-    private void updateTitle() {
-        String title = getResources().getString(R.string.take_breath_heading);
-        getSupportActionBar().setTitle(title.replace("N", Integer.toString(breaths)));
-    }
-
-    private void handleButtonDownEvents(MotionEvent event) {
+    private void handleInButtonDownEvent(MotionEvent event) {
         TakeBreathActivity me = TakeBreathActivity.this;
 
-        Timer timer = new Timer();
-        switch ( event.getAction() ) {
+        switch (event.getAction() ) {
             case MotionEvent.ACTION_DOWN:
+                inBreathOutStage = false;
+                timer = new Timer();
                 timeElapsed = event.getDownTime();
                 me.beginCircleAnimation(getCircle(true));
 
                 TimerTask textSwitchTask = new TimerTask() {
                     public void run() {
-
                         Button beginBtn = findViewById(R.id.beginBtn);
                         if (beginBtn != null) {
                             //at this stage inBreathOutStage has not been updated to prevent further complications downstream
-                            String buttonMessage = inBreathOutStage ? getResources().getString(R.string.button_breath_in) : getResources().getString(R.string.button_breath_out);
+                            String buttonMessage = getString(R.string.button_breath_out);
                             beginBtn.setText(buttonMessage);
+                            displayThreadedToast(buttonMessage);
                         }
                     }
                 };
                 timer.schedule(textSwitchTask, MIN_RESPONSE_TIME);
+
+                TimerTask helperTextSwitchTask = new TimerTask() {
+                    public void run() {
+                        TextView helperMessage = findViewById(R.id.helperMessage);
+                        if (helperMessage != null) {
+                            String msg = getString(R.string.breath_in_transition_help);
+                            helperMessage.setText(msg);
+                        }
+                    }
+                };
+                timer.schedule(helperTextSwitchTask, MAX_RESPONSE_TIME);
 
                 break;
             case MotionEvent.ACTION_UP:
                 timeElapsed = event.getEventTime() - timeElapsed;
                 me.stopCircleAnimation(getCircle(true));
                 if (timeElapsed >= MIN_RESPONSE_TIME) {
-                    if (inBreathOutStage) {
-                        breaths--;
-                        updateTitle();
-
-                        if (breaths <= 0) {
-                            ((EditText)findViewById(R.id.editTextBreaths)).setText("3");
-                            me.toggleBreathUI(true);
-                            return;
-                        }
-                    }
+                    ((Button)findViewById(R.id.beginBtn)).setEnabled(false);;
+                    ((TextView)findViewById(R.id.helperMessage)).setText("");
 
                     getCircle(true).setVisibility(View.GONE);
                     getCircle(false).setVisibility(View.VISIBLE);
 
-                    me.inBreathOutStage = !inBreathOutStage;
+                    inBreathOutStage = true;
+                    me.beginCircleAnimation(getCircle(true));
 
-                    String helperMessage = inBreathOutStage ? getResources().getString(R.string.breath_out) : getResources().getString(R.string.breath_in);
-                    ((TextView)findViewById(R.id.helperMessage)).setText(helperMessage);
+                    timer.cancel();;
+                    timer = new Timer();
 
-                    Toast.makeText(me, helperMessage, Toast.LENGTH_SHORT).show();
+                    TimerTask stageTransitionTaskOne = new TimerTask() {
+                        public void run() {
+
+                            runOnUiThread(new Runnable() {
+                                public void run() {
+                                    breaths--;
+                                    updateTitle();
+                                    //avoid using closure since beginBtn could be null at this stage
+                                    Button beginBtn = findViewById(R.id.beginBtn);
+                                    beginBtn.setEnabled(true);
+
+                                    Button transitionBtn = findViewById(R.id.transitionBtn);
+
+                                    if (breaths > 0) {
+                                        beginBtn.setText(getString(R.string.button_breath_in));
+                                        transitionBtn.setText(getString(R.string.button_breath_skip));
+                                    } else {
+                                        transitionBtn.setText(getString(R.string.button_breath_done));
+                                    }
+
+                                    beginBtn.setVisibility(View.GONE);
+                                    transitionBtn.setVisibility(View.VISIBLE);
+                                }
+                            });
+                        }
+                    };
+                    timer.schedule(stageTransitionTaskOne, MIN_RESPONSE_TIME);
+
+                    TimerTask stageTransitionTaskTwo = new TimerTask() {
+                        public void run() {
+                            runOnUiThread(new Runnable() {
+                                public void run() {
+                                    handleStageTransition();
+                                }
+                            });
+                        }
+                    };
+                    timer.schedule(stageTransitionTaskTwo, MAX_RESPONSE_TIME);
+
                 } else {
                     timer.cancel();
                     Toast.makeText(TakeBreathActivity.this, "Hold for at least 3 seconds to advance.", Toast.LENGTH_SHORT).show();
@@ -212,6 +263,43 @@ public class TakeBreathActivity extends AppCompatActivity {
                 timeElapsed = 0L;
                 break;
         }
+    }
+
+    private void handleStageTransition() {
+        Button beginBtn = findViewById(R.id.beginBtn);
+        Button transitionBtn = findViewById(R.id.transitionBtn);
+
+        if (inBreathOutStage) {
+            this.stopCircleAnimation(getCircle(true));
+            inBreathOutStage = false;
+            ((TextView) findViewById(R.id.helperMessage)).setText(getString(R.string.breath_in));
+
+            if (breaths <= 0) {
+                ((EditText) findViewById(R.id.editTextBreaths)).setText("3");
+                this.toggleBreathUI(true);
+            } else {
+                getCircle(true).setVisibility(View.VISIBLE);
+                getCircle(false).setVisibility(View.GONE);
+
+                transitionBtn.setVisibility(View.GONE);
+                beginBtn.setVisibility(View.VISIBLE);
+            }
+        } else {
+            inBreathOutStage = false;
+        }
+    }
+
+    private void updateTitle() {
+        String title = getString(R.string.take_breath_heading);
+        getSupportActionBar().setTitle(title.replace("N", Integer.toString(breaths)));
+    }
+
+    private void displayThreadedToast(String msg) {
+        runOnUiThread(new Runnable() {
+            public void run() {
+                Toast.makeText(TakeBreathActivity.this, msg, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private ImageView getCircle(boolean isActive) {

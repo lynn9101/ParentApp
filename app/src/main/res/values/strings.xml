@@ -69,9 +69,11 @@
     <string name="add_new_child_for_task">Please Add New Child in Configure Children</string>
     <string name="no_turn_record_message">No child has confirmed their turn for this task!</string>
     <string name="breath_in">Hold the button for at least 3 seconds to breaths in</string>
-    <string name="breath_out">Hold the button for at least 3 seconds to breaths out</string>
+    <string name="button_breath_skip">Skip</string>
+    <string name="breath_in_transition_help">Release button and breath out</string>
     <string name="button_breath_out">Out</string>
     <string name="button_breath_in">In</string>
+    <string name="button_breath_done">Good job</string>
     <string-array name="imageSourceOptions">
         <item>Camera</item>
         <item>Gallery</item>
