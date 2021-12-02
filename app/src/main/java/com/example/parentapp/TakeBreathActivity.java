@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import android.text.Editable;
@@ -34,6 +35,7 @@ public class TakeBreathActivity extends AppCompatActivity {
     private boolean inBreathOutStage = false;
     private ViewAnimator animator;
     private Timer timer;
+    private MediaPlayer media;
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, TakeBreathActivity.class);
@@ -315,6 +317,8 @@ public class TakeBreathActivity extends AppCompatActivity {
 
     private void beginCircleAnimation(ImageView circle) {
         Float scale = inBreathOutStage ? 0.5f : 1;
+        media = Helpers.getMediaPlayer(TakeBreathActivity.this, R.raw.winds);
+        media.start();
 
         animator = ViewAnimator
                 .animate(circle)
@@ -325,6 +329,10 @@ public class TakeBreathActivity extends AppCompatActivity {
     }
 
     private void stopCircleAnimation(ImageView circle) {
+        if (media != null) {
+            media.stop();
+        }
+
         if (inBreathOutStage) {
             circle.setScaleX(1);
             circle.setScaleY(1);
