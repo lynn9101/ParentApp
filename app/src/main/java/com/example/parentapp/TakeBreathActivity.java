@@ -206,7 +206,7 @@ public class TakeBreathActivity extends AppCompatActivity {
                 timeElapsed = event.getEventTime() - timeElapsed;
                 me.stopCircleAnimation(getCircle(true));
                 if (timeElapsed >= MIN_RESPONSE_TIME) {
-                    ((Button)findViewById(R.id.beginBtn)).setEnabled(false);;
+                    ((Button)findViewById(R.id.beginBtn)).setEnabled(false);
                     ((TextView)findViewById(R.id.helperMessage)).setText("");
 
                     getCircle(true).setVisibility(View.GONE);
@@ -215,7 +215,7 @@ public class TakeBreathActivity extends AppCompatActivity {
                     inBreathOutStage = true;
                     me.beginCircleAnimation(getCircle(true));
 
-                    timer.cancel();;
+                    timer.cancel();
                     timer = new Timer();
 
                     TimerTask stageTransitionTaskOne = new TimerTask() {
