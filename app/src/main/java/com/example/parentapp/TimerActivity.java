@@ -14,6 +14,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -55,7 +56,7 @@ public class TimerActivity extends AppCompatActivity {
     private Button confirmMinutes;
     private TextView speedTv;
     private long timeInMills;
-    private final int COUNTDOWN_INTERVAL = 1000;
+    private int COUNTDOWN_INTERVAL = 1000;
     private final int HOURS_TO_SECONDS = 3600;
     private final int SIXTY = 60;
     private final int MINS_TO_MILLS = 60000;
@@ -97,22 +98,32 @@ public class TimerActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.spd1:
                 speedPercentage = 25;
+                break;
             case R.id.spd2:
                 speedPercentage = 50;
+                break;
             case R.id.spd3:
                 speedPercentage = 75;
+                break;
             case R.id.spd4:
                 speedPercentage = 100;
+                break;
             case R.id.spd5:
                 speedPercentage = 200;
+                break;
             case R.id.spd6:
                 speedPercentage = 300;
+                break;
             case R.id.spd7:
                 speedPercentage = 400;
-            speedTv.setText(speedPercentage + "% speed");
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }
+        Toast.makeText(getApplicationContext(), "speed is " + speedPercentage, Toast.LENGTH_SHORT).show();
+        speedTv.setText(speedPercentage + "% speed");
+        changeTimerSpeed();
+        return true;
     }
 
     @Override
@@ -271,13 +282,18 @@ public class TimerActivity extends AppCompatActivity {
         timerSpinner.setVisibility(View.VISIBLE);
         speedTv.setVisibility(View.VISIBLE);
         endTime = System.currentTimeMillis() + timeLeftMills;
+        String s = "kfate - timeLeftMills : " + timeLeftMills +
+                "\n COUNTDOWN_INTERVAL : " + COUNTDOWN_INTERVAL;
+        Toast. makeText(getApplicationContext(),s , Toast.LENGTH_SHORT).show();
+        Log.d("kfate", s);
         countDownTimer = new CountDownTimer(timeLeftMills,COUNTDOWN_INTERVAL) {
-            int numberOfSeconds = (int)(timeInMills/1000);
+            int numberOfSeconds = (int)(timeInMills/COUNTDOWN_INTERVAL);
             @Override
             public void onTick(long l) {
+                Toast. makeText(getApplicationContext(),"seconds remaining: " + l / COUNTDOWN_INTERVAL + "\n interval is" + COUNTDOWN_INTERVAL, Toast.LENGTH_SHORT).show();
                 timeLeftMills = l;
                 refreshCountDownText();
-                int secondsRemaining = (int) (l/ 1000);
+                int secondsRemaining = (int) (l/ COUNTDOWN_INTERVAL);
                 progress = numberOfSeconds - ((numberOfSeconds-secondsRemaining));
                 timerSpinner.setProgress(progress);
             }
@@ -422,6 +438,19 @@ public class TimerActivity extends AppCompatActivity {
         builder.setSound(soundUri);
         builder.setChannelId(SEND_NOTIFICATION_ID);
         return builder.build() ;
+    }
+
+    private void changeTimerSpeed(){
+        //update the slider and timer
+        //record the new remaining time
+        //update interval
+
+        String s = "kfate - COUNTDOWN_INTERVAL :" + this.COUNTDOWN_INTERVAL;
+        Log.d("kfate", "before - " + s);
+
+        this.COUNTDOWN_INTERVAL = this.COUNTDOWN_INTERVAL * (100/speedPercentage);
+
+        Log.d("kfate" , "After  - " + s);
     }
 
     @Override
