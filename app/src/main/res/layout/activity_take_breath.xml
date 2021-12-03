@@ -4,6 +4,146 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#C5DBE3"
     tools:context=".TakeBreathActivity">
+
+    <TextView
+        android:id="@+id/breathWelcomeMessage2"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="4dp"
+        android:text="breaths"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextBreaths" />
+
+    <TextView
+        android:id="@+id/breathWelcomeMessage"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:text="Let's take "
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.314" />
+
+
+    <EditText
+        android:id="@+id/editTextBreaths"
+        android:layout_width="145dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="4dp"
+        android:ems="10"
+        android:hint="3"
+        android:inputType="number"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="@+id/breathWelcomeMessage"
+        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintStart_toStartOf="@+id/breathWelcomeMessage"
+        app:layout_constraintTop_toBottomOf="@+id/breathWelcomeMessage" />
+
+    <TextView
+        android:id="@+id/helperMessage"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:visibility="gone"
+        android:text="@string/breath_in"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.946" />
+
+    <Button
+        android:id="@+id/startBtn"
+        android:layout_width="140dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="24dp"
+        android:backgroundTint="@color/confirm_button_color"
+        android:text="Begin"
+        android:textColor="@color/black"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.94"
+        app:layout_constraintStart_toStartOf="@+id/breathWelcomeMessage2"
+        app:layout_constraintTop_toBottomOf="@+id/breathWelcomeMessage2" />
+
+    <Button
+        android:id="@+id/beginBtn"
+        android:layout_width="130dp"
+        android:layout_height="60dp"
+        android:backgroundTint="@color/confirm_button_color"
+        android:text="In"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.731" />
+
+    <Button
+        android:id="@+id/transitionBtn"
+        android:layout_width="130dp"
+        android:layout_height="60dp"
+        android:backgroundTint="@color/confirm_button_color"
+        android:text="@string/button_breath_done"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.729" />
+
+    <ImageView
+        android:id="@+id/circleIn"
+        android:layout_width="256dp"
+        android:layout_height="296dp"
+        android:scaleX="0.5"
+        android:scaleY="0.5"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.18"
+        app:srcCompat="@drawable/brush_circle" />
+
+    <ImageView
+        android:id="@+id/circleOut"
+        android:layout_width="208dp"
+        android:layout_height="245dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.128"
+        app:srcCompat="@drawable/brush_circle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
