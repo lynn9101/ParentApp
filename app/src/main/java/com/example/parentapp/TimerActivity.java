@@ -11,6 +11,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -77,7 +79,12 @@ public class TimerActivity extends AppCompatActivity {
     private int progress = 0;
     private ProgressBar timerSpinner;
     private final String SPINNER_PROGRESS = "spinner1";
-    private int speedPercentage = 100;
+    private int speedPercentage;
+    private String timerPercentage;
+    private TextView displayTimerPercentage;
+    private long actualRemainingTime;
+    private long actualCountDownInterval;
+    private boolean slowThan100Percent;
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, TimerActivity.class);
@@ -87,29 +94,71 @@ public class TimerActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.spd1:
-                speedPercentage = 25;
+                speedPercentage = 4;
+                timerPercentage = "Time @25%";
+                actualRemainingTime = timeLeftMills * speedPercentage;
+                actualCountDownInterval = COUNTDOWN_INTERVAL * speedPercentage;
+                slowThan100Percent = true;
+                displayTimerPercentage.setText(timerPercentage);
                 return true;
             case R.id.spd2:
-                speedPercentage = 50;
+                speedPercentage = 2;
+                timerPercentage = "Time @50%";
+                actualRemainingTime = timeLeftMills * speedPercentage;
+                actualCountDownInterval = COUNTDOWN_INTERVAL * speedPercentage;
+                slowThan100Percent = true;
+                displayTimerPercentage.setText(timerPercentage);
                 return true;
             case R.id.spd3:
-                speedPercentage = 75;
+                speedPercentage = (4/3);
+                timerPercentage = "Time @75%";
+                actualRemainingTime = timeLeftMills * speedPercentage;
+                actualCountDownInterval = COUNTDOWN_INTERVAL * speedPercentage;
+                slowThan100Percent = true;
+                displayTimerPercentage.setText(timerPercentage);
                 return true;
             case R.id.spd4:
-                speedPercentage = 100;
+                speedPercentage = 1;
+                timerPercentage = "Time @100%";
+                actualRemainingTime = timeLeftMills;
+                actualCountDownInterval = COUNTDOWN_INTERVAL;
+                slowThan100Percent = false;
+                displayTimerPercentage.setText(timerPercentage);
                 return true;
             case R.id.spd5:
-                speedPercentage = 200;
+                speedPercentage = 2;
+                timerPercentage = "Time @200%";
+                actualRemainingTime = timeLeftMills / speedPercentage;
+                actualCountDownInterval = COUNTDOWN_INTERVAL / speedPercentage;
+                slowThan100Percent = false;
+                displayTimerPercentage.setText(timerPercentage);
                 return true;
             case R.id.spd6:
-                speedPercentage = 300;
+                speedPercentage = 3;
+                timerPercentage = "Time @300%";
+                actualRemainingTime = timeLeftMills / speedPercentage;
+                actualCountDownInterval = COUNTDOWN_INTERVAL / speedPercentage;
+                slowThan100Percent = false;
+                displayTimerPercentage.setText(timerPercentage);
                 return true;
             case R.id.spd7:
-                speedPercentage = 400;
+                speedPercentage = 4;
+                timerPercentage = "Time @400%";
+                actualRemainingTime = timeLeftMills / speedPercentage;
+                actualCountDownInterval = COUNTDOWN_INTERVAL / speedPercentage;
+                slowThan100Percent = false;
+                displayTimerPercentage.setText(timerPercentage);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.timer_menu, menu);
+        return true;
     }
 
     @Override
@@ -143,7 +192,7 @@ public class TimerActivity extends AppCompatActivity {
         confirmMinutes = findViewById(R.id.btnConfirmMinutes);
         timerSpinner = findViewById(R.id.timerSpinner);
         timerSpinner.setVisibility(View.INVISIBLE);
-
+        displayTimerPercentage = findViewById(R.id.txtTimerPercentage);
         updateProgressBar(progress);
 
         btnStart.setOnClickListener(new View.OnClickListener() {
