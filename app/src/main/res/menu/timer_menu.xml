@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/spd1"
+        android:title="25 Percent"
+        app:showAsAction="never" />
+    <item android:id="@+id/spd2"
+        android:title="50 Percent"
+        app:showAsAction="never" />
+    <item android:id="@+id/spd3"
+        android:title="75 Percent"
+        app:showAsAction="never" />
+    <item android:id="@+id/spd4"
+        android:title="100 Percent"
+        app:showAsAction="never" />
+    <item android:id="@+id/spd5"
+        android:title="200 Percent"
+        app:showAsAction="never" />
+    <item android:id="@+id/spd6"
+        android:title="300 Percent"
+        app:showAsAction="never" />
+    <item android:id="@+id/spd7"
+        android:title="400 Percent"
+        app:showAsAction="never" />
+
+</menu>

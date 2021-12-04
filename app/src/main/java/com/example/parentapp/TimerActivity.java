@@ -1,6 +1,4 @@
 package com.example.parentapp;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
 
 import android.app.AlarmManager;
 import android.app.Notification;
@@ -13,6 +11,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -23,7 +22,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+
 import com.example.parentapp.models.Helpers;
+
 import java.util.Locale;
 
 /**
@@ -67,22 +71,52 @@ public class TimerActivity extends AppCompatActivity {
     private final String END_TIME = "endTime";
     private final String CUSTOM_TIME = "customTimer";
     public static final String SEND_NOTIFICATION_ID = "sendNotification";
-    private final static String DEFAULT_NOTIFICATION_CHANNEL_ID = "default" ;
+    private final static String DEFAULT_NOTIFICATION_CHANNEL_ID = "default";
     public final static String SEND_TITLE = "Time is up!";
     private AlarmManager alarmManager;
     private int progress = 0;
     private ProgressBar timerSpinner;
     private final String SPINNER_PROGRESS = "spinner1";
+    private int speedPercentage = 100;
 
     public static Intent makeIntent(Context context) {
-        return new Intent(context,TimerActivity.class);
+        return new Intent(context, TimerActivity.class);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.spd1:
+                speedPercentage = 25;
+                return true;
+            case R.id.spd2:
+                speedPercentage = 50;
+                return true;
+            case R.id.spd3:
+                speedPercentage = 75;
+                return true;
+            case R.id.spd4:
+                speedPercentage = 100;
+                return true;
+            case R.id.spd5:
+                speedPercentage = 200;
+                return true;
+            case R.id.spd6:
+                speedPercentage = 300;
+                return true;
+            case R.id.spd7:
+                speedPercentage = 400;
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer);
-        getWindow().addFlags (WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         getSupportActionBar().setTitle(R.string.timer_title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources()
@@ -104,7 +138,7 @@ public class TimerActivity extends AppCompatActivity {
         btn10Min = findViewById(R.id.btn10min);
         calmDown = findViewById(R.id.imgCalmDown);
         timeIsUp = findViewById(R.id.imgTimeIsUp);
-        alarmManager = (AlarmManager) getSystemService(Context. ALARM_SERVICE);
+        alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         customMinutes = findViewById(R.id.editTextSetMinutes);
         confirmMinutes = findViewById(R.id.btnConfirmMinutes);
         timerSpinner = findViewById(R.id.timerSpinner);
@@ -117,7 +151,7 @@ public class TimerActivity extends AppCompatActivity {
             public void onClick(View view) {
                 isRunning = true;
                 startTimer();
-                scheduleNotification(getNotification()) ;
+                scheduleNotification(getNotification());
                 updateProgressBar(progress);
                 updateButtons();
             }
@@ -173,7 +207,7 @@ public class TimerActivity extends AppCompatActivity {
             public void onClick(View view) {
                 isRunning = true;
                 startTimer();
-                scheduleNotification(getNotification()) ;
+                scheduleNotification(getNotification());
                 updateButtons();
             }
         });
@@ -232,14 +266,15 @@ public class TimerActivity extends AppCompatActivity {
     private void startTimer() {
         timerSpinner.setVisibility(View.VISIBLE);
         endTime = System.currentTimeMillis() + timeLeftMills;
-        countDownTimer = new CountDownTimer(timeLeftMills,COUNTDOWN_INTERVAL) {
-            int numberOfSeconds = (int)(timeInMills/1000);
+        countDownTimer = new CountDownTimer(timeLeftMills, COUNTDOWN_INTERVAL) {
+            int numberOfSeconds = (int) (timeInMills / 1000);
+
             @Override
             public void onTick(long l) {
                 timeLeftMills = l;
                 refreshCountDownText();
-                int secondsRemaining = (int) (l/ 1000);
-                progress = numberOfSeconds - ((numberOfSeconds-secondsRemaining));
+                int secondsRemaining = (int) (l / 1000);
+                progress = numberOfSeconds - ((numberOfSeconds - secondsRemaining));
                 timerSpinner.setProgress(progress);
             }
 
@@ -281,8 +316,8 @@ public class TimerActivity extends AppCompatActivity {
     private void pauseTimer() {
         countDownTimer.cancel();
         isRunning = false;
-        Intent notificationIntent = new Intent( this, NotificationReceiver. class) ;
-        PendingIntent pendingIntent = PendingIntent. getBroadcast ( this, 0 , notificationIntent , PendingIntent. FLAG_UPDATE_CURRENT);
+        Intent notificationIntent = new Intent(this, NotificationReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.cancel(pendingIntent);
         updateButtons();
         refreshCountDownText();
@@ -291,18 +326,18 @@ public class TimerActivity extends AppCompatActivity {
     private void refreshCountDownText() {
         int hours = (int) (timeLeftMills / COUNTDOWN_INTERVAL) / HOURS_TO_SECONDS;
         int minutes = (int) ((timeLeftMills / COUNTDOWN_INTERVAL) % HOURS_TO_SECONDS) / SIXTY;
-        int seconds = (int)  (timeLeftMills / COUNTDOWN_INTERVAL) % SIXTY;
+        int seconds = (int) (timeLeftMills / COUNTDOWN_INTERVAL) % SIXTY;
         String displayTimeLeft;
         if (hours > 0) {
-            displayTimeLeft = String.format(Locale.getDefault(),"%d:%02d:%02d", hours, minutes, seconds);
+            displayTimeLeft = String.format(Locale.getDefault(), "%d:%02d:%02d", hours, minutes, seconds);
         } else {
-            displayTimeLeft = String.format(Locale.getDefault(),"%02d:%02d", minutes, seconds);
+            displayTimeLeft = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
         }
         txtTimeCountDown.setText(displayTimeLeft);
     }
 
-    private void updateButtons(){
-        if (isRunning){  // case when pressing "START" or "RESUME"
+    private void updateButtons() {
+        if (isRunning) {  // case when pressing "START" or "RESUME"
             calmDown.setVisibility(View.VISIBLE);
             btnReset.setVisibility(View.VISIBLE);
             btnPause.setVisibility(View.VISIBLE);
@@ -361,28 +396,29 @@ public class TimerActivity extends AppCompatActivity {
         }
     }
 
-    private void scheduleNotification (Notification notification) {
-        Intent notificationIntent = new Intent( this, NotificationReceiver. class) ;
-        notificationIntent.putExtra(NotificationReceiver. CHANNEL_ID , 1) ;
-        notificationIntent.putExtra(NotificationReceiver. NOTIFICATION_ID , notification) ;
-        PendingIntent pendingIntent = PendingIntent. getBroadcast ( this, 0 , notificationIntent , PendingIntent. FLAG_UPDATE_CURRENT);
+    private void scheduleNotification(Notification notification) {
+        Intent notificationIntent = new Intent(this, NotificationReceiver.class);
+        notificationIntent.putExtra(NotificationReceiver.CHANNEL_ID, 1);
+        notificationIntent.putExtra(NotificationReceiver.NOTIFICATION_ID, notification);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         long futureInMillis = System.currentTimeMillis() + timeLeftMills;
-        alarmManager.set(AlarmManager.RTC_WAKEUP, futureInMillis , pendingIntent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, futureInMillis, pendingIntent);
     }
-    private Notification getNotification () {
-        Intent notificationIntent = new Intent( this, TimerActivity. class) ;
-        PendingIntent pendingIntent = PendingIntent. getActivity ( this, 0 , notificationIntent , PendingIntent. FLAG_UPDATE_CURRENT);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder( this, DEFAULT_NOTIFICATION_CHANNEL_ID);
+
+    private Notification getNotification() {
+        Intent notificationIntent = new Intent(this, TimerActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, DEFAULT_NOTIFICATION_CHANNEL_ID);
         builder.setContentTitle(SEND_TITLE);
         builder.setContentIntent(pendingIntent);
         builder.setContentText(NOTIFICATION_CONTENT);
-        builder.setSmallIcon(R.drawable. ic_launcher_foreground);
+        builder.setSmallIcon(R.drawable.ic_launcher_foreground);
         builder.setAutoCancel(true);
-        builder.setFullScreenIntent(pendingIntent,true);
+        builder.setFullScreenIntent(pendingIntent, true);
         Uri soundUri = Uri.parse("android.resource://" + TimerActivity.this.getPackageName() + "/" + R.raw.notification_music);
         builder.setSound(soundUri);
         builder.setChannelId(SEND_NOTIFICATION_ID);
-        return builder.build() ;
+        return builder.build();
     }
 
     @Override
@@ -392,11 +428,11 @@ public class TimerActivity extends AppCompatActivity {
             countDownTimer.cancel();
         }
         SharedPreferences.Editor editor = Helpers.getSharedPrefEditor(getApplicationContext());
-        editor.putLong(TIME_LEFT,timeLeftMills);
+        editor.putLong(TIME_LEFT, timeLeftMills);
         editor.putBoolean(IS_TIMER_RUNNING, isRunning);
-        editor.putLong(END_TIME,endTime);
-        editor.putLong(CUSTOM_TIME,timeInMills);
-        editor.putInt(SPINNER_PROGRESS,progress);
+        editor.putLong(END_TIME, endTime);
+        editor.putLong(CUSTOM_TIME, timeInMills);
+        editor.putInt(SPINNER_PROGRESS, progress);
         editor.apply();
     }
 
@@ -405,14 +441,14 @@ public class TimerActivity extends AppCompatActivity {
         super.onStart();
         SharedPreferences prefs = Helpers.getSharedPreference(getApplicationContext());
         timeInMills = prefs.getLong(CUSTOM_TIME, MINS_TO_MILLS);
-        timeLeftMills = prefs.getLong(TIME_LEFT,timeInMills);
-        isRunning = prefs.getBoolean(IS_TIMER_RUNNING,false);
+        timeLeftMills = prefs.getLong(TIME_LEFT, timeInMills);
+        isRunning = prefs.getBoolean(IS_TIMER_RUNNING, false);
         progress = prefs.getInt(SPINNER_PROGRESS, 0);
         updateButtons();
         updateProgressBar(progress);
 
         if (isRunning) {
-            endTime = prefs.getLong(END_TIME,0);
+            endTime = prefs.getLong(END_TIME, 0);
             timeLeftMills = endTime - System.currentTimeMillis();
             if (timeLeftMills < 0) {
                 timeLeftMills = 0;
