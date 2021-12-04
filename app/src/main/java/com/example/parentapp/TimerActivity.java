@@ -73,6 +73,7 @@ public class TimerActivity extends AppCompatActivity {
     private final String IS_TIMER_RUNNING = "timerRunning";
     private final String END_TIME = "endTime";
     private final String CUSTOM_TIME = "customTimer";
+    private final String SPEED_PERCENTAGE = "speedPercentage";
     public static final String SEND_NOTIFICATION_ID = "sendNotification";
     private final static String DEFAULT_NOTIFICATION_CHANNEL_ID = "default" ;
     public final static String SEND_TITLE = "Time is up!";
@@ -96,35 +97,36 @@ public class TimerActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int speed;
         switch (item.getItemId()){
             case R.id.spd1:
-                speedPercentage = 25;
+                speed = 25;
                 break;
             case R.id.spd2:
-                speedPercentage = 50;
+                speed = 50;
                 break;
             case R.id.spd3:
-                speedPercentage = 75;
+                speed = 75;
                 break;
             case R.id.spd4:
-                speedPercentage = 100;
+                speed = 100;
                 break;
             case R.id.spd5:
-                speedPercentage = 200;
+                speed = 200;
                 break;
             case R.id.spd6:
-                speedPercentage = 300;
+                speed = 300;
                 break;
             case R.id.spd7:
-                speedPercentage = 400;
+                speed = 400;
                 break;
             default:
                 return super.onOptionsItemSelected(item);
         }
-        speedTv.setText(speedPercentage + "% speed");
+
         Log.d("onOptionsItemSelected", "kfate - speedPercentage : " + speedPercentage);
         Log.d("onOptionsItemSelected", "kfate - timeInMills/COUNTDOWN_INTERVAL : " + timeInMills/COUNTDOWN_INTERVAL);
-        changeTimerSpeed();
+        changeTimerSpeed(speed);
         return true;
     }
 
@@ -289,18 +291,18 @@ public class TimerActivity extends AppCompatActivity {
         Toast. makeText(getApplicationContext(),s , Toast.LENGTH_SHORT).show();
         Log.d("startTimer", s);
         countDownTimer = new CountDownTimer(actualMilliRemaining,COUNTDOWN_INTERVAL) {
-            int numberOfSeconds = (int)(timeInMills/SECOND_TO_MIL);
+            int numberOfSeconds = (int)(timeInMills/COUNTDOWN_INTERVAL);
             @Override
             public void onTick(long l) {
                 Toast. makeText(getApplicationContext(),"seconds remaining: " + l / COUNTDOWN_INTERVAL + "\n interval is" + COUNTDOWN_INTERVAL, Toast.LENGTH_SHORT).show();
                 actualMilliRemaining = l;
                 refreshCountDownText();
 //                int secondsRemaining = (int) (l/ COUNTDOWN_INTERVAL);
-                int actualSecondsRemaining = (int) (l/COUNTDOWN_INTERVAL);
-                int displaySecondsRemaining = (int) (l/SECOND_TO_MIL);
-                Log.d("onTick", "kfate - actualSecondsRemaining : " + actualSecondsRemaining);
-                Log.d("onTick", "kfate - displaySecondsRemaining : " + displaySecondsRemaining);
-                progress = numberOfSeconds - ((numberOfSeconds-displaySecondsRemaining));
+                int fakeDisplaySecondsRemaining = (int) (l/COUNTDOWN_INTERVAL);
+                int realSecondsRemaining = (int) (l/SECOND_TO_MIL);
+                Log.d("onTick", "kfate - starter - actualSecondsRemaining : " + fakeDisplaySecondsRemaining);
+                Log.d("onTick", "kfate - starter - displaySecondsRemaining : " + realSecondsRemaining);
+                progress = numberOfSeconds - ((numberOfSeconds-fakeDisplaySecondsRemaining));
                 timerSpinner.setProgress(progress);
             }
 
@@ -446,7 +448,7 @@ public class TimerActivity extends AppCompatActivity {
         return builder.build() ;
     }
 
-    private void changeTimerSpeed(){
+    private void changeTimerSpeed(int speed){
         //update the slider and timer
         //record the new remaining time
         //update interval
@@ -454,8 +456,35 @@ public class TimerActivity extends AppCompatActivity {
         String s = "kfate - COUNTDOWN_INTERVAL :";
         Log.d("changeTimerSpeed", "before - " + s + COUNTDOWN_INTERVAL);
 
+        this.speedPercentage = speed;
+        speedTv.setText(speedPercentage + "% speed");
         this.COUNTDOWN_INTERVAL = (long) (SECOND_TO_MIL * ((100 * 1.0)/speedPercentage));
-        Log.d("changeTimerSpeed", "kfate - problem part : " + ((100 * 1.0)/speedPercentage));
+
+        if(countDownTimer != null) {
+            //if this change of speed is for an existing timer
+            countDownTimer.cancel();
+            endTime = System.currentTimeMillis() + actualMilliRemaining;
+            countDownTimer = new CountDownTimer(actualMilliRemaining, COUNTDOWN_INTERVAL) {
+                int numberOfSeconds = (int)(timeInMills/COUNTDOWN_INTERVAL);
+                @Override
+                public void onTick(long l) {
+                    actualMilliRemaining = l;
+                    refreshCountDownText();
+                    int fakeDisplaySecondsRemaining = (int) (l/COUNTDOWN_INTERVAL);
+                    int realSecondsRemaining = (int) (l/SECOND_TO_MIL);
+                    Log.d("onTick", "kfate - CHANGED - actualSecondsRemaining : " + fakeDisplaySecondsRemaining);
+                    Log.d("onTick", "kfate - CHANGED - displaySecondsRemaining : " + realSecondsRemaining);
+                    progress = numberOfSeconds - ((numberOfSeconds-fakeDisplaySecondsRemaining));
+                    timerSpinner.setProgress(progress);
+                }
+
+                @Override
+                public void onFinish() {
+                    isRunning = false;
+                    updateButtons();
+                }
+            }.start();
+        }
 
         Log.d("changeTimerSpeed" , "after  - " + s + COUNTDOWN_INTERVAL);
     }
@@ -472,6 +501,7 @@ public class TimerActivity extends AppCompatActivity {
         editor.putLong(END_TIME,endTime);
         editor.putLong(CUSTOM_TIME,timeInMills);
         editor.putInt(SPINNER_PROGRESS,progress);
+        editor.putInt(SPEED_PERCENTAGE,speedPercentage);
         editor.apply();
     }
 
