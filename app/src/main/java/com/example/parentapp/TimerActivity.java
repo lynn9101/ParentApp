@@ -56,7 +56,8 @@ public class TimerActivity extends AppCompatActivity {
     private Button confirmMinutes;
     private TextView speedTv;
     private long timeInMills;
-    private int COUNTDOWN_INTERVAL = 1000;
+    private final long SECOND_TO_MIL = 1000;
+    private long COUNTDOWN_INTERVAL = SECOND_TO_MIL;
     private final int HOURS_TO_SECONDS = 3600;
     private final int SIXTY = 60;
     private final int MINS_TO_MILLS = 60000;
@@ -66,7 +67,7 @@ public class TimerActivity extends AppCompatActivity {
     private final int TEN_MINS_TO_MILLS = 600000;
     private boolean isRunning = false;
     private CountDownTimer countDownTimer;
-    private long timeLeftMills;
+    private long actualMilliRemaining;
     private long endTime;
     private final String TIME_LEFT = "timeLeft";
     private final String IS_TIMER_RUNNING = "timerRunning";
@@ -120,8 +121,9 @@ public class TimerActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-        Toast.makeText(getApplicationContext(), "speed is " + speedPercentage, Toast.LENGTH_SHORT).show();
         speedTv.setText(speedPercentage + "% speed");
+        Log.d("onOptionsItemSelected", "kfate - speedPercentage : " + speedPercentage);
+        Log.d("onOptionsItemSelected", "kfate - timeInMills/COUNTDOWN_INTERVAL : " + timeInMills/COUNTDOWN_INTERVAL);
         changeTimerSpeed();
         return true;
     }
@@ -137,7 +139,7 @@ public class TimerActivity extends AppCompatActivity {
                 .getColor(R.color.app_title_color)));
 
         timeInMills = MINS_TO_MILLS;
-        timeLeftMills = timeInMills;
+        actualMilliRemaining = timeInMills;
         txtTimeCountDown = findViewById(R.id.txtTimer);
         btnStart = findViewById(R.id.imgBtnStart);
         btnReset = findViewById(R.id.imgBtnReset);
@@ -269,7 +271,7 @@ public class TimerActivity extends AppCompatActivity {
     }
 
     private void updateProgressBar(int spinner_progress) {
-        timerSpinner.setMax((int) timeInMills / 1000);
+        timerSpinner.setMax((int) ((int) timeInMills / COUNTDOWN_INTERVAL)); //unsure about this change
         timerSpinner.setProgress(spinner_progress);
     }
 
@@ -281,20 +283,24 @@ public class TimerActivity extends AppCompatActivity {
     private void startTimer() {
         timerSpinner.setVisibility(View.VISIBLE);
         speedTv.setVisibility(View.VISIBLE);
-        endTime = System.currentTimeMillis() + timeLeftMills;
-        String s = "kfate - timeLeftMills : " + timeLeftMills +
+        endTime = System.currentTimeMillis() + actualMilliRemaining;
+        String s = "kfate - timeLeftMills/actualMiliRemaining : " + actualMilliRemaining +
                 "\n COUNTDOWN_INTERVAL : " + COUNTDOWN_INTERVAL;
         Toast. makeText(getApplicationContext(),s , Toast.LENGTH_SHORT).show();
-        Log.d("kfate", s);
-        countDownTimer = new CountDownTimer(timeLeftMills,COUNTDOWN_INTERVAL) {
-            int numberOfSeconds = (int)(timeInMills/COUNTDOWN_INTERVAL);
+        Log.d("startTimer", s);
+        countDownTimer = new CountDownTimer(actualMilliRemaining,COUNTDOWN_INTERVAL) {
+            int numberOfSeconds = (int)(timeInMills/SECOND_TO_MIL);
             @Override
             public void onTick(long l) {
                 Toast. makeText(getApplicationContext(),"seconds remaining: " + l / COUNTDOWN_INTERVAL + "\n interval is" + COUNTDOWN_INTERVAL, Toast.LENGTH_SHORT).show();
-                timeLeftMills = l;
+                actualMilliRemaining = l;
                 refreshCountDownText();
-                int secondsRemaining = (int) (l/ COUNTDOWN_INTERVAL);
-                progress = numberOfSeconds - ((numberOfSeconds-secondsRemaining));
+//                int secondsRemaining = (int) (l/ COUNTDOWN_INTERVAL);
+                int actualSecondsRemaining = (int) (l/COUNTDOWN_INTERVAL);
+                int displaySecondsRemaining = (int) (l/SECOND_TO_MIL);
+                Log.d("onTick", "kfate - actualSecondsRemaining : " + actualSecondsRemaining);
+                Log.d("onTick", "kfate - displaySecondsRemaining : " + displaySecondsRemaining);
+                progress = numberOfSeconds - ((numberOfSeconds-displaySecondsRemaining));
                 timerSpinner.setProgress(progress);
             }
 
@@ -310,7 +316,7 @@ public class TimerActivity extends AppCompatActivity {
         if (isRunning) {
             pauseTimer();
         }
-        timeLeftMills = timeInMills;
+        actualMilliRemaining = timeInMills;
         refreshCountDownText();
         calmDown.setVisibility(View.INVISIBLE);
         timeIsUp.setVisibility(View.INVISIBLE);
@@ -344,9 +350,9 @@ public class TimerActivity extends AppCompatActivity {
     }
 
     private void refreshCountDownText() {
-        int hours = (int) (timeLeftMills / COUNTDOWN_INTERVAL) / HOURS_TO_SECONDS;
-        int minutes = (int) ((timeLeftMills / COUNTDOWN_INTERVAL) % HOURS_TO_SECONDS) / SIXTY;
-        int seconds = (int)  (timeLeftMills / COUNTDOWN_INTERVAL) % SIXTY;
+        int hours = (int) (actualMilliRemaining / COUNTDOWN_INTERVAL) / HOURS_TO_SECONDS;
+        int minutes = (int) ((actualMilliRemaining / COUNTDOWN_INTERVAL) % HOURS_TO_SECONDS) / SIXTY;
+        int seconds = (int)  (actualMilliRemaining / COUNTDOWN_INTERVAL) % SIXTY;
         String displayTimeLeft;
         if (hours > 0) {
             displayTimeLeft = String.format(Locale.getDefault(),"%d:%02d:%02d", hours, minutes, seconds);
@@ -375,7 +381,7 @@ public class TimerActivity extends AppCompatActivity {
             btnReset.setVisibility(View.INVISIBLE);
             btnStart.setVisibility(View.VISIBLE);
             calmDown.setVisibility(View.INVISIBLE);
-            if (timeLeftMills < COUNTDOWN_INTERVAL) { // case when the timer runs out of time
+            if (actualMilliRemaining < COUNTDOWN_INTERVAL) { // case when the timer runs out of time
                 timerSpinner.setVisibility(View.INVISIBLE);
                 btnResetWhenStop.setVisibility(View.VISIBLE);
                 timeIsUp.setVisibility(View.VISIBLE);
@@ -392,7 +398,7 @@ public class TimerActivity extends AppCompatActivity {
                 customMinutes.setVisibility(View.INVISIBLE);
                 confirmMinutes.setVisibility(View.INVISIBLE);
             } else { // still have remaining time but is not running
-                if (timeLeftMills < timeInMills) { // case when pressing "PAUSE"
+                if (actualMilliRemaining < timeInMills) { // case when pressing "PAUSE"
                     btnPause.setVisibility(View.INVISIBLE);
                     timerSpinner.setVisibility(View.VISIBLE);
                     timeIsUp.setVisibility(View.INVISIBLE);
@@ -421,7 +427,7 @@ public class TimerActivity extends AppCompatActivity {
         notificationIntent.putExtra(NotificationReceiver. CHANNEL_ID , 1) ;
         notificationIntent.putExtra(NotificationReceiver. NOTIFICATION_ID , notification) ;
         PendingIntent pendingIntent = PendingIntent. getBroadcast ( this, 0 , notificationIntent , PendingIntent. FLAG_UPDATE_CURRENT);
-        long futureInMillis = System.currentTimeMillis() + timeLeftMills;
+        long futureInMillis = System.currentTimeMillis() + actualMilliRemaining;
         alarmManager.set(AlarmManager.RTC_WAKEUP, futureInMillis , pendingIntent);
     }
     private Notification getNotification () {
@@ -445,12 +451,13 @@ public class TimerActivity extends AppCompatActivity {
         //record the new remaining time
         //update interval
 
-        String s = "kfate - COUNTDOWN_INTERVAL :" + this.COUNTDOWN_INTERVAL;
-        Log.d("kfate", "before - " + s);
+        String s = "kfate - COUNTDOWN_INTERVAL :";
+        Log.d("changeTimerSpeed", "before - " + s + COUNTDOWN_INTERVAL);
 
-        this.COUNTDOWN_INTERVAL = this.COUNTDOWN_INTERVAL * (100/speedPercentage);
+        this.COUNTDOWN_INTERVAL = (long) (SECOND_TO_MIL * ((100 * 1.0)/speedPercentage));
+        Log.d("changeTimerSpeed", "kfate - problem part : " + ((100 * 1.0)/speedPercentage));
 
-        Log.d("kfate" , "After  - " + s);
+        Log.d("changeTimerSpeed" , "after  - " + s + COUNTDOWN_INTERVAL);
     }
 
     @Override
@@ -460,7 +467,7 @@ public class TimerActivity extends AppCompatActivity {
             countDownTimer.cancel();
         }
         SharedPreferences.Editor editor = Helpers.getSharedPrefEditor(getApplicationContext());
-        editor.putLong(TIME_LEFT,timeLeftMills);
+        editor.putLong(TIME_LEFT, actualMilliRemaining);
         editor.putBoolean(IS_TIMER_RUNNING, isRunning);
         editor.putLong(END_TIME,endTime);
         editor.putLong(CUSTOM_TIME,timeInMills);
@@ -473,7 +480,7 @@ public class TimerActivity extends AppCompatActivity {
         super.onStart();
         SharedPreferences prefs = Helpers.getSharedPreference(getApplicationContext());
         timeInMills = prefs.getLong(CUSTOM_TIME, MINS_TO_MILLS);
-        timeLeftMills = prefs.getLong(TIME_LEFT,timeInMills);
+        actualMilliRemaining = prefs.getLong(TIME_LEFT,timeInMills);
         isRunning = prefs.getBoolean(IS_TIMER_RUNNING,false);
         progress = prefs.getInt(SPINNER_PROGRESS, 0);
         updateButtons();
@@ -481,9 +488,9 @@ public class TimerActivity extends AppCompatActivity {
 
         if (isRunning) {
             endTime = prefs.getLong(END_TIME,0);
-            timeLeftMills = endTime - System.currentTimeMillis();
-            if (timeLeftMills < 0) {
-                timeLeftMills = 0;
+            actualMilliRemaining = endTime - System.currentTimeMillis();
+            if (actualMilliRemaining < 0) {
+                actualMilliRemaining = 0;
                 isRunning = false;
                 refreshCountDownText();
                 updateButtons();
