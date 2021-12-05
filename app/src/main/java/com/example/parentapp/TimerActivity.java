@@ -62,8 +62,6 @@ public class TimerActivity extends AppCompatActivity {
     private Button confirmMinutes;
     private long timeInMills;
     private final int COUNTDOWN_INTERVAL = 1000;
-    private final int HOURS_TO_SECONDS = 3600;
-    private final int SIXTY = 60;
     private final int MINS_TO_MILLS = 60000;
     private final int TWO_MINS_TO_MILLS = 120000;
     private final int THREE_MINS_TO_MILLS = 180000;
@@ -90,7 +88,8 @@ public class TimerActivity extends AppCompatActivity {
     private long actualRemainingTime;
     private long actualCountDownInterval;
     private boolean slowThan100Percent;
-    private long currentTime;
+
+    private int decreaseSeconds = 1;
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, TimerActivity.class);
@@ -109,6 +108,7 @@ public class TimerActivity extends AppCompatActivity {
                 saveInfoForOldTimer();
                 fetchInfoForNewTimer();
                 return true;
+
             case R.id.spd2:
                 speedPercentage = 2;
                 timerPercentage = "Time @50%";
@@ -119,6 +119,7 @@ public class TimerActivity extends AppCompatActivity {
                 saveInfoForOldTimer();
                 fetchInfoForNewTimer();
                 return true;
+
             case R.id.spd3:
                 speedPercentage = (4 / 3);
                 timerPercentage = "Time @75%";
@@ -129,6 +130,7 @@ public class TimerActivity extends AppCompatActivity {
                 saveInfoForOldTimer();
                 fetchInfoForNewTimer();
                 return true;
+
             case R.id.spd4:
                 speedPercentage = 1;
                 timerPercentage = "Time @100%";
@@ -139,6 +141,7 @@ public class TimerActivity extends AppCompatActivity {
                 saveInfoForOldTimer();
                 fetchInfoForNewTimer();
                 return true;
+
             case R.id.spd5:
                 speedPercentage = 2;
                 timerPercentage = "Time @200%";
@@ -149,6 +152,7 @@ public class TimerActivity extends AppCompatActivity {
                 saveInfoForOldTimer();
                 fetchInfoForNewTimer();
                 return true;
+
             case R.id.spd6:
                 speedPercentage = 3;
                 timerPercentage = "Time @300%";
@@ -159,6 +163,7 @@ public class TimerActivity extends AppCompatActivity {
                 saveInfoForOldTimer();
                 fetchInfoForNewTimer();
                 return true;
+
             case R.id.spd7:
                 speedPercentage = 4;
                 timerPercentage = "Time @400%";
@@ -169,6 +174,7 @@ public class TimerActivity extends AppCompatActivity {
                 saveInfoForOldTimer();
                 fetchInfoForNewTimer();
                 return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -186,15 +192,24 @@ public class TimerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         getSupportActionBar().setTitle(R.string.timer_title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources()
                 .getColor(R.color.app_title_color)));
+
+        setUpTimerComponents();
+        updateProgressBar(progress);
+        attachButtonsListener();
+    }
+
+    private void setUpTimerComponents() {
         speedPercentage = 1;
         timeInMills = MINS_TO_MILLS;
         timeLeftMills = timeInMills;
         actualRemainingTime = timeLeftMills;
         actualCountDownInterval = COUNTDOWN_INTERVAL;
+
         txtTimeCountDown = findViewById(R.id.txtTimer);
         btnStart = findViewById(R.id.imgBtnStart);
         btnReset = findViewById(R.id.imgBtnReset);
@@ -217,8 +232,9 @@ public class TimerActivity extends AppCompatActivity {
         displayTimerPercentage = findViewById(R.id.txtTimerPercentage);
         timerPercentage = "Time @100%";
         displayTimerPercentage.setText(timerPercentage);
-        updateProgressBar(progress);
+    }
 
+    private void attachButtonsListener() {
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -333,7 +349,6 @@ public class TimerActivity extends AppCompatActivity {
             newMax = (int) timeInMills / 1000 / speedPercentage;
         }
         timerSpinner.setMax(newMax);
-
     }
 
     private void setTime(long milliseconds) {
@@ -342,10 +357,10 @@ public class TimerActivity extends AppCompatActivity {
     }
 
     private void startTimer(long newCountDownInterval, long newRemainingTime) {
+
         timerSpinner.setVisibility(View.VISIBLE);
         endTime = System.currentTimeMillis() + newRemainingTime;
         countDownTimer = new CountDownTimer(newRemainingTime, newCountDownInterval) {
-            int numberOfSeconds = (int) (timeInMills / 1000);
 
             @Override
             public void onTick(long l) {
@@ -353,16 +368,16 @@ public class TimerActivity extends AppCompatActivity {
                 if (!slowThan100Percent) {
                     timeLeftMills = l * speedPercentage;
                 }
+
                 actualRemainingTime = timeLeftMills * speedPercentage;
                 if (!slowThan100Percent) {
                     actualRemainingTime = timeLeftMills / speedPercentage;
                 }
 
-                int secondsRemaining = (int) (l / 1000);
-                progress = numberOfSeconds - ((numberOfSeconds - secondsRemaining));
-                timerSpinner.setProgress(progress);
-                refreshCountDownText();
+                int secondsRemaining = (int) l / 1000;
+                progress = secondsRemaining;
                 updateProgressBar(progress);
+                refreshCountDownText();
             }
 
             @Override
@@ -385,6 +400,7 @@ public class TimerActivity extends AppCompatActivity {
         timerPercentage = "Time @100%";
         displayTimerPercentage.setText(timerPercentage);
         refreshCountDownText();
+
         calmDown.setVisibility(View.INVISIBLE);
         timeIsUp.setVisibility(View.INVISIBLE);
         btnStart.setVisibility(View.VISIBLE);
@@ -399,11 +415,10 @@ public class TimerActivity extends AppCompatActivity {
         btn10Min.setVisibility(View.VISIBLE);
         customMinutes.setVisibility(View.VISIBLE);
         confirmMinutes.setVisibility(View.VISIBLE);
+        timerSpinner.setVisibility(View.INVISIBLE);
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.deleteNotificationChannel(SEND_NOTIFICATION_ID);
-
-        timerSpinner.setVisibility(View.INVISIBLE);
     }
 
     private void pauseTimer() {
@@ -417,9 +432,12 @@ public class TimerActivity extends AppCompatActivity {
     }
 
     private void refreshCountDownText() {
+        final int HOURS_TO_SECONDS = 3600;
+        final int SIXTY = 60;
         int hours = (int) (timeLeftMills / COUNTDOWN_INTERVAL) / HOURS_TO_SECONDS;
         int minutes = (int) ((timeLeftMills / COUNTDOWN_INTERVAL) % HOURS_TO_SECONDS) / SIXTY;
         int seconds = (int) (timeLeftMills / COUNTDOWN_INTERVAL) % SIXTY;
+
         String displayTimeLeft;
         if (hours > 0) {
             displayTimeLeft = String.format(Locale.getDefault(), "%d:%02d:%02d", hours, minutes, seconds);
@@ -484,7 +502,6 @@ public class TimerActivity extends AppCompatActivity {
                 } else {
                     btnResume.setVisibility(View.INVISIBLE);
                 }
-
             }
         }
     }
@@ -557,7 +574,7 @@ public class TimerActivity extends AppCompatActivity {
 
         if (isRunning) {
             endTime = prefs.getLong(END_TIME, 0);
-            currentTime = System.currentTimeMillis();
+            long currentTime = System.currentTimeMillis();
             timeLeftMills = (endTime - currentTime) / speedPercentage;
             if (!slowThan100Percent) {
                 timeLeftMills = (endTime - currentTime) * speedPercentage;
@@ -575,7 +592,6 @@ public class TimerActivity extends AppCompatActivity {
                 startTimer(actualCountDownInterval,actualRemainingTime);
             }
         }
-
     }
 
     @Override
