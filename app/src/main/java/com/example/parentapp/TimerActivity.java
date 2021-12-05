@@ -40,6 +40,11 @@ import java.util.Locale;
  */
 public class TimerActivity extends AppCompatActivity {
     public static final String NOTIFICATION_CONTENT = "Time is up!";
+    public static final String SPEED_LESS_THAN_100 = "speed less than 100%";
+    public static final String SPEED_PERCENTAGE = "Speed Percentage";
+    public static final String ACTUAL_REMAINING_TIME = "Actual Remaining Time";
+    public static final String ACTUAL_TIME_INTERVAL = "Actual Time Interval";
+    public static final String DISPLAY_SPEED_PERCENTAGE = "Display Speed Percentage";
     private TextView txtTimeCountDown;
     private ImageButton btnStart;
     private ImageButton btnReset;
@@ -85,6 +90,7 @@ public class TimerActivity extends AppCompatActivity {
     private long actualRemainingTime;
     private long actualCountDownInterval;
     private boolean slowThan100Percent;
+    private long currentTime;
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, TimerActivity.class);
@@ -100,6 +106,8 @@ public class TimerActivity extends AppCompatActivity {
                 actualCountDownInterval = COUNTDOWN_INTERVAL * speedPercentage;
                 slowThan100Percent = true;
                 displayTimerPercentage.setText(timerPercentage);
+                saveInfoForOldTimer();
+                fetchInfoForNewTimer();
                 return true;
             case R.id.spd2:
                 speedPercentage = 2;
@@ -108,14 +116,18 @@ public class TimerActivity extends AppCompatActivity {
                 actualCountDownInterval = COUNTDOWN_INTERVAL * speedPercentage;
                 slowThan100Percent = true;
                 displayTimerPercentage.setText(timerPercentage);
+                saveInfoForOldTimer();
+                fetchInfoForNewTimer();
                 return true;
             case R.id.spd3:
-                speedPercentage = (4/3);
+                speedPercentage = (4 / 3);
                 timerPercentage = "Time @75%";
                 actualRemainingTime = timeLeftMills * speedPercentage;
                 actualCountDownInterval = COUNTDOWN_INTERVAL * speedPercentage;
                 slowThan100Percent = true;
                 displayTimerPercentage.setText(timerPercentage);
+                saveInfoForOldTimer();
+                fetchInfoForNewTimer();
                 return true;
             case R.id.spd4:
                 speedPercentage = 1;
@@ -124,6 +136,8 @@ public class TimerActivity extends AppCompatActivity {
                 actualCountDownInterval = COUNTDOWN_INTERVAL;
                 slowThan100Percent = false;
                 displayTimerPercentage.setText(timerPercentage);
+                saveInfoForOldTimer();
+                fetchInfoForNewTimer();
                 return true;
             case R.id.spd5:
                 speedPercentage = 2;
@@ -132,6 +146,8 @@ public class TimerActivity extends AppCompatActivity {
                 actualCountDownInterval = COUNTDOWN_INTERVAL / speedPercentage;
                 slowThan100Percent = false;
                 displayTimerPercentage.setText(timerPercentage);
+                saveInfoForOldTimer();
+                fetchInfoForNewTimer();
                 return true;
             case R.id.spd6:
                 speedPercentage = 3;
@@ -140,6 +156,8 @@ public class TimerActivity extends AppCompatActivity {
                 actualCountDownInterval = COUNTDOWN_INTERVAL / speedPercentage;
                 slowThan100Percent = false;
                 displayTimerPercentage.setText(timerPercentage);
+                saveInfoForOldTimer();
+                fetchInfoForNewTimer();
                 return true;
             case R.id.spd7:
                 speedPercentage = 4;
@@ -148,6 +166,8 @@ public class TimerActivity extends AppCompatActivity {
                 actualCountDownInterval = COUNTDOWN_INTERVAL / speedPercentage;
                 slowThan100Percent = false;
                 displayTimerPercentage.setText(timerPercentage);
+                saveInfoForOldTimer();
+                fetchInfoForNewTimer();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -170,9 +190,11 @@ public class TimerActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources()
                 .getColor(R.color.app_title_color)));
-
+        speedPercentage = 1;
         timeInMills = MINS_TO_MILLS;
         timeLeftMills = timeInMills;
+        actualRemainingTime = timeLeftMills;
+        actualCountDownInterval = COUNTDOWN_INTERVAL;
         txtTimeCountDown = findViewById(R.id.txtTimer);
         btnStart = findViewById(R.id.imgBtnStart);
         btnReset = findViewById(R.id.imgBtnReset);
@@ -193,13 +215,15 @@ public class TimerActivity extends AppCompatActivity {
         timerSpinner = findViewById(R.id.timerSpinner);
         timerSpinner.setVisibility(View.INVISIBLE);
         displayTimerPercentage = findViewById(R.id.txtTimerPercentage);
+        timerPercentage = "Time @100%";
+        displayTimerPercentage.setText(timerPercentage);
         updateProgressBar(progress);
 
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 isRunning = true;
-                startTimer();
+                startTimer(actualCountDownInterval, actualRemainingTime);
                 scheduleNotification(getNotification());
                 updateProgressBar(progress);
                 updateButtons();
@@ -255,7 +279,7 @@ public class TimerActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 isRunning = true;
-                startTimer();
+                startTimer(actualCountDownInterval,actualRemainingTime);
                 scheduleNotification(getNotification());
                 updateButtons();
             }
@@ -302,9 +326,14 @@ public class TimerActivity extends AppCompatActivity {
         });
     }
 
-    private void updateProgressBar(int spinner_progress) {
-        timerSpinner.setMax((int) timeInMills / 1000);
-        timerSpinner.setProgress(spinner_progress);
+    private void updateProgressBar(int spinnerProgress) {
+        timerSpinner.setProgress(spinnerProgress);
+        int newMax = (int) timeInMills / 1000 * speedPercentage;
+        if (!slowThan100Percent) {
+            newMax = (int) timeInMills / 1000 / speedPercentage;
+        }
+        timerSpinner.setMax(newMax);
+
     }
 
     private void setTime(long milliseconds) {
@@ -312,19 +341,28 @@ public class TimerActivity extends AppCompatActivity {
         resetTimer();
     }
 
-    private void startTimer() {
+    private void startTimer(long newCountDownInterval, long newRemainingTime) {
         timerSpinner.setVisibility(View.VISIBLE);
-        endTime = System.currentTimeMillis() + timeLeftMills;
-        countDownTimer = new CountDownTimer(timeLeftMills, COUNTDOWN_INTERVAL) {
+        endTime = System.currentTimeMillis() + newRemainingTime;
+        countDownTimer = new CountDownTimer(newRemainingTime, newCountDownInterval) {
             int numberOfSeconds = (int) (timeInMills / 1000);
 
             @Override
             public void onTick(long l) {
-                timeLeftMills = l;
-                refreshCountDownText();
+                timeLeftMills = l / speedPercentage;
+                if (!slowThan100Percent) {
+                    timeLeftMills = l * speedPercentage;
+                }
+                actualRemainingTime = timeLeftMills * speedPercentage;
+                if (!slowThan100Percent) {
+                    actualRemainingTime = timeLeftMills / speedPercentage;
+                }
+
                 int secondsRemaining = (int) (l / 1000);
                 progress = numberOfSeconds - ((numberOfSeconds - secondsRemaining));
                 timerSpinner.setProgress(progress);
+                refreshCountDownText();
+                updateProgressBar(progress);
             }
 
             @Override
@@ -340,6 +378,12 @@ public class TimerActivity extends AppCompatActivity {
             pauseTimer();
         }
         timeLeftMills = timeInMills;
+        actualRemainingTime = timeLeftMills;
+        actualCountDownInterval = COUNTDOWN_INTERVAL;
+        speedPercentage = 1;
+        progress = 0;
+        timerPercentage = "Time @100%";
+        displayTimerPercentage.setText(timerPercentage);
         refreshCountDownText();
         calmDown.setVisibility(View.INVISIBLE);
         timeIsUp.setVisibility(View.INVISIBLE);
@@ -450,7 +494,7 @@ public class TimerActivity extends AppCompatActivity {
         notificationIntent.putExtra(NotificationReceiver.CHANNEL_ID, 1);
         notificationIntent.putExtra(NotificationReceiver.NOTIFICATION_ID, notification);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        long futureInMillis = System.currentTimeMillis() + timeLeftMills;
+        long futureInMillis = System.currentTimeMillis() + actualRemainingTime;
         alarmManager.set(AlarmManager.RTC_WAKEUP, futureInMillis, pendingIntent);
     }
 
@@ -470,45 +514,79 @@ public class TimerActivity extends AppCompatActivity {
         return builder.build();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
+    private void saveInfoForOldTimer() {
         if (isRunning) {
             countDownTimer.cancel();
+            Intent notificationIntent = new Intent(this, NotificationReceiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            alarmManager.cancel(pendingIntent);
+            scheduleNotification(getNotification());
         }
+        endTime = System.currentTimeMillis() + actualRemainingTime;
+
         SharedPreferences.Editor editor = Helpers.getSharedPrefEditor(getApplicationContext());
         editor.putLong(TIME_LEFT, timeLeftMills);
         editor.putBoolean(IS_TIMER_RUNNING, isRunning);
         editor.putLong(END_TIME, endTime);
         editor.putLong(CUSTOM_TIME, timeInMills);
         editor.putInt(SPINNER_PROGRESS, progress);
+        editor.putString(DISPLAY_SPEED_PERCENTAGE, timerPercentage);
+        editor.putBoolean(SPEED_LESS_THAN_100, slowThan100Percent);
+        editor.putInt(SPEED_PERCENTAGE, speedPercentage);
+        editor.putLong(ACTUAL_REMAINING_TIME, actualRemainingTime);
+        editor.putLong(ACTUAL_TIME_INTERVAL, actualCountDownInterval);
         editor.apply();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+    private void fetchInfoForNewTimer() {
         SharedPreferences prefs = Helpers.getSharedPreference(getApplicationContext());
         timeInMills = prefs.getLong(CUSTOM_TIME, MINS_TO_MILLS);
         timeLeftMills = prefs.getLong(TIME_LEFT, timeInMills);
         isRunning = prefs.getBoolean(IS_TIMER_RUNNING, false);
         progress = prefs.getInt(SPINNER_PROGRESS, 0);
+        timerPercentage = prefs.getString(DISPLAY_SPEED_PERCENTAGE,"Time @100%");
+        slowThan100Percent = prefs.getBoolean(SPEED_LESS_THAN_100,false);
+        speedPercentage = prefs.getInt(SPEED_PERCENTAGE, 1);
+        actualRemainingTime = prefs.getLong(ACTUAL_REMAINING_TIME, MINS_TO_MILLS);
+        actualCountDownInterval = prefs.getLong(ACTUAL_TIME_INTERVAL,COUNTDOWN_INTERVAL);
+
+        displayTimerPercentage.setText(timerPercentage);
         updateButtons();
         updateProgressBar(progress);
+        refreshCountDownText();
 
         if (isRunning) {
             endTime = prefs.getLong(END_TIME, 0);
-            timeLeftMills = endTime - System.currentTimeMillis();
-            if (timeLeftMills < 0) {
+            currentTime = System.currentTimeMillis();
+            timeLeftMills = (endTime - currentTime) / speedPercentage;
+            if (!slowThan100Percent) {
+                timeLeftMills = (endTime - currentTime) * speedPercentage;
+            }
+            actualRemainingTime = timeLeftMills / speedPercentage;
+            if (slowThan100Percent) {
+                actualRemainingTime = timeLeftMills * speedPercentage;
+            }
+            if (actualRemainingTime <= 0) {
                 timeLeftMills = 0;
                 isRunning = false;
                 refreshCountDownText();
                 updateButtons();
             } else {
-                timerSpinner.setVisibility(View.VISIBLE);
-                startTimer();
+                startTimer(actualCountDownInterval,actualRemainingTime);
             }
         }
-        refreshCountDownText();
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        saveInfoForOldTimer();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        fetchInfoForNewTimer();
     }
 }
