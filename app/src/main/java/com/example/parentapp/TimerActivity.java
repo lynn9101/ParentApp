@@ -344,9 +344,9 @@ public class TimerActivity extends AppCompatActivity {
 
     private void updateProgressBar(int spinnerProgress) {
         timerSpinner.setProgress(spinnerProgress);
-        int newMax = (int) timeInMills / 1000 * speedPercentage;
+        int newMax = (int) timeInMills * speedPercentage;
         if (!slowThan100Percent) {
-            newMax = (int) timeInMills / 1000 / speedPercentage;
+            newMax = (int) timeInMills / speedPercentage;
         }
         timerSpinner.setMax(newMax);
     }
@@ -374,7 +374,7 @@ public class TimerActivity extends AppCompatActivity {
                     actualRemainingTime = timeLeftMills / speedPercentage;
                 }
 
-                int secondsRemaining = (int) l / 1000;
+                int secondsRemaining = (int) l;
                 progress = secondsRemaining;
                 updateProgressBar(progress);
                 refreshCountDownText();
