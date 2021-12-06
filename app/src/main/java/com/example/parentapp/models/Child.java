@@ -1,10 +1,6 @@
 package com.example.parentapp.models;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Base64;
-
-import java.io.ByteArrayOutputStream;
 
 /**
  * The Child class represents a child object
