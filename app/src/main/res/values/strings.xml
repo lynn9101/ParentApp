@@ -71,6 +71,7 @@
     <string name="breath_in">Hold the button for at least 3 seconds to breaths in</string>
     <string name="button_breath_skip">Skip</string>
     <string name="breath_in_transition_help">Release button and breath out</string>
+    <string name="breath_out_indicate_message">Time to breath out!</string>
     <string name="button_breath_out">Out</string>
     <string name="button_breath_in">In</string>
     <string name="button_breath_done">Good job</string>
