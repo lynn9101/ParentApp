@@ -55,20 +55,20 @@ public class CoinFlipActivity extends AppCompatActivity {
     private TextView pickStatus;
     private Boolean result;
     private Boolean childPickedHead;
-    int suggestedChildIndex;
+    private int suggestedChildIndex;
     private Random rng;
     private Spinner spinnerChildren;
-    int lastSelectedChild;
+    private int lastSelectedChild;
 
     private TextView chooseHint;
     private SpinnerChildrenAdapter spinnerAdapter;
     private boolean flipped;
     private boolean isFinishFlip;
-    String anonymousChildID = "-1";
+    private String anonymousChildID = "-1";
 
-    String spinnerChildrenKey;
-    String isFinishedKeySharPref;
-    String isFlippedKeySharPref;
+    private String spinnerChildrenKey;
+    private String isFinishedKeySharPref;
+    private String isFlippedKeySharPref;
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, CoinFlipActivity.class);
@@ -92,6 +92,12 @@ public class CoinFlipActivity extends AppCompatActivity {
         this.coinFlipManager = CoinFlipManager.getInstance();
         this.rng = new Random();
 
+        setUpInitialStage();
+        populateChildrenList();
+        attachButtonListeners();
+    }
+
+    private void setUpInitialStage() {
         if (coinFlipSound == null) {
             coinFlipSound = Helpers.getMediaPlayer(CoinFlipActivity.this, R.raw.coin_flip_sound);
         }
@@ -105,9 +111,6 @@ public class CoinFlipActivity extends AppCompatActivity {
 
         resultTail = findViewById(R.id.resultTail);
         resultTail.setVisibility(View.INVISIBLE);
-
-        populateChildrenList();
-        attachButtonListeners();
     }
 
     private void spinnerViewBegin() {

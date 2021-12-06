@@ -53,7 +53,6 @@ public class ChildrenActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
         setContentView(R.layout.activity_children);
 
         getSupportActionBar().setTitle(R.string.children_title);

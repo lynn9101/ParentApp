@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
@@ -25,7 +26,9 @@ import com.github.florent37.viewanimator.ViewAnimator;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
+/**
+ * Class implements the state machine to help user take breaths.
+ */
 public class TakeBreathActivity extends AppCompatActivity {
 
     private int breaths = 3;
@@ -105,10 +108,15 @@ public class TakeBreathActivity extends AppCompatActivity {
                 int breaths = 0;
                 if (!Helpers.isStringNullOrEmpty(editedText)) {
                     breaths = Integer.parseInt(editable.toString());
-                    if(breaths > 10) {
+                    String message = "Number of breaths is between 1 and 10.";
+                    if (breaths > 10) {
+                        Toast.makeText(TakeBreathActivity.this, message, Toast.LENGTH_SHORT)
+                                .show();
                         editable.replace(0, editable.length(), "10");
                         breaths = 10;
-                    } else if(breaths < 1) {
+                    } else if (breaths < 1) {
+                        Toast.makeText(TakeBreathActivity.this, message, Toast.LENGTH_SHORT)
+                                .show();
                         editable.replace(0, editable.length(), "1");
                         breaths = 1;
                     }
@@ -201,6 +209,7 @@ public class TakeBreathActivity extends AppCompatActivity {
                             String msg = getString(R.string.breath_in_transition_help);
                             helperMessage.setText(msg);
                         }
+                        media.stop();
                     }
                 };
                 timer.schedule(helperTextSwitchTask, MAX_RESPONSE_TIME);
@@ -211,7 +220,7 @@ public class TakeBreathActivity extends AppCompatActivity {
                 me.stopCircleAnimation(getCircle(true));
                 if (timeElapsed >= MIN_RESPONSE_TIME) {
                     ((Button)findViewById(R.id.beginBtn)).setEnabled(false);
-                    ((TextView)findViewById(R.id.helperMessage)).setText("");
+                    ((TextView)findViewById(R.id.helperMessage)).setText(R.string.breath_out_indicate_message);
 
                     getCircle(true).setVisibility(View.GONE);
                     getCircle(false).setVisibility(View.VISIBLE);
@@ -323,7 +332,16 @@ public class TakeBreathActivity extends AppCompatActivity {
 
     private void beginCircleAnimation(ImageView circle) {
         Float scale = inBreathOutStage ? 0.5f : 1;
-        media = Helpers.getMediaPlayer(TakeBreathActivity.this, R.raw.winds);
+        AudioManager manager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+        int maxVolume = manager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        manager.setStreamVolume(AudioManager.STREAM_MUSIC, maxVolume, 0);
+        if (inBreathOutStage) {
+            media = Helpers.getMediaPlayer(TakeBreathActivity.this, R.raw.breath_out);
+
+        } else {
+            media = Helpers.getMediaPlayer(TakeBreathActivity.this, R.raw.breath_in);
+        }
+        media.setLooping(true);
         media.start();
 
         animator = ViewAnimator
@@ -350,6 +368,22 @@ public class TakeBreathActivity extends AppCompatActivity {
         circle.setRotation(0);
         if (animator != null) {
             animator.cancel();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (media != null) {
+            media.stop();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (media != null) {
+            media.stop();
         }
     }
 }

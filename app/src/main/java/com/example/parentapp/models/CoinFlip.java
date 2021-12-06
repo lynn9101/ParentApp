@@ -5,10 +5,8 @@ import java.time.format.DateTimeFormatter;
 
 /**
  * The coinFlip model that represents a coin flip instance
- *
- * model records the child that was given the pick, as well as whether the child picked head/tail and won/lost
+ * Model records the child that was given the pick, as well as whether the child picked head/tail and won/lost
  */
-
 public class CoinFlip {
 
     private String formattedCoinFlipTime;

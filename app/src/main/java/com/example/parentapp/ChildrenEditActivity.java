@@ -11,7 +11,6 @@ import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -31,7 +30,6 @@ import com.example.parentapp.models.Helpers;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * The ChildrenEditActivity class is an android activity and handles the addition, modification and deletion of child objects
@@ -48,14 +46,8 @@ public class ChildrenEditActivity extends AppCompatActivity {
     private ImageView childImage;
 
     private Uri cameraImageUri;
-
     private ActivityResultLauncher<Uri> takePictureActivityLauncher;
     private ActivityResultLauncher<String> gallerySelectionActivityLauncher;
-
-    private ArrayList<Integer> allChildID = new ArrayList<>();
-
-    String allChildIdKey;
-    String spinnerChildrenKey;
 
     public static Intent makeLaunchIntent(Context ctx, String message) {
         Intent intent = new Intent(ctx, ChildrenEditActivity.class);
@@ -67,18 +59,6 @@ public class ChildrenEditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_children_edit);
-
-        Context context = getApplicationContext();
-
-        SharedPreferences sharedPreferences = Helpers.getSharedPreference(context);
-        if (sharedPreferences.contains(allChildIdKey)) {
-            allChildID = Helpers.getObjectFromSharedPreference(context, allChildIdKey, Helpers.getListOfClassType(Integer.class));
-        } else {
-            allChildID = new ArrayList<>();
-        }
-
-        allChildIdKey = getString(R.string.shared_pref_childId_list_key);
-        spinnerChildrenKey = getString(R.string.shared_pref_spinner_children_list_key);
 
         // Get intent for adding vs. editing Child
         Intent intent = getIntent();
@@ -123,9 +103,6 @@ public class ChildrenEditActivity extends AppCompatActivity {
     }
 
     private boolean checkValidName() {
-        childFirstName = findViewById(R.id.fillFirstName);
-        childLastName = findViewById(R.id.fillLastName);
-
         if (childFirstName.getText().toString().equals("") ||
             childLastName.getText().toString().equals(""))
         {
@@ -284,6 +261,7 @@ public class ChildrenEditActivity extends AppCompatActivity {
 
     private void updateSpinnerChildrenListSharedPref() {
         Context context = getApplicationContext();
+        String spinnerChildrenKey = context.getResources().getString(R.string.shared_pref_spinner_children_list_key);
         Helpers.saveObjectToSharedPreference(context, spinnerChildrenKey, childrenManager.getSpinnerChildren());
     }
 }

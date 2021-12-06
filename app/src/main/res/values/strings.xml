@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Parent App</string>
-    <string name="version_date">11/29/2021</string>
+    <string name="version_date">12/06/2021</string>
     <string name="main_title">Main</string>
     <string name="children_title">Configure Children</string>
     <string name="children_edit_title">Children Edit</string>
@@ -20,7 +20,6 @@
     <string name="shared_pref_key">ParentAppSharedPref</string>
     <string name="shared_pref_coin_flip_history_key">ParentAppCoinFlipHistory</string>
     <string name="shared_pref_children_list_key">ChildrenListKey</string>
-    <string name="shared_pref_childId_list_key">AllChildrenIDListKey</string>
     <string name="shared_pref_spinner_children_list_key">SpinnerChildrenListKey</string>
     <string name="shared_pref_suggested_child_key">LastChildPickedHistory</string>
     <string name="shared_pref_is_finished_key">IsFinishedKey</string>
@@ -49,9 +48,13 @@
         \nhttps://www.clipartmax.com/middle/m2i8K9m2b1G6K9m2_calm-clip-art/
         \nhttps://www.clipartmax.com/middle/m2i8N4b1m2N4d3Z5_when-the-district-operates-under-a-90-minute-delay-alarm-clock-clip/
         \nhttps://tinyurl.com/timeIsUpImage
+        \n7. Progress Bar Animation:
+        \nhttps://youtu.be/YsHHXg1vbcc
+        \n8. Add button for rate timer options:
+        \nhttps://youtu.be/oh4YOj9VkVE
         \n\n\tIV. Take Breath Activity:
         \n1. Circle image from take breath:
-        \n https://www.pngkit.com/png/full/160-1602188_circle-png.png
+        \nhttps://www.pngkit.com/png/full/160-1602188_circle-png.png
     </string>
     <string name="listOfMembers">Team Name: Boron\n1- Jing Luo - jla787\n2- Ngan Nguyen - nnn2\n3- Fatemeh Kiannejad - fkiannej\n4- Wenqing Liu - wla161\n</string>
     <string name="membersName">Members</string>
@@ -71,6 +74,7 @@
     <string name="breath_in">Hold the button for at least 3 seconds to breaths in</string>
     <string name="button_breath_skip">Skip</string>
     <string name="breath_in_transition_help">Release button and breath out</string>
+    <string name="breath_out_indicate_message">Time to breath out!</string>
     <string name="button_breath_out">Out</string>
     <string name="button_breath_in">In</string>
     <string name="button_breath_done">Good job</string>

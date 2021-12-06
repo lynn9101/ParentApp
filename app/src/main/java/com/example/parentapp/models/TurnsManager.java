@@ -7,7 +7,6 @@ import java.util.ArrayList;
  * This class manages the retrieval & deletion of Turn instances
  * It also keeps a history of past turn instances for specific tasks.
  */
-
 public class TurnsManager {
 
     private static TurnsManager turnsManager;

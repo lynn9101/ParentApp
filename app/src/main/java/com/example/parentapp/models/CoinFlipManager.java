@@ -7,8 +7,8 @@ import java.util.ArrayList;
  * This class manages the retrieval, addition, modification & deletion of CoinFlip instances
  * It also keeps a history of past coin flip instances
  */
-
 public class CoinFlipManager {
+
     private static CoinFlipManager coinFlipManager;
     private ArrayList<CoinFlip> coinFlipHistory;
 
