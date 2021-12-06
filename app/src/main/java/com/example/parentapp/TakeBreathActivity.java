@@ -332,7 +332,7 @@ public class TakeBreathActivity extends AppCompatActivity {
         Float scale = inBreathOutStage ? 0.5f : 1;
         AudioManager manager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
         int maxVolume = manager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        manager.setStreamVolume(AudioManager.STREAM_MUSIC, maxVolume * 7/10, 0);
+        manager.setStreamVolume(AudioManager.STREAM_MUSIC, maxVolume, 0);
         if (inBreathOutStage) {
             media = Helpers.getMediaPlayer(TakeBreathActivity.this, R.raw.breath_out);
 
