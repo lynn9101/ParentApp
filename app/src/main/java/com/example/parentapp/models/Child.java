@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 /**
  * The Child class represents a child object
  * Children be enrolled into a queue that determines who get to flip a coin
- * Currently only the name of the child is stored
+ * Currently only the name of the child is stored, image source and unique ID generated for that child.
  */
 public class Child {
 

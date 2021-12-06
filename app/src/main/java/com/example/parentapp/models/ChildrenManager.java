@@ -4,9 +4,11 @@ import java.util.ArrayList;
 
 /**
  * The ChildrenManager class is a singleton used throughout the app
- * The class manages the retrieval, addition, modification & deletion of child object
+ * The class manages the retrieval, addition, modification & deletion of child object.
+ * Manages the spinner list of children in CoinFlipActivity.
  */
 public class ChildrenManager {
+
     private static ChildrenManager childrenManager;
     private ArrayList<Child> children;
     private ArrayList<Child> spinnerChildren;
@@ -47,7 +49,6 @@ public class ChildrenManager {
             return -1;
         }
     }
-
 
     public Child getChild(int childId) {
         if (childId >= this.children.size()) {

@@ -13,6 +13,9 @@ import com.example.parentapp.R;
 import com.example.parentapp.models.Child;
 import java.util.List;
 
+/**
+ * Class manages the spinner view of the children queue in CoinFlipActivity.
+ */
 public class SpinnerChildrenAdapter extends ArrayAdapter<Child> {
 
     public SpinnerChildrenAdapter(Context context, List<Child> childrenList) {
@@ -35,6 +38,7 @@ public class SpinnerChildrenAdapter extends ArrayAdapter<Child> {
             convertView = LayoutInflater.from(getContext()).inflate(
                     R.layout.children_spinner_row,parent,false);
         }
+
         ImageView imgViewChild = convertView.findViewById(R.id.selectedChildPortrait);
         TextView textViewChild = convertView.findViewById(R.id.selectedChildName);
         Child currentItem = getItem(position);

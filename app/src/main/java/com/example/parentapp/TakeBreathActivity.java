@@ -26,7 +26,9 @@ import com.github.florent37.viewanimator.ViewAnimator;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
+/**
+ * Class implements the state machine to help user take breaths.
+ */
 public class TakeBreathActivity extends AppCompatActivity {
 
     private int breaths = 3;
