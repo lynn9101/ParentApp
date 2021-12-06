@@ -570,6 +570,11 @@ public class TimerActivity extends AppCompatActivity {
         displayTimerPercentage.setText(timerPercentage);
         updateButtons();
         updateProgressBar(progress);
+        int newProgress = (int)(timeInMills - (timeInMills - timeLeftMills)) * speedPercentage;
+        if (!slowThan100Percent) {
+            newProgress = (int)(timeInMills - (timeInMills - timeLeftMills)) / speedPercentage;
+        }
+        timerSpinner.setProgress(newProgress);
         refreshCountDownText();
 
         if (isRunning) {
